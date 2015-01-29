@@ -1,0 +1,29 @@
+1. Dans la console en administrateur
+
+netsh http add urlacl url=http://+:6666/ user=Thomas
+======================================================
+Demo Lenteur et Lazy Load
+
+2. Order processor initial (lenteur activé par défaut)
+
+3. Changer le lifetime dans DefaultInstaller en PerThread
+
+4. Implémenter Func<IOrderShipper>, Montrer Func<string, IOrderShipper> qu'on voit rien au niveau de API
+
+//5. Implémenter le delegué normal.
+//public delegate IOrderShipper CreateOrderShipper(string orderType);
+
+6. Implémenter le lazy shipper (décommenter LazyOrderShipper)
+
+7. Ajouter dans DefaultInstaller
+container.Register(Component.For<IOrderShipper>().ImplementedBy<LazyOrderShipper>().LifestylePerThread());
+container.Register(Component.For<IOrderShipper>().ImplementedBy<OrderShipper>().Named("OrderShipper").LifestylePerThread());
+
+8. Retourner dans la méthode validate true de OrderValidator
+
+=========================================================
+Demo Memory Leaks
+
+1. Mettre order validator à true
+
+2. Montrer le fonctionnement en Transcient (pas de memory leaks)

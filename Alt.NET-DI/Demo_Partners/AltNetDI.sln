@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alt.Net.Partners.Impl.V0", "Alt.Net.Partners.Impl.V0\Alt.Net.Partners.Impl.V0.csproj", "{0492B482-AD15-4ECB-9247-08AA32CB2A5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AltNet.Partners.V0", "AltNet.Partners.V0\AltNet.Partners.V0.csproj", "{2B8122B9-F62B-4DEE-BB92-7F3B0F575463}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{92B8DD39-3901-4270-B438-76BB3A3EDA96}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0492B482-AD15-4ECB-9247-08AA32CB2A5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0492B482-AD15-4ECB-9247-08AA32CB2A5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0492B482-AD15-4ECB-9247-08AA32CB2A5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0492B482-AD15-4ECB-9247-08AA32CB2A5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B8122B9-F62B-4DEE-BB92-7F3B0F575463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B8122B9-F62B-4DEE-BB92-7F3B0F575463}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B8122B9-F62B-4DEE-BB92-7F3B0F575463}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B8122B9-F62B-4DEE-BB92-7F3B0F575463}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
