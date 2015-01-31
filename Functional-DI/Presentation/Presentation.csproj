@@ -77,12 +77,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Dispatcher.cs" />
+    <Compile Include="Helpers\Dispatcher.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Handlers.cs" />
-    <Compile Include="ICommand.cs" />
+    <Compile Include="ApplicationServices\Handlers.cs" />
+    <Compile Include="ApplicationServices\ICommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
