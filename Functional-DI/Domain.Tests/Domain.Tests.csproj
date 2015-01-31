@@ -49,9 +49,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Console\Console.csproj">
+    <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{c776e6ce-e390-458b-a3fb-a62ca1aa29fa}</Project>
-      <Name>Console</Name>
+      <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
