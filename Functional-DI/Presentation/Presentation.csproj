@@ -77,13 +77,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="CommandHandlers\EnrollmentCommandHandler.cs" />
+    <Compile Include="CommandHandlers\ICommandHandler.cs" />
     <Compile Include="Controllers\StudentEnrollmentController.cs" />
     <Compile Include="Helpers\Dispatcher.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="ApplicationServices\Handlers.cs" />
-    <Compile Include="ApplicationServices\ICommand.cs" />
+    <Compile Include="CommandHandlers\Handlers.cs" />
     <Compile Include="Models\EnrollmentRendering.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -98,6 +99,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{c776e6ce-e390-458b-a3fb-a62ca1aa29fa}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
+      <Project>{49dd6354-bdfa-47c5-9463-7aed136e52a4}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

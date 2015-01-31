@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Console
+namespace Presentation.Helpers
 {
     public class Dispatcher<TCommand>
     {
