@@ -79,7 +79,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="CommandHandlers\EnrollmentCommandHandler.cs" />
     <Compile Include="CommandHandlers\ICommandHandler.cs" />
-    <Compile Include="Controllers\StudentEnrollmentController.cs" />
+    <Compile Include="CustomControllerActivator.cs" />
+    <Compile Include="Controllers\StudentEnrollmentBusController.cs" />
+    <Compile Include="Controllers\StudentEnrollmentBasicController.cs" />
+    <Compile Include="Controllers\StudentEnrollmentFuncController.cs" />
     <Compile Include="Helpers\Dispatcher.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

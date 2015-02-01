@@ -3,11 +3,15 @@ using Presentation.Models;
 
 namespace Presentation.Controllers
 {
-    public class StudentEnrollmentController : ApiController
+    /// <summary>
+    /// This style uses bus for publishing commands to command handlers
+    /// </summary>
+    // TODO : Add example of how the dependencies are injected.
+    public class StudentEnrollmentBusController : ApiController
     {
         public void Enroll(EnrollmentRendering r)
         {
-            
+
         }
 
         public EnrollmentRendering Get()
