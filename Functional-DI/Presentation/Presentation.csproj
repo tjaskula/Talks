@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="CommandHandlers\EnrollmentCommandHandler2.cs" />
     <Compile Include="CommandHandlers\EnrollmentCommandHandler.cs" />
     <Compile Include="CommandHandlers\ICommandHandler.cs" />
     <Compile Include="CustomControllerActivator.cs" />
@@ -88,7 +89,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="CommandHandlers\Handlers.cs" />
+    <Compile Include="CommandHandlers\StudentEnrollmentHandlers.cs" />
+    <Compile Include="ILogger.cs" />
     <Compile Include="Models\EnrollmentRendering.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

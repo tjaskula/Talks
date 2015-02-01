@@ -19,7 +19,7 @@ namespace Presentation.Controllers
 
         public void Enroll(EnrollmentRendering r)
         {
-
+            _dispatcher.Dispatch(r.ToCommand());
         }
 
         public EnrollmentRendering Get()
