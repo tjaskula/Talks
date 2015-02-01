@@ -1,4 +1,9 @@
-﻿using Xunit;
+﻿using System;
+using Domain.Commands;
+using Infrastructure;
+using Presentation.CommandHandlers;
+using Presentation.Helpers;
+using Xunit;
 
 namespace Presentation.Tests
 {
@@ -7,28 +12,57 @@ namespace Presentation.Tests
         [Fact]
         public void DeactivateCommandShouldDeactivateItem()
         {
-            //var dispatcher = new Dispatcher<ICommand>();
-            //var h = new StudentEnrollmentHandlers();
+            var dispatcher = new Dispatcher<ICommand>();
 
-            //Action<DeactivateCommand> nodependsComposable = x => h.Deactivate(() => new ItemRepository(), x);
+            var studentRepository = new StudentRepository();
+            var classRepository = new ClassRepository();
 
-            //dispatcher.Subscribe(nodependsComposable);
+            var sh = new StudentEnrollmentHandlers();
+            Action<StudentEnrollCommand> studentEnrollPipeline = c => sh.Enroll(studentRepository, classRepository, c);
 
-            //dispatcher.Dispatch(new DeactivateCommand(5));
+            dispatcher.Subscribe(studentEnrollPipeline);
+
+            dispatcher.Dispatch(new StudentEnrollCommand(1, 2, DateTime.Now, DateTime.Now.AddMonths(6)));
         }
 
         [Fact]
         public void DeactivateCommandShouldDeactivateItemWithLog()
         {
-            //var dispatcher = new Dispatcher<ICommand>();
-            //var h = new StudentEnrollmentHandlers();
+            var dispatcher = new Dispatcher<ICommand>();
+            var sh = new StudentEnrollmentHandlers();
+            var ch = new CommonCommandHandlers();
 
-            //Action<DeactivateCommand> nodependsLogged
-            //                            = x => h.Log(x, next => h.Deactivate(() => new ItemRepository(), next));
+            var studentRepository = new StudentRepository();
+            var classRepository = new ClassRepository();
 
-            //dispatcher.Subscribe(nodependsLogged);
+            Action<StudentEnrollCommand> studentEnrollPipeline
+                                        = x => ch.Log(x, next => sh.Enroll(studentRepository, classRepository, next));
 
-            //dispatcher.Dispatch(new DeactivateCommand(5));
+            dispatcher.Subscribe(studentEnrollPipeline);
+
+            dispatcher.Dispatch(new StudentEnrollCommand(1, 2, DateTime.Now, DateTime.Now.AddMonths(6)));
+        }
+
+        [Fact]
+        public void DeactivateCommandShouldDeactivateItemWithLogAndPerRequest()
+        {
+            var dispatcher = new Dispatcher<ICommand>();
+            var sh = new StudentEnrollmentHandlers();
+            var ch = new CommonCommandHandlers();
+            var lifeTime = new LifeTime();
+
+            Func<StudentRepository> studentRepositoryFactory = () => new StudentRepository();
+            Func<ClassRepository> classRepositoryFactory = () => new ClassRepository();
+
+            Action<StudentEnrollCommand> studentEnrollPipeline
+                                        = x => ch.Log(x, next => sh.Enroll(lifeTime.PerThread(studentRepositoryFactory), 
+                                                                           lifeTime.PerThread(classRepositoryFactory), next));
+
+            dispatcher.Subscribe(studentEnrollPipeline);
+
+            dispatcher.Dispatch(new StudentEnrollCommand(1, 2, DateTime.Now, DateTime.Now.AddMonths(6)));
+
+            lifeTime.Dispose();
         }
     }
 }

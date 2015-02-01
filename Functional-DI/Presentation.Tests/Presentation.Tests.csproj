@@ -43,9 +43,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HandlerTests.cs" />
+    <Compile Include="LifeTimeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{C776E6CE-E390-458B-A3FB-A62CA1AA29FA}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
+      <Project>{49DD6354-BDFA-47C5-9463-7AED136E52A4}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Presentation\Presentation.csproj">
       <Project>{37ee09a5-ac30-4b51-ab33-716f60044eef}</Project>
       <Name>Presentation</Name>
