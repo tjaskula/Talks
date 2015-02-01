@@ -1,17 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 using System.Web.Http;
-using System.Web.Routing;
 
 namespace Presentation
 {
-    public class WebApiApplication : System.Web.HttpApplication
+    public class WebApiApplication : HttpApplication
     {
+        private Bootstrapper _bootstrapper;
+
         protected void Application_Start()
         {
-            GlobalConfiguration.Configure(WebApiConfig.Register);
+            _bootstrapper = new Bootstrapper();
+
+            GlobalConfiguration.Configure(conf => WebApiConfig.Register(conf, _bootstrapper.RegisterDependencies()));
+        }
+
+        protected void Application_End()
+        {
+            _bootstrapper.Dispose();
         }
     }
 }

@@ -17,6 +17,7 @@ namespace Presentation.Controllers
             _dispatcher = dispatcher;
         }
 
+        [HttpPost]
         public void Enroll(EnrollmentRendering r)
         {
             _dispatcher.Dispatch(r.ToCommand());

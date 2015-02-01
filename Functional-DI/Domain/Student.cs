@@ -4,11 +4,12 @@ namespace Domain
 {
     public class Student : IEquatable<Student>
     {
-        private TimeTable _timeTable;
+        private readonly TimeTable _timeTable;
         public Student(int id)
         {
             Id = id;
             LastUnrolled = Enrollment.Empty;
+            _timeTable = new TimeTable();
         }
 
         public int Id { get; private set; }

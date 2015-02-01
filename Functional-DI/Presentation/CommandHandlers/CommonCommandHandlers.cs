@@ -7,9 +7,16 @@ namespace Presentation.CommandHandlers
     {
         public void Log<T>(T command, Action<T> next) where T : ICommand
         {
-            // log something here
+            Console.WriteLine("log something before");
             next(command);
-            // log after here
+            Console.WriteLine("log something after");
+        }
+
+        public void Audit<T>(T command, Action<T> next) where T : ICommand
+        {
+            Console.WriteLine("audit something before");
+            next(command);
+            Console.WriteLine("audit something after");
         }
     }
 }
