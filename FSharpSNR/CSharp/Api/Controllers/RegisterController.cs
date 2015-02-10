@@ -1,15 +1,21 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Web.Http;
 using Api.Models;
+using Infrastructure.EF;
 
 namespace Api.Controllers
 {
     public class RegisterController : ApiController
     {
         [HttpGet]
-        public IHttpActionResult Confirmation()
+        public IEnumerable<RegisterInput> Confirmation()
         {
-            return StatusCode(HttpStatusCode.OK);
+            using (var ctx = new RegistrationContext())
+            {
+                return ctx.Accounts.Select(a => new RegisterInput {Email = a.Email, Pass = a.Password}).ToList();
+            }
         }
 
         // POST api/<controller>
