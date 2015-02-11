@@ -117,6 +117,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{aac96c9d-48f4-49f5-889d-495552d5a69d}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Infrastructure.EF\Infrastructure.EF.csproj">
       <Project>{e6829dd9-dc78-4291-9946-6e4c69bbd5f4}</Project>
       <Name>Infrastructure.EF</Name>

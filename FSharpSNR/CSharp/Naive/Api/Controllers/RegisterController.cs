@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Web.Http;
 using Api.Models;
 using Api.Services;
+using Domain;
 using Infrastructure.EF;
 
 namespace Api.Controllers

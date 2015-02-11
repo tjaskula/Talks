@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace Infrastructure.EF
+namespace Domain
 {
     public class Account
     {
