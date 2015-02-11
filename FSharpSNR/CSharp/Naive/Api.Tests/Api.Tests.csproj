@@ -51,7 +51,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:\Users\tjaskula\Documents\GitHub\Talks\FSharpSNR\CSharp\Api\Api.csproj">
+    <ProjectReference Include="..\Api\Api.csproj">
       <Project>{C002FBBA-C3A1-46E0-8917-F1E43BB21223}</Project>
       <Name>Api</Name>
     </ProjectReference>
