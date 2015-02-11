@@ -38,6 +38,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -84,13 +90,19 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributs\BooleanRequiredAttribute.cs" />
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="CustomControllerActivator.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\RegisterInput.cs" />
+    <Compile Include="Installers\ControllersInstallers.cs" />
+    <Compile Include="Installers\DependenciesInstallers.cs" />
+    <Compile Include="Models\RegisterRepresentation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Cryptographer.cs" />
+    <Compile Include="Services\Notifier.cs" />
+    <Compile Include="WindsorHttpControllerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
