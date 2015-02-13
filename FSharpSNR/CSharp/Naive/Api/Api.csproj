@@ -97,7 +97,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Installers\ControllersInstallers.cs" />
-    <Compile Include="Installers\DependenciesInstallers.cs" />
     <Compile Include="Models\ConfirmationRepresentation.cs" />
     <Compile Include="Models\RegisterRepresentation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

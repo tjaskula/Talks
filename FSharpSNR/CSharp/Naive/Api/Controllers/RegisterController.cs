@@ -51,7 +51,7 @@ namespace Api.Controllers
                     @"(?!.*\s)[0-9a-zA-Z!@#\\$%*()_+^&amp;}{:;?.]*$"))
                 {
                     ModelState.AddModelError("password", "The password does not match the policy");
-                    return BadRequest(this.ModelState);
+                    return BadRequest(ModelState);
                 }
 
                 using (var ctx = new RegistrationContext())
@@ -93,7 +93,7 @@ namespace Api.Controllers
                 }
             }
 
-            return BadRequest(this.ModelState);
+            return BadRequest(ModelState);
         }
     }
 }
