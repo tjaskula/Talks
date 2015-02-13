@@ -9,8 +9,9 @@ namespace Domain
         public string Password { get; set; }
         public string Provider { get; set; }
         public bool IsEmailConfirmed { get; set; }
-        public Guid ChangePasswordActivationCode { get; set; }
-        public DateTime ChangePasswordExpirationTime { get; set; }
+        public Guid ActivationCode { get; set; }
+        public DateTime? ActivationCodeExpirationTime { get; set; }
+        public DateTime? ConfirmedOn { get; set; }
 
         public virtual void SetActivationCode(Guid activationCode, DateTime expiration)
         {
@@ -20,8 +21,16 @@ namespace Domain
             if (expiration <= DateTime.Now)
                 throw new ArgumentException("The expiration date cannot be less then the actual date/time.", "expiration");
 
-            ChangePasswordActivationCode = activationCode;
-            ChangePasswordExpirationTime = expiration;
+            ActivationCode = activationCode;
+            ActivationCodeExpirationTime = expiration;
+        }
+
+        public void ConfirmEmail(DateTime confirmationTime)
+        {
+            IsEmailConfirmed = true;
+            ConfirmedOn = confirmationTime;
+            ActivationCode = new Guid();
+            ActivationCodeExpirationTime = null;
         }
     }
 }

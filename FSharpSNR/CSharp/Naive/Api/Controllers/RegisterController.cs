@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
 using System.Web.Http;
 using Api.Models;
@@ -13,17 +11,37 @@ namespace Api.Controllers
 {
     public class RegisterController : ApiController
     {
-        [HttpGet]
-        public IEnumerable<RegisterRepresentation> Confirmation()
+        [HttpPost]
+        [Route("api/confirm")]
+        public IHttpActionResult Confirm(ConfirmationRepresentation representation)
         {
-            using (var ctx = new RegistrationContext())
+            if (ModelState.IsValid)
             {
-                return ctx.Accounts.Select(a => new RegisterRepresentation { Email = a.Email, Password = a.Password }).ToList();
+                using (var ctx = new RegistrationContext())
+                {
+                    var account =
+                        ctx.Accounts.SingleOrDefault(
+                            a =>
+                            a.Email == representation.Email && a.ActivationCode == representation.Code
+                            && a.ActivationCodeExpirationTime >= DateTime.Now);
+
+                    if (account != null)
+                    {
+                        account.ConfirmEmail(DateTime.Now);
+                        ctx.SaveChanges();
+
+                        return Ok();
+                    }
+                }
             }
+
+            return BadRequest();
         }
 
         // POST api/<controller>
-        public IHttpActionResult Post(RegisterRepresentation registerRepresentation)
+        [HttpPost]
+        [Route("api/register")]
+        public IHttpActionResult Register(RegisterRepresentation registerRepresentation)
         {
             var confirmationUrl = new Uri(Request.RequestUri, "/confirmation");
 
@@ -31,7 +49,10 @@ namespace Api.Controllers
             {
                 if (!Regex.IsMatch(registerRepresentation.Password,
                     @"(?!.*\s)[0-9a-zA-Z!@#\\$%*()_+^&amp;}{:;?.]*$"))
-                    throw new HttpResponseException(HttpStatusCode.BadRequest);
+                {
+                    ModelState.AddModelError("password", "The password does not match the policy");
+                    return BadRequest(this.ModelState);
+                }
 
                 using (var ctx = new RegistrationContext())
                 {
@@ -55,19 +76,24 @@ namespace Api.Controllers
                         account.SetActivationCode(Guid.NewGuid(), DateTime.Now.AddDays(5));
                         var notifier = new Notifier();
                         notifier.SendActivaionNotification(account.Email);
+
+                        ctx.Accounts.Add(account);
+
+                        ctx.SaveChanges();
+
+                        return Created(confirmationUrl, new ConfirmationRepresentation
+                        {
+                            Email = account.Email,
+                            Code = account.ActivationCode,
+                            ExpirationTime = account.ActivationCodeExpirationTime.Value
+                        });
                     }
 
-                    ctx.Accounts.Add(account);
-
-                    ctx.SaveChanges();
+                    return Ok();
                 }
             }
-            else
-            {
-                return BadRequest(ModelState);
-            }
 
-            return StatusCode(HttpStatusCode.Created);
+            return BadRequest(this.ModelState);
         }
     }
 }
