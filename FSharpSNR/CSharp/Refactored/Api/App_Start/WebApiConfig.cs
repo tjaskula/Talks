@@ -10,7 +10,7 @@ namespace Api
         public static void Register(HttpConfiguration config, IWindsorContainer container)
         {
             // Web API configuration and services
-            config.Services.Replace(typeof(IHttpControllerActivator), new WindsorHttpControllerFactory(container));
+            config.Services.Replace(typeof(IHttpControllerActivator), new WindsorHttpControllerActivator(container));
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
             // Web API routes

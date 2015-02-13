@@ -6,11 +6,11 @@ using Castle.Windsor;
 
 namespace Api
 {
-    public class WindsorHttpControllerFactory : IHttpControllerActivator
+    public class WindsorHttpControllerActivator : IHttpControllerActivator
     {
         private readonly IWindsorContainer _container;
 
-        public WindsorHttpControllerFactory(IWindsorContainer container)
+        public WindsorHttpControllerActivator(IWindsorContainer container)
         {
             _container = container;
         }

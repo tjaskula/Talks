@@ -18,5 +18,7 @@ namespace Api.Models
 
         [Required]
         public string Provider { get; set; }
+
+        public ConfirmationRepresentation Confirmation { get; set; }
     }
 }

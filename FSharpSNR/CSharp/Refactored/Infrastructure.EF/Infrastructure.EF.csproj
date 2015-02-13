@@ -46,9 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountEntity.cs" />
     <Compile Include="RegistrationContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistrationInitializer.cs" />
+    <Compile Include="SqlAccountRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Api.Services
 {
-    public class Cryptographer
+    public class Cryptographer : ICryptographer
     {
         public string CreateSalt()
         {

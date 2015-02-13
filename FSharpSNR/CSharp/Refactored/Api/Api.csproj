@@ -92,17 +92,25 @@
     <Compile Include="Attributs\BooleanRequiredAttribute.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
-    <Compile Include="CustomControllerActivator.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Installers\ControllersInstallers.cs" />
     <Compile Include="Installers\DependenciesInstallers.cs" />
+    <Compile Include="Mappers\IRegistrationMapper.cs" />
+    <Compile Include="Mappers\RegistrationMapper.cs" />
+    <Compile Include="Models\ConfirmationRepresentation.cs" />
     <Compile Include="Models\RegisterRepresentation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Cryptographer.cs" />
+    <Compile Include="Services\ICryptographer.cs" />
+    <Compile Include="Services\INotifier.cs" />
+    <Compile Include="Services\IRegistrationService.cs" />
     <Compile Include="Services\Notifier.cs" />
-    <Compile Include="WindsorHttpControllerFactory.cs" />
+    <Compile Include="Services\RegistrationService.cs" />
+    <Compile Include="Validators\IRepresentationValidator.cs" />
+    <Compile Include="Validators\RepresentationValidator.cs" />
+    <Compile Include="WindsorHttpControllerActivator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

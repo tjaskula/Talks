@@ -1,6 +1,5 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using Domain;
 
 namespace Infrastructure.EF
 {
@@ -10,7 +9,7 @@ namespace Infrastructure.EF
         {
         }
 
-        public DbSet<Account> Accounts { get; set; }
+        public DbSet<AccountEntity> Accounts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

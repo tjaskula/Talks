@@ -1,6 +1,6 @@
 ﻿namespace Api.Services
 {
-    public class Notifier
+    public class Notifier : INotifier
     {
         public void SendActivaionNotification(string emailAddress)
         {
