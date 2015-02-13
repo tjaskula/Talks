@@ -42,10 +42,6 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library1.fs" />
-    <None Include="Script.fsx" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Api\Api.fsproj">
       <Name>Api</Name>
       <Project>{80d4803c-e03a-451b-bfa6-6d90bbfa0fba}</Project>

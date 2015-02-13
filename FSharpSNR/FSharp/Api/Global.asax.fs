@@ -5,6 +5,7 @@ open System.Net.Http
 open System.Web
 open System.Web.Http
 open System.Web.Routing
+open System.Web.Http.Dispatcher
 
 type HttpRoute = {
     controller : string
@@ -27,6 +28,7 @@ type Global() =
         config.Formatters.JsonFormatter.SerializerSettings.ContractResolver <- Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
 
         // Additional Web API settings
+        config.Services.Replace(typeof<IHttpControllerActivator>, new Services.CustomControllerActivator())
 
     member x.Application_Start() =
         GlobalConfiguration.Configure(Action<_> Global.RegisterWebApi)
