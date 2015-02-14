@@ -1,5 +1,6 @@
 ﻿namespace Api
 
+[<AutoOpen>]
 module Common =
     
     // the two-track type
@@ -10,11 +11,9 @@ module Common =
     type Error =
         | ValidationError of string
 
-
     // convert a dead-end function into a one-track function
     let tee f x = 
-        f x |> ignore 
-        x
+        f x; x 
 
     // convert a one-track function into a switch with exception handling
 //    let tryCatch f exnHandler x =

@@ -115,6 +115,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <None Include="App_Data\FSharpSNR.mdf" />
+    <Content Include="App_Data\FSharpSNR.dbml" />
     <Compile Include="Common.fs" />
     <Compile Include="Infrastructure.fs" />
     <Compile Include="Domain.fs" />
@@ -129,6 +130,7 @@
     <Content Include="Web.config" />
     <Content Include="packages.config" />
     <None Include="Script.fsx" />
+    <Content Include="Script1.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Data.TypeProviders, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
