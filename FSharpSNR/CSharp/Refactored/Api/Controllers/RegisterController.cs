@@ -59,7 +59,7 @@ namespace Api.Controllers
             var confirmationUrl = new Uri(Request.RequestUri, "/confirmation");
 
             if (_validator.Validate(registerRepresentation))
-                ModelState.AddModelError("password", "The password does not match the policy");
+                ModelState.AddModelError("password", "The password format does not match the policy");
 
             if (ModelState.IsValid)
             {
