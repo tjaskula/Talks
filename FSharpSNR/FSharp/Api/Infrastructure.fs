@@ -10,8 +10,8 @@ module Database =
     [<Literal>]
     let connectionString = @"Data Source=(LocalDb)\v11.0;AttachDbFileName=|DataDirectory|\FSharpSNR.mdf;Integrated Security=True;MultipleActiveResultSets=True"
     type dbSchema = SqlDataConnection<ConnectionString=connectionString, LocalSchemaFile="App_Data\FSharpSNR.dbml", ForceUpdate=false>
-    
-    let persistRegistration input =
+
+    let save input =
         
         let db = dbSchema.GetDataContext()
         let newRecord = new dbSchema.ServiceTypes.AccountEntity()
@@ -29,8 +29,6 @@ module Database =
             | Some v -> newRecord.ConfirmedOn <- Nullable<DateTime>(v)
             | None -> ()
         db.AccountEntity.InsertOnSubmit(newRecord)
-//        try
-//            db.DataContext.SubmitChanges()
-//            Success()
-//        with
-//            | exn -> Failure(ValidationError(ex.Message))
+    
+    let persistRegistration =
+        tryCatch (tee save) (fun ex -> ValidationError(ex.Message))

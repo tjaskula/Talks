@@ -6,4 +6,4 @@ module UseCases =
 
         let start =
             Validation.account
-            >> map Database.persistRegistration
+            >> bind Database.persistRegistration

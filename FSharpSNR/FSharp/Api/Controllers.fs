@@ -5,10 +5,11 @@ module Controllers =
     open System.Web.Http
     open Representations
     open Common
+    open Domain
 
     type RegisterController
         (
-            startProcess : RegisterRepresentation -> Result<unit, Error>
+            startProcess : RegisterRepresentation -> Result<Account, Error>
         ) =
         inherit ApiController()
     
