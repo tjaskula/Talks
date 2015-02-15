@@ -117,8 +117,8 @@
     <None Include="App_Data\FSharpSNR.mdf" />
     <Content Include="App_Data\FSharpSNR.dbml" />
     <Compile Include="Common.fs" />
-    <Compile Include="Infrastructure.fs" />
     <Compile Include="Domain.fs" />
+    <Compile Include="Infrastructure.fs" />
     <Compile Include="Representations.fs" />
     <Compile Include="Controllers.fs" />
     <Compile Include="UseCases.fs" />

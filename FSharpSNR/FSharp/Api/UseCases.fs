@@ -5,4 +5,5 @@ module UseCases =
     module Registration =
 
         let start =
-            Database.persistRegistration
+            Validation.account
+            >> map Database.persistRegistration

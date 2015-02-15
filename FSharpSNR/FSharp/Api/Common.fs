@@ -11,6 +11,11 @@ module Common =
     type Error =
         | ValidationError of string
 
+    let map f x =
+        match x with
+            | Success s -> Success(f s)
+            | Failure f -> Failure f
+
     // convert a dead-end function into a one-track function
     let tee f x = 
         f x; x 

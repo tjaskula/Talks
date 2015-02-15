@@ -8,7 +8,7 @@ module Controllers =
 
     type RegisterController
         (
-            startProcess
+            startProcess : RegisterRepresentation -> Result<unit, Error>
         ) =
         inherit ApiController()
     

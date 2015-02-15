@@ -37,3 +37,25 @@ module Representations =
 
             Confirmation : ConfirmationRepresentation
         }
+
+module Validation =
+
+    open Domain
+    open Representations
+
+    let account registerRepresentation =
+        let isConfirmed = match registerRepresentation.Provider with
+                            | "OAuth" -> true
+                            | _ -> false
+        if isConfirmed then
+            Success {
+                        Email = registerRepresentation.Email
+                        Password = registerRepresentation.Password
+                        Provider = registerRepresentation.Provider
+                        IsEmailConfirmed = isConfirmed
+                        ActivationCode = None
+                        ActivationCodeExpirationTime = None
+                        ConfirmedOn = None
+                    }
+        else
+            ValidationError("error") |> Failure

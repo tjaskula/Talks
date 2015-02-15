@@ -10,7 +10,7 @@ module Domain =
             Password : string
             Provider : string
             IsEmailConfirmed : bool
-            ActivationCode : Guid
+            ActivationCode : Guid option
             ActivationCodeExpirationTime : DateTime option
             ConfirmedOn : DateTime option
         }
