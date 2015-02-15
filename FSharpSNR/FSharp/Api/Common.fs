@@ -3,6 +3,8 @@
 [<AutoOpen>]
 module Common =
     
+    open System.Text.RegularExpressions
+    
     // the two-track type
     type Result<'TSuccess,'TFailure> = 
         | Success of 'TSuccess
@@ -33,3 +35,9 @@ module Common =
             f x |> Success
         with
         | ex -> exnHandler ex |> Failure
+
+    let (|Match|_|) regex str =
+        let m = Regex(str).Match(regex)
+        match m.Success with
+            | true -> Some (List.tail [for g in m.Groups -> g.Value]) // Note the List.tail, since the first group is always the entirety of the matched string.
+            | false -> None

@@ -44,18 +44,20 @@ module Validation =
     open Representations
 
     let account registerRepresentation =
+       
         let isConfirmed = match registerRepresentation.Provider with
                             | "OAuth" -> true
                             | _ -> false
-        if isConfirmed then
-            Success {
-                        Email = registerRepresentation.Email
-                        Password = registerRepresentation.Password
-                        Provider = registerRepresentation.Provider
-                        IsEmailConfirmed = isConfirmed
-                        ActivationCode = None
-                        ActivationCodeExpirationTime = None
-                        ConfirmedOn = None
-                    }
-        else
-            ValidationError("error") |> Failure
+        
+        match registerRepresentation.Password with
+            | Match @"(?!.*\s)[0-9a-zA-Z!@#\\$%*()_+^&amp;}{:;?.]*$" _ -> 
+                    Success {
+                                Email = registerRepresentation.Email
+                                Password = registerRepresentation.Password
+                                Provider = registerRepresentation.Provider
+                                IsEmailConfirmed = isConfirmed
+                                ActivationCode = None
+                                ActivationCodeExpirationTime = None
+                                ConfirmedOn = None
+                            }
+            | _ ->  ValidationError("The password format is not correct") |> Failure
