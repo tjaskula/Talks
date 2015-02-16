@@ -27,10 +27,9 @@ module Database =
         newRecord.Password <- input.Password
         newRecord.Provider <- input.Provider
 
-        match input.Email with
-            | Verified (VerifiedEmail (EmailAddress e)) -> newRecord.Email <- e
-                                                           newRecord.IsEmailConfirmed <- true
-            | Unverified (EmailAddress e) -> newRecord.Email <- e
+        let email, isConfirmed = getEmail input
+        newRecord.Email <- email
+        newRecord.IsEmailConfirmed <- isConfirmed
                             
         match input.Confirmation with
             | Some c -> newRecord.ActivationCode <- c.ActivationCode
@@ -43,17 +42,19 @@ module Database =
     let persistRegistration =
         tryCatch (tee (save mapRegistration)) (fun ex -> ValidationError(ex.Message))
 
-//    let queryAccountByEmail input =
-//        
-//        let db = dbSchema.GetDataContext()
-//
-//        query
-//            {
-//                for row in db.AccountEntity do
-//                where (row.Email = input.Email)
-//                select row.Email
-//            } |> List.ofSeq
-//              |> List.length
-//
-//    let findByEmailRegistration =
-//        tryCatch (tee queryAccountByEmail) (fun ex -> ValidationError(ex.Message))
+    let queryAccountByEmail input =
+        
+        let db = dbSchema.GetDataContext()
+
+        query
+            {
+                for row in db.AccountEntity do
+                where (row.Email = match input.Email with
+                                    | Verified (VerifiedEmail (EmailAddress e)) -> e
+                                    | Unverified (EmailAddress e) -> e)
+                select row.Email
+            } |> List.ofSeq
+              |> List.length
+
+    let findByEmailRegistration =
+        bindResult queryAccountByEmail (fun res -> res = 0) (fun input -> AccountExists(sprintf "The email '%s' already exists" (fst (getEmail input))))

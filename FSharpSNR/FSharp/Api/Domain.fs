@@ -4,6 +4,10 @@ module Domain =
     
     open System
 
+    type Error =
+        | ValidationError of string
+        | AccountExists of string
+
     [<StructuralEquality;NoComparison>]
     type ConfirmationInfo =
         {
@@ -28,3 +32,8 @@ module Domain =
             Provider : string
             Confirmation : ConfirmationInfo option
         }
+
+    let getEmail account =
+        match account.Email with
+            | Unverified (EmailAddress e) -> e, false
+            | Verified (VerifiedEmail (EmailAddress e)) -> e, true

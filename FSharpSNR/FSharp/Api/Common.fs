@@ -10,9 +10,6 @@ module Common =
         | Success of 'TSuccess
         | Failure of 'TFailure
 
-    type Error =
-        | ValidationError of string
-
     // applies a function to a successful result to transform the value
     let map f x =
         match x with
@@ -35,6 +32,13 @@ module Common =
             f x |> Success
         with
         | ex -> exnHandler ex |> Failure
+
+    let bindResult f predicate failureFunc x =
+        let res = f x
+        if (predicate res) then
+            x |> Success
+        else
+            failureFunc x |> Failure
 
     let (|Match|_|) regex str =
         let m = Regex(regex).Match(str)
