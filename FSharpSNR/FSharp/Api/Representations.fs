@@ -37,6 +37,7 @@ module Representations =
 
             Confirmation : ConfirmationRepresentation
         }
+        
 
 module Validation =
 
@@ -44,20 +45,13 @@ module Validation =
     open Representations
 
     let account registerRepresentation =
-       
-        let isConfirmed = match registerRepresentation.Provider with
-                            | "OAuth" -> true
-                            | _ -> false
-        
+                    
         match registerRepresentation.Password with
-            | Match @"(?!.*\s)[0-9a-zA-Z!@#\\$%*()_+^&amp;}{:;?.]*$" _ -> 
-                    Success {
-                                Email = registerRepresentation.Email
-                                Password = registerRepresentation.Password
-                                Provider = registerRepresentation.Provider
-                                IsEmailConfirmed = isConfirmed
-                                ActivationCode = None
-                                ActivationCodeExpirationTime = None
-                                ConfirmedOn = None
-                            }
-            | _ ->  ValidationError("The password format is not correct") |> Failure
+            | Match @"(?!.*\s)[0-9a-zA-Z!@#\\$%*()_+^&amp;}{:;?.]*$" _ ->
+                    {
+                        Account.Email = registerRepresentation.Email |> EmailAddress |> Unverified
+                        Password = registerRepresentation.Password
+                        Provider = registerRepresentation.Provider
+                        Confirmation = None
+                    } |> Success
+            | _ ->  ValidationError("The password format does not match the policy") |> Failure

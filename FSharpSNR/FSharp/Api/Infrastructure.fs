@@ -11,24 +11,49 @@ module Database =
     let connectionString = @"Data Source=(LocalDb)\v11.0;AttachDbFileName=|DataDirectory|\FSharpSNR.mdf;Integrated Security=True;MultipleActiveResultSets=True"
     type dbSchema = SqlDataConnection<ConnectionString=connectionString, LocalSchemaFile="App_Data\FSharpSNR.dbml", ForceUpdate=false>
 
-    let save input =
+    let save map input =
         
         let db = dbSchema.GetDataContext()
+        
+        let newRecord = map input
+       
+        db.AccountEntity.InsertOnSubmit(newRecord)
+        db.DataContext.SubmitChanges()
+
+    let mapRegistration input =
+
         let newRecord = new dbSchema.ServiceTypes.AccountEntity()
-        newRecord.Email <- input.Email
+
         newRecord.Password <- input.Password
         newRecord.Provider <- input.Provider
-        newRecord.IsEmailConfirmed <- input.IsEmailConfirmed
-        match input.ActivationCode with
-            | Some v -> newRecord.ActivationCode <- v
+
+        match input.Email with
+            | Verified (VerifiedEmail (EmailAddress e)) -> newRecord.Email <- e
+                                                           newRecord.IsEmailConfirmed <- true
+            | Unverified (EmailAddress e) -> newRecord.Email <- e
+                            
+        match input.Confirmation with
+            | Some c -> newRecord.ActivationCode <- c.ActivationCode
+                        newRecord.ActivationCodeExpirationTime <- Nullable(c.ActivationCodeExpirationTime)
+                        newRecord.ConfirmedOn <- Nullable(DateTime.Now)
             | None -> ()
-        match input.ActivationCodeExpirationTime with
-            | Some v -> newRecord.ActivationCodeExpirationTime <- Nullable<DateTime>(v)
-            | None -> ()
-        match input.ConfirmedOn with
-            | Some v -> newRecord.ConfirmedOn <- Nullable<DateTime>(v)
-            | None -> ()
-        db.AccountEntity.InsertOnSubmit(newRecord)
+
+        newRecord
     
     let persistRegistration =
-        tryCatch (tee save) (fun ex -> ValidationError(ex.Message))
+        tryCatch (tee (save mapRegistration)) (fun ex -> ValidationError(ex.Message))
+
+//    let queryAccountByEmail input =
+//        
+//        let db = dbSchema.GetDataContext()
+//
+//        query
+//            {
+//                for row in db.AccountEntity do
+//                where (row.Email = input.Email)
+//                select row.Email
+//            } |> List.ofSeq
+//              |> List.length
+//
+//    let findByEmailRegistration =
+//        tryCatch (tee queryAccountByEmail) (fun ex -> ValidationError(ex.Message))

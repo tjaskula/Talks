@@ -37,7 +37,7 @@ module Common =
         | ex -> exnHandler ex |> Failure
 
     let (|Match|_|) regex str =
-        let m = Regex(str).Match(regex)
+        let m = Regex(regex).Match(str)
         match m.Success with
             | true -> Some (List.tail [for g in m.Groups -> g.Value]) // Note the List.tail, since the first group is always the entirety of the matched string.
             | false -> None

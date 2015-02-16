@@ -121,6 +121,7 @@
     <Compile Include="Infrastructure.fs" />
     <Compile Include="Representations.fs" />
     <Compile Include="Controllers.fs" />
+    <Compile Include="AppServices.fs" />
     <Compile Include="UseCases.fs" />
     <Compile Include="ApiServices.fs" />
     <Content Include="Global.asax" />

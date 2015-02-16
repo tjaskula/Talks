@@ -6,4 +6,6 @@ module UseCases =
 
         let start =
             Validation.account
+            >> bind RegistrationService.shouldConfirmEmail
+            //>> bind Database.findByEmailRegistration
             >> bind Database.persistRegistration
