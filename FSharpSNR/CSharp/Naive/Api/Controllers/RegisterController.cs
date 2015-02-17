@@ -54,6 +54,8 @@ namespace Api.Controllers
                     return BadRequest(ModelState);
                 }
 
+                IHttpActionResult response = Ok(); // Here we shoud have set up a Created but would need and URL for created ressource.
+
                 using (var ctx = new RegistrationContext())
                 {
                     if (ctx.Accounts.Any(a => a.Email == registerRepresentation.Email))
@@ -71,17 +73,19 @@ namespace Api.Controllers
                         Provider = registerRepresentation.Provider
                     };
 
+                    if (account.Provider == "OAuth")
+                    {
+                        account.IsEmailConfirmed = true;
+                        account.ConfirmEmail(DateTime.Now);
+                    }
+
                     if (!account.IsEmailConfirmed)
                     {
                         account.SetActivationCode(Guid.NewGuid(), DateTime.Now.AddDays(5));
                         var notifier = new Notifier();
                         notifier.SendActivaionNotification(account.Email);
 
-                        ctx.Accounts.Add(account);
-
-                        ctx.SaveChanges();
-
-                        return Created(confirmationUrl, new ConfirmationRepresentation
+                        response = Created(confirmationUrl, new ConfirmationRepresentation
                         {
                             Email = account.Email,
                             Code = account.ActivationCode,
@@ -89,7 +93,11 @@ namespace Api.Controllers
                         });
                     }
 
-                    return Ok();
+                    ctx.Accounts.Add(account);
+
+                    ctx.SaveChanges();
+
+                    return response;
                 }
             }
 
