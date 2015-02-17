@@ -83,7 +83,7 @@ namespace Api.Controllers
                     {
                         account.SetActivationCode(Guid.NewGuid(), DateTime.Now.AddDays(5));
                         var notifier = new Notifier();
-                        notifier.SendActivaionNotification(account.Email);
+                        notifier.SendActivationNotification(account.Email);
 
                         response = Created(confirmationUrl, new ConfirmationRepresentation
                         {

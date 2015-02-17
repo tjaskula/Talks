@@ -2,7 +2,7 @@
 {
     public class Notifier
     {
-        public void SendActivaionNotification(string emailAddress)
+        public void SendActivationNotification(string emailAddress)
         {
             // email send operation
         }
