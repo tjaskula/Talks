@@ -15,7 +15,7 @@ namespace Api.Controllers
         private readonly INotifier _notifier;
 
         public RegisterController(IAccountRepository accountRepository,
-                                    IRepresentationValidator validator, 
+                                    IRepresentationValidator validator,
                                     IRegistrationService registrationService,
                                     INotifier notifier)
         {
@@ -45,7 +45,7 @@ namespace Api.Controllers
                 {
                     account.ConfirmEmail(DateTime.Now);
                     return Ok();
-                }   
+                }
             }
 
             return BadRequest();
@@ -63,9 +63,11 @@ namespace Api.Controllers
 
             if (ModelState.IsValid)
             {
-                if (!_registrationService.CanRegister(registerRepresentation.Email, 
+                if (!_registrationService.CanRegister(registerRepresentation.Email,
                                                         email => _accountRepository.FindByEmail(email)))
                     return Conflict();
+
+                IHttpActionResult response = Ok(); // Here we shoud have set up a Created but would need and URL for created ressource.
 
                 var account = _registrationService.Register(registerRepresentation);
 
@@ -74,17 +76,19 @@ namespace Api.Controllers
                     account.SetActivationCode(Guid.NewGuid(), DateTime.Now.AddDays(5));
                     _notifier.SendActivaionNotification(account.Email);
 
-                    return Created(confirmationUrl, new ConfirmationRepresentation
-                                            {
-                                                Email = account.Email,
-                                                Code = account.ActivationCode,
-                                                ExpirationTime = account.ActivationCodeExpirationTime.Value
-                                            });
+                    response = Created(confirmationUrl, new ConfirmationRepresentation
+                    {
+                        Email = account.Email,
+                        Code = account.ActivationCode,
+                        ExpirationTime = account.ActivationCodeExpirationTime.Value
+                    });
                 }
 
                 _accountRepository.Save(account);
+
+                return response;
             }
-            
+
             return BadRequest(ModelState);
         }
     }

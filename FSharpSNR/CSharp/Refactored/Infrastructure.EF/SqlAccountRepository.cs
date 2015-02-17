@@ -33,15 +33,17 @@ namespace Infrastructure.EF
         {
             _ctx.Accounts.Add(
                 new AccountEntity
-                    {
-                        ActivationCode = account.ActivationCode,
-                        ActivationCodeExpirationTime = account.ActivationCodeExpirationTime,
-                        ConfirmedOn = account.ConfirmedOn,
-                        Email = account.Email,
-                        IsEmailConfirmed = account.IsEmailConfirmed,
-                        Password = account.Password,
-                        Provider = account.Provider
-                    });
+                {
+                    ActivationCode = account.ActivationCode,
+                    ActivationCodeExpirationTime = account.ActivationCodeExpirationTime,
+                    ConfirmedOn = account.ConfirmedOn,
+                    Email = account.Email,
+                    IsEmailConfirmed = account.IsEmailConfirmed,
+                    Password = account.Password,
+                    Provider = account.Provider
+                });
+
+            _ctx.SaveChanges();
         }
 
         public void Dispose()
