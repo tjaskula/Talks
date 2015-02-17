@@ -33,6 +33,14 @@ module Common =
         with
         | ex -> exnHandler ex |> Failure
 
+    // add two switches in parallel
+    let plus addSuccess addFailure switch1 switch2 x = 
+        match (switch1 x),(switch2 x) with
+        | Success s1,Success s2 -> Success (addSuccess s1 s2)
+        | Failure f1,Success _  -> Failure f1
+        | Success _ ,Failure f2 -> Failure f2
+        | Failure f1,Failure f2 -> Failure (addFailure f1 f2)
+
     let bindResult f predicate failureFunc x =
         let res = f x
         if (predicate res) then

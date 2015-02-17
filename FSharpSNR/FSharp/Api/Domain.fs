@@ -3,23 +3,29 @@
 module Domain =
     
     open System
-
+ 
     type Error =
         | ValidationError of string
         | AccountExists of string
-
+ 
     [<StructuralEquality;NoComparison>]
-    type ConfirmationInfo =
+    type ActivationInfo =
         {
             ActivationCode : Guid
             ActivationCodeExpirationTime : DateTime
-            ConfirmedOn : DateTime
         }
-
+ 
+    [<StructuralEquality;NoComparison>]
+    type ConfirmationInfo =
+        {
+            Activation : ActivationInfo option
+            ConfirmedOn : DateTime option
+        }
+ 
     type EmailAddress = EmailAddress of string
-
+ 
     type VerifiedEmailAddress = VerifiedEmail of EmailAddress
-
+ 
     type EmailAddressContactInfo =
         | Unverified of EmailAddress
         | Verified of VerifiedEmailAddress
@@ -32,7 +38,7 @@ module Domain =
             Provider : string
             Confirmation : ConfirmationInfo option
         }
-
+ 
     let getEmail account =
         match account.Email with
             | Unverified (EmailAddress e) -> e, false
