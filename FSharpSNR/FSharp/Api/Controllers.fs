@@ -6,6 +6,7 @@ module Controllers =
     open Representations
     open Common
     open Domain
+    open System
 
     type RegisterController
         (
@@ -16,6 +17,8 @@ module Controllers =
         [<HttpPost>]
         [<Route("api/register")>]
         member x.Register(representation : RegisterRepresentation) =
+
+            let confirmationUrl = Uri(x.Request.RequestUri, "/confirmation");
 
             match startProcess representation with
                 | Success s -> x.Ok() :> IHttpActionResult

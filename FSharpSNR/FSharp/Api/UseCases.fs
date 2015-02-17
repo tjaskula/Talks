@@ -11,3 +11,4 @@ module UseCases =
             >> bind Database.findByEmailRegistration
             >> bind RegistrationService.setActivationCode
             >> bind Database.persistRegistration
+            >> bind Notification.sendActivationEmail

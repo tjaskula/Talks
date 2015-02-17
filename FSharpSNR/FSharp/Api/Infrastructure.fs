@@ -63,3 +63,11 @@ module Database =
  
     let findByEmailRegistration =
         bindResult queryAccountByEmail (fun res -> res = 0) (fun input -> AccountExists(sprintf "The email '%s' already exists" (fst (getEmail input))))
+
+module Notification =
+
+    let sendActivationEmail input =
+        match input.Email with
+            | Verified (VerifiedEmail (EmailAddress e)) -> Success(input) // not sending anything
+            | Unverified (EmailAddress e) -> (* Sending and returning success *) Success(input)
+                                             
