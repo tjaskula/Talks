@@ -2,6 +2,6 @@
 {
     public interface INotifier
     {
-        void SendActivaionNotification(string emailAddress);
+        void SendActivationNotification(string emailAddress);
     }
 }

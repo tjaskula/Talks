@@ -74,7 +74,7 @@ namespace Api.Controllers
                 if (_registrationService.ShouldConfirmSubscription(registerRepresentation))
                 {
                     account.SetActivationCode(Guid.NewGuid(), DateTime.Now.AddDays(5));
-                    _notifier.SendActivaionNotification(account.Email);
+                    _notifier.SendActivationNotification(account.Email);
 
                     response = Created(confirmationUrl, new ConfirmationRepresentation
                     {
