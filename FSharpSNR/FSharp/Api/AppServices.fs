@@ -19,18 +19,18 @@ module RegistrationService =
  
     let setActivationCode account =
         match account.Email with
-            | Verified _ -> {account with Confirmation = Some(
-                                            { 
-                                                Activation = None
-                                                ConfirmedOn = Some(DateTime.Now)
-                                            }) 
+            | Verified _ -> {account with Confirmation = 
+                                                Some({ 
+                                                        Activation = None
+                                                        ConfirmedOn = Some(DateTime.Now)
+                                                     }) 
                             } |> Success
-            | Unverified _ -> {account with Confirmation = Some(
-                                            {
-                                                Activation = Some({
-                                                                    ActivationCode = Guid.NewGuid()
-                                                                    ActivationCodeExpirationTime = DateTime.Now
-                                                                  })
-                                                ConfirmedOn = None
-                                            }) 
+            | Unverified _ -> {account with Confirmation = 
+                                                Some({
+                                                        Activation = Some({
+                                                                            ActivationCode = Guid.NewGuid()
+                                                                            ActivationCodeExpirationTime = DateTime.Now
+                                                                        })
+                                                        ConfirmedOn = None
+                                                     }) 
                               } |> Success
