@@ -68,8 +68,7 @@ module Validation =
     // create a "plus" function for validation functions
     let (&&&) v1 v2 = 
         let addSuccess r1 r2 = r1 // return first
-        let addFailure s1 s2 = 
-                        concatErrors [s1; s2]  // concat
+        let addFailure s1 s2 = concatErrors [s1; s2]  // concat
         plus addSuccess addFailure v1 v2 
  
     let validateAll =
