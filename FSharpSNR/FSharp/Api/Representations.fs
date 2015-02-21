@@ -4,6 +4,7 @@ module Representations =
  
     open System
     open System.ComponentModel.DataAnnotations
+    open Domain
  
     [<CLIMutable>]
     type ConfirmationRepresentation =
@@ -17,6 +18,13 @@ module Representations =
  
             [<Required>]
             ExpirationTime : DateTime
+        }
+ 
+    let getConfirmationRepresentation email activationInfo =
+        { 
+            Email = email
+            Code = activationInfo.ActivationCode 
+            ExpirationTime = activationInfo.ActivationCodeExpirationTime
         }
     
     [<CLIMutable>]

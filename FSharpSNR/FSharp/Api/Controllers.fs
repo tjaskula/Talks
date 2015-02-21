@@ -35,3 +35,28 @@ module Controllers =
                                 | ValidationError ve -> x.ModelState.AddModelError("", ve)
                                                         x.BadRequest(x.ModelState) :> IHttpActionResult
                                 | AccountExists _ -> x.Conflict() :> IHttpActionResult
+
+        [<HttpPost>]
+        [<Route("api/register")>]
+        member x.Register2(representation : RegisterRepresentation) =
+ 
+            let confirmationUrl = Uri(x.Request.RequestUri, "/confirmation");
+ 
+            match startProcess representation with
+                | Success s -> 
+                    let rsp = 
+                        maybeRes
+                            {
+                                let! confirmation = s |> (fun a -> a.Confirmation) 
+                                let! activation = confirmation |> (fun c -> c.Activation)
+                                let! r = (s, activation) |> (fun (ss, a) -> Some (getConfirmationRepresentation (fst (getEmail ss)) a))
+                                return r
+                            }
+                    match rsp with
+                    | Some r -> x.Created(confirmationUrl, r) :> IHttpActionResult
+                    | None -> x.Ok() :> IHttpActionResult
+                
+                | Failure f -> match f with
+                    | ValidationError ve -> x.ModelState.AddModelError("", ve)
+                                            x.BadRequest(x.ModelState) :> IHttpActionResult
+                    | AccountExists _ -> x.Conflict() :> IHttpActionResult

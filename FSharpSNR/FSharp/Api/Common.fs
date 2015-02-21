@@ -53,3 +53,24 @@ module Common =
         match m.Success with
             | true -> Some (List.tail [for g in m.Groups -> g.Value]) // Note the List.tail, since the first group is always the entirety of the matched string.
             | false -> None
+
+    type MaybeResBuilder() =
+        
+        member this.Bind(x, f) = Option.bind f x            
+ 
+        member this.Return(x) =
+            Some x
+ 
+    let maybeRes = new MaybeResBuilder()
+
+//    type MaybeResBuilder() =
+//        
+//        member this.Bind(x, f) =
+//            match x with 
+//             | None -> None
+//             | Some s -> f s
+// 
+//        member this.Return(x) =
+//            Some x
+// 
+//    let maybeRes = new MaybeResBuilder()
