@@ -77,11 +77,11 @@ namespace Api.Controllers
                     _notifier.SendActivationNotification(account.Email);
 
                     response = Created(confirmationUrl, new ConfirmationRepresentation
-                    {
-                        Email = account.Email,
-                        Code = account.ActivationCode,
-                        ExpirationTime = account.ActivationCodeExpirationTime.Value
-                    });
+                                                                {
+                                                                    Email = account.Email,
+                                                                    Code = account.ActivationCode,
+                                                                    ExpirationTime = account.ActivationCodeExpirationTime.Value
+                                                                });
                 }
 
                 _accountRepository.Save(account);
