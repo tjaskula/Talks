@@ -37,4 +37,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NDepend) = preSolution
+		Project = ".\FSharpSNR.ndproj"
+	EndGlobalSection
 EndGlobal
