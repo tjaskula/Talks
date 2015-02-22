@@ -69,5 +69,4 @@ module Notification =
     let sendActivationEmail input =
         match input.Email with
             | Verified (VerifiedEmail (EmailAddress e)) -> Success(input) // not sending anything
-            | Unverified (EmailAddress e) -> (* Sending and returning success *) Success(input)
-                                             
+            | Unverified (EmailAddress e) -> (* Sending and returning success *) Success(input)         

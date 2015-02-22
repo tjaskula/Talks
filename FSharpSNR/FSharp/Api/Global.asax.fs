@@ -1,10 +1,7 @@
 namespace Api
 
 open System
-open System.Net.Http
-open System.Web
 open System.Web.Http
-open System.Web.Routing
 open System.Web.Http.Dispatcher
 
 type HttpRoute = {
