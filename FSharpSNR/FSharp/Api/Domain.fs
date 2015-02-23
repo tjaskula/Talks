@@ -7,6 +7,7 @@ module Domain =
     type Error =
         | ValidationError of string
         | AccountExists of string
+        | DatabaseError of string
  
     [<StructuralEquality;NoComparison>]
     type ActivationInfo =

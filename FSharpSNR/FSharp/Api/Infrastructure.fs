@@ -45,7 +45,7 @@ module Database =
         newRecord
     
     let persistRegistration =
-        tryCatch (tee (save mapRegistration)) (fun ex -> ValidationError(ex.Message))
+        tryCatch (tee (save mapRegistration)) (fun ex -> DatabaseError(ex.Message))
  
     let queryAccountByEmail input =
         

@@ -35,6 +35,7 @@ module Controllers =
                                 | ValidationError ve -> x.ModelState.AddModelError("", ve)
                                                         x.BadRequest(x.ModelState) :> IHttpActionResult
                                 | AccountExists _ -> x.Conflict() :> IHttpActionResult
+                                | DatabaseError de -> x.InternalServerError(Exception(de)) :> IHttpActionResult
 
         [<HttpPost>]
         [<Route("api/register")>]
@@ -56,7 +57,9 @@ module Controllers =
                     | Some r -> x.Created(confirmationUrl, r) :> IHttpActionResult
                     | None -> x.Ok() :> IHttpActionResult
                 
-                | Failure f -> match f with
+                | Failure f -> 
+                    match f with
                     | ValidationError ve -> x.ModelState.AddModelError("", ve)
                                             x.BadRequest(x.ModelState) :> IHttpActionResult
                     | AccountExists _ -> x.Conflict() :> IHttpActionResult
+                    | DatabaseError de -> x.InternalServerError(Exception(de)) :> IHttpActionResult
