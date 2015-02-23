@@ -20,14 +20,24 @@ open Api
 //let db = dbSchema.GetDataContext()
  
  
-let (>>=) f1 f2 = 
-        f1 >> bind f2
+/// Infix map
+let (<!>) m f = 
+      map f m
+ 
+let (>!>) f1 f2 = 
+    fun x -> f1 x <!> f2
+ 
+let (>>=) m f =
+        bind f m
+ 
+let (>=>) f1 f2 = 
+    fun x -> f1 x >>= f2
  
 let start x =
     Validation.validateAll
-    >> map Validation.normalizeEmail
-    >>= RegistrationService.tryConfirmEmail
-    >>= Database.findByEmailRegistration
-    >>= RegistrationService.setActivationCode
-    >>= Database.persistRegistration
-    >>= Notification.sendActivationEmail
+    >!> Validation.normalizeEmail
+    >=> RegistrationService.tryConfirmEmail
+    >=> Database.findByEmailRegistration
+    >=> RegistrationService.setActivationCode
+    >=> Database.persistRegistration
+    >=> Notification.sendActivationEmail

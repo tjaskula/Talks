@@ -48,6 +48,19 @@ module Common =
         else
             failureFunc x |> Failure
 
+    /// Infix map
+    let (<!>) m f = 
+          map f m
+ 
+    let (>!>) f1 f2 = 
+        fun x -> f1 x <!> f2
+
+    let (>>=) m f =
+        bind f m
+ 
+    let (>=>) f1 f2 = 
+        fun x -> f1 x >>= f2
+
     let (|Match|_|) regex str =
         let m = Regex(regex).Match(str)
         match m.Success with

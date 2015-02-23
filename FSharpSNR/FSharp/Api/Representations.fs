@@ -69,7 +69,7 @@ module Validation =
     let concatErrors errors =
         errors
             |> List.map (fun e -> match e with 
-                                    | ValidationError str | AccountExists str -> str)
+                                    | ValidationError str | AccountExists str | DatabaseError str -> str)
             |> List.fold (fun state str -> state + ";" + str) ""
             |> ValidationError
  

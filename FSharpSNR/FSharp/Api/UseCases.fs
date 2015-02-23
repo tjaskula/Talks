@@ -6,9 +6,9 @@ module UseCases =
 
         let start =
             Validation.validateAll
-            >> map Validation.normalizeEmail
-            >> bind RegistrationService.tryConfirmEmail
-            >> bind Database.findByEmailRegistration
-            >> bind RegistrationService.setActivationCode
-            >> bind Database.persistRegistration
-            >> bind Notification.sendActivationEmail
+            >!> Validation.normalizeEmail
+            >=> RegistrationService.tryConfirmEmail
+            >=> Database.findByEmailRegistration
+            >=> RegistrationService.setActivationCode
+            >=> Database.persistRegistration
+            >=> Notification.sendActivationEmail
