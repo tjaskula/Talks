@@ -27,10 +27,13 @@ namespace Domain
 
         public void ConfirmEmail(DateTime confirmationTime)
         {
-            IsEmailConfirmed = true;
-            ConfirmedOn = confirmationTime;
-            ActivationCode = new Guid();
-            ActivationCodeExpirationTime = null;
+            if (Provider == "OAuth")
+            {
+                IsEmailConfirmed = true;
+                ConfirmedOn = confirmationTime;
+                ActivationCode = new Guid();
+                ActivationCodeExpirationTime = null;   
+            }
         }
     }
 }

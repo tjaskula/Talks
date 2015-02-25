@@ -72,9 +72,8 @@ namespace Api.Controllers
                         Password = cryptedPassword,
                         Provider = registerRepresentation.Provider
                     };
-
-                    if (account.Provider == "OAuth")
-                        account.ConfirmEmail(DateTime.Now);
+                        
+                    account.ConfirmEmail(DateTime.Now);
 
                     if (!account.IsEmailConfirmed)
                     {
