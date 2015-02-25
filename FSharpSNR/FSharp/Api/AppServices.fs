@@ -6,11 +6,14 @@ module RegistrationService =
     open Domain
     
     let tryConfirmEmail account =
-        match account.Provider, account.Email with
-            | "OAuth", Unverified e -> 
+        match account.Email with
+            | Unverified e when account.Provider = "OAuth" -> 
                 {account with Email = e |> VerifiedEmail |> Verified}|> Success
-            | "OAuth", Verified _ -> account |> Success
-            | _ -> account |> Success
+            | Unverified _ -> account |> Success
+            | Verified _ -> 
+                    "Email can't be verified at this step"
+                     |> ValidationError
+                     |> Failure
  
     let setActivationCode account =
         match account.Email with
