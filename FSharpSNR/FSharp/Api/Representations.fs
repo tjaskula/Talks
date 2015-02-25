@@ -42,8 +42,6 @@ module Representations =
  
             [<Required>]
             Provider : string
- 
-            Confirmation : ConfirmationRepresentation
         }
         
  
