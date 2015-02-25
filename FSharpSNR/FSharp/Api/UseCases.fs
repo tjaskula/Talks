@@ -8,7 +8,7 @@ module UseCases =
             Validation.validateAll
             >!> Validation.normalizeEmail
             >=> RegistrationService.tryConfirmEmail
-            >=> Database.findByEmailRegistration
             >=> RegistrationService.setActivationCode
+            >=> Database.findByEmailRegistration
             >=> Database.persistRegistration
             >=> Notification.sendActivationEmail
