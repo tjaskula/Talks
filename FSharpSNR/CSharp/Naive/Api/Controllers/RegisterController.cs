@@ -74,10 +74,7 @@ namespace Api.Controllers
                     };
 
                     if (account.Provider == "OAuth")
-                    {
-                        account.IsEmailConfirmed = true;
                         account.ConfirmEmail(DateTime.Now);
-                    }
 
                     if (!account.IsEmailConfirmed)
                     {
