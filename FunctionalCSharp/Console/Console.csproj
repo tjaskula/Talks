@@ -51,6 +51,16 @@
   <ItemGroup>
     <Content Include="Data\monteCristo.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Functional\Functional.csproj">
+      <Project>{3e725d9c-c905-42b2-b2cb-da554ebd3889}</Project>
+      <Name>Functional</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ObjectOriented\ObjectOriented.csproj">
+      <Project>{e365759d-6699-4066-a4a1-63193337e940}</Project>
+      <Name>ObjectOriented</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
