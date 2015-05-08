@@ -10,6 +10,7 @@ namespace Console
             string path = "../../Data/monteCristo.txt";
 
             var wordCounter = new WordCounter(new FileStoreReader());
+            var words = wordCounter.CountInFile(path);
         }
     }
 }
