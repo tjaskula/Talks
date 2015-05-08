@@ -1,7 +1,7 @@
 ﻿namespace ObjectOriented.AppService
 {
-    public interface IStoreReader<out T>
+    public interface IStoreReader
     {
-        T Read();
+        string Read(string path);
     }
 }

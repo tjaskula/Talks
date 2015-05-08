@@ -1,13 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ObjectOriented.AppService
 {
     public class WordCounter
     {
+        private readonly IStoreReader _storeReader;
+
+        public WordCounter(IStoreReader storeReader)
+        {
+            if (storeReader == null) 
+                throw new ArgumentNullException("storeReader");
+
+            _storeReader = storeReader;
+        }
+
         public int Count()
         {
             return 1;

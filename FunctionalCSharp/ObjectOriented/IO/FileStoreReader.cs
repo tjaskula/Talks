@@ -4,24 +4,17 @@ using ObjectOriented.AppService;
 
 namespace ObjectOriented.IO
 {
-    public class FileStoreReader : IStoreReader<string>
+    public class FileStoreReader : IStoreReader
     {
-        private readonly string _filePath;
-
-        public FileStoreReader(string filePath)
+        public string Read(string path)
         {
-            if (string.IsNullOrWhiteSpace(filePath))
-                throw new ArgumentNullException("filePath");
+            if (string.IsNullOrWhiteSpace(path))
+                throw new ArgumentNullException("path");
 
-            if (!File.Exists(filePath))
-                throw new InvalidOperationException(string.Format("The file path '{0}' doesn't exist"));
+            if (!File.Exists(path))
+                throw new InvalidOperationException(string.Format("The file path '{0}' doesn't exist", path));
 
-            _filePath = filePath;
-        }
-
-        public string Read()
-        {
-            return File.ReadAllText(_filePath);
+            return File.ReadAllText(path);
         }
     }
 }
