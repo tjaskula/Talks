@@ -14,9 +14,9 @@ namespace ObjectOriented.AppService
             _storeReader = storeReader;
         }
 
-        public int Count()
+        public int CountInFile(string path)
         {
-            return 1;
+            return _storeReader.Read(path).Length;
         }
     }
 }

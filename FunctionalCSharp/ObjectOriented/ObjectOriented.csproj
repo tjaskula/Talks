@@ -41,7 +41,6 @@
   <ItemGroup>
     <Compile Include="AppService\IStoreReader.cs" />
     <Compile Include="AppService\WordCounter.cs" />
-    <Compile Include="Bootstrapper.cs" />
     <Compile Include="IO\FileStoreReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
