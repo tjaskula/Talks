@@ -7,7 +7,7 @@ namespace Console
     {
         static void Main(string[] args)
         {
-            string path = "../../Data/monteCristo.txt";
+            const string path = "../../Data/monteCristo.txt";
 
             var wordCounter = new WordCounter(new FileStoreReader());
             var words = wordCounter.CountInFile(path);
