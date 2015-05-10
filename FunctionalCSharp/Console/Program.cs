@@ -1,5 +1,4 @@
 ﻿using ObjectOriented.AppService;
-using ObjectOriented.IO;
 
 namespace Console
 {
@@ -9,7 +8,10 @@ namespace Console
         {
             const string path = "../../Data/monteCristo.txt";
 
-            var wordCounter = new WordCounter(new FileStoreReader());
+            var bootstrapper = new Bootstraper();
+            var resolver = bootstrapper.Initialize();
+
+            var wordCounter = resolver.Resolve<WordCounter>();
             var words = wordCounter.CountInFile(path);
         }
     }
