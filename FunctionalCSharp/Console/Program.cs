@@ -1,4 +1,4 @@
-﻿using ObjectOriented.AppService;
+﻿using ObjectOriented.ApplicationSerivice;
 
 namespace Console
 {
@@ -11,7 +11,7 @@ namespace Console
             var bootstrapper = new Bootstraper();
             var resolver = bootstrapper.Initialize();
 
-            var wordCounter = resolver.Resolve<WordCounter>();
+            var wordCounter = resolver.Resolve<WordCounterService>();
             var words = wordCounter.CountInFile(path);
         }
     }

@@ -39,8 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppService\IStoreReader.cs" />
-    <Compile Include="AppService\WordCounter.cs" />
+    <Compile Include="ApplicationSerivice\IStoreReader.cs" />
+    <Compile Include="ApplicationSerivice\WordCounterService.cs" />
     <Compile Include="IO\FileStoreReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

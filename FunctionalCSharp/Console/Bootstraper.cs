@@ -1,4 +1,4 @@
-﻿using ObjectOriented.AppService;
+﻿using ObjectOriented.ApplicationSerivice;
 using ObjectOriented.IO;
 
 namespace Console
@@ -9,7 +9,7 @@ namespace Console
 
         public Resolver Initialize()
         {
-            var wordCounter = new WordCounter(new FileStoreReader());
+            var wordCounter = new WordCounterService(new FileStoreReader());
             _resolver.Register(wordCounter);
 
             return _resolver;

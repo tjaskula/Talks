@@ -1,12 +1,13 @@
 ﻿using System;
+using ObjectOriented.AppService;
 
-namespace ObjectOriented.AppService
+namespace ObjectOriented.ApplicationSerivice
 {
-    public class WordCounter
+    public class WordCounterService
     {
         private readonly IStoreReader _storeReader;
 
-        public WordCounter(IStoreReader storeReader)
+        public WordCounterService(IStoreReader storeReader)
         {
             if (storeReader == null) 
                 throw new ArgumentNullException("storeReader");
