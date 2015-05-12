@@ -1,4 +1,4 @@
-﻿namespace ObjectOriented.AppService
+﻿namespace ObjectOriented.ApplicationSerivice
 {
     public interface IStoreReader
     {
