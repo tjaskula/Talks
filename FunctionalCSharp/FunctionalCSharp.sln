@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectOriented", "ObjectOri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Functional", "Functional\Functional.csproj", "{3E725D9C-C905-42B2-B2CB-DA554EBD3889}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectOriented.Tests", "ObjectOriented.Tests\ObjectOriented.Tests.csproj", "{FECC8ABF-279B-4D47-80B6-727C0BC73416}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{3E725D9C-C905-42B2-B2CB-DA554EBD3889}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E725D9C-C905-42B2-B2CB-DA554EBD3889}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E725D9C-C905-42B2-B2CB-DA554EBD3889}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FECC8ABF-279B-4D47-80B6-727C0BC73416}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FECC8ABF-279B-4D47-80B6-727C0BC73416}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FECC8ABF-279B-4D47-80B6-727C0BC73416}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FECC8ABF-279B-4D47-80B6-727C0BC73416}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
