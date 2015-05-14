@@ -2,7 +2,7 @@
 
 namespace ObjectOriented.Parser
 {
-    public class StartStriper : IParser<string, string>
+    public class StartStriper : IParser<string>
     {
         public string Parse(string input)
         {
