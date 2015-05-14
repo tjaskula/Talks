@@ -41,6 +41,8 @@
   <ItemGroup>
     <Compile Include="ApplicationSerivice\IStoreReader.cs" />
     <Compile Include="ApplicationSerivice\WordCounterService.cs" />
+    <Compile Include="Parser\IParser.cs" />
+    <Compile Include="Parser\StartStriper.cs" />
     <Compile Include="Parser\WordCounter.cs" />
     <Compile Include="IO\FileStoreReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
