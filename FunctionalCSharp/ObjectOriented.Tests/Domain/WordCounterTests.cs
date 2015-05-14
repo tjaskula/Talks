@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using ObjectOriented.Parser;
+using System.Collections.Generic;
+using ObjectOriented.Domain;
 using Xunit;
 using Xunit.Extensions;
 
-namespace ObjectOriented.Tests.Parser
+namespace ObjectOriented.Tests.Domain
 {
     public class WordCounterTests
     {

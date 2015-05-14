@@ -1,5 +1,5 @@
 ﻿using System;
-using ObjectOriented.Parser;
+using ObjectOriented.Domain;
 
 namespace ObjectOriented.ApplicationSerivice
 {

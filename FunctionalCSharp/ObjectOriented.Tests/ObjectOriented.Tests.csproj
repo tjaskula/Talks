@@ -48,8 +48,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\WordCounterTests.cs" />
     <Compile Include="Parser\StartStriperTests.cs" />
-    <Compile Include="Parser\WordCounterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
