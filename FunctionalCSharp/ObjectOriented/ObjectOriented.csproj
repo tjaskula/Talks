@@ -44,6 +44,7 @@
     <Compile Include="Domain\WordCounter.cs" />
     <Compile Include="Parser\EndStriper.cs" />
     <Compile Include="Parser\IParser.cs" />
+    <Compile Include="Parser\ParserCombinator.cs" />
     <Compile Include="Parser\StartStriper.cs" />
     <Compile Include="IO\FileStoreReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
