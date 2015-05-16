@@ -42,6 +42,7 @@
     <Compile Include="ApplicationSerivice\IStoreReader.cs" />
     <Compile Include="ApplicationSerivice\WordCounterService.cs" />
     <Compile Include="Domain\WordCounter.cs" />
+    <Compile Include="Parser\EndStriper.cs" />
     <Compile Include="Parser\IParser.cs" />
     <Compile Include="Parser\StartStriper.cs" />
     <Compile Include="IO\FileStoreReader.cs" />
