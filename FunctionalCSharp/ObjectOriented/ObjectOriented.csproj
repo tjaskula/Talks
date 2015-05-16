@@ -41,6 +41,11 @@
   <ItemGroup>
     <Compile Include="ApplicationSerivice\IStoreReader.cs" />
     <Compile Include="ApplicationSerivice\WordCounterService.cs" />
+    <Compile Include="Domain\BookElement.cs" />
+    <Compile Include="Domain\BookElementType.cs" />
+    <Compile Include="Domain\Chapter.cs" />
+    <Compile Include="Domain\Content.cs" />
+    <Compile Include="Domain\Page.cs" />
     <Compile Include="Domain\WordCounter.cs" />
     <Compile Include="Parser\EndStriper.cs" />
     <Compile Include="Parser\IParser.cs" />
