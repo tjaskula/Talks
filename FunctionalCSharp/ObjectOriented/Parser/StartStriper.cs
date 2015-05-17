@@ -1,5 +1,4 @@
 ﻿using System;
-using ObjectOriented.Domain;
 
 namespace ObjectOriented.Parser
 {
@@ -7,15 +6,20 @@ namespace ObjectOriented.Parser
     {
         public ParserResult<string> Parse(ParserResult<string> input)
         {
-            if (input == null)
-                throw new ArgumentNullException("input");
+            if (!input.IsSuccess)
+                return input;
+
+            if (string.IsNullOrWhiteSpace(input.Parsed))
+                return new ParserResult<string>(errorMessage: "Cannot parse empty input");
 
             const string startPattern = "*** START";
+            
             string unwrapped = input.Parsed;
             int startLineIndx = unwrapped.IndexOf(startPattern, StringComparison.OrdinalIgnoreCase);
             int endOfLineIndx = unwrapped.IndexOf("***", startLineIndx + startPattern.Length, StringComparison.OrdinalIgnoreCase);
             string remaining = unwrapped.Remove(0, endOfLineIndx + "***".Length);
-            return new ParserResult<string>(remaining, remaining);
+            
+            return new ParserResult<string>(parsed: remaining);
         }
     }
 }

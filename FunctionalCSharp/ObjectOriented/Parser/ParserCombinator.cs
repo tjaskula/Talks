@@ -23,7 +23,10 @@ namespace ObjectOriented.Parser
 
         public IEnumerable<BookElement> Parse(string input)
         {
-            return _page.Parse(_end.Parse(_start.Parse(new ParserResult<string>(input, input)))).Parsed;
+            var parseResult = _page.Parse(_end.Parse(_start.Parse(new ParserResult<string>(parsed : input))));
+            // you can check the output of parsing so it can be logged or something like that
+            // if (!parseResult.IsSuccess)
+            return parseResult.Parsed;
         }
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Console
 {
+    using System;
+
     class Program
     {
         static void Main(string[] args)
@@ -12,7 +14,10 @@ namespace Console
             var resolver = bootstrapper.Initialize();
 
             var wordCounter = resolver.Resolve<WordCounterService>();
-            var words = wordCounter.CountInFile(path);
+            var number = wordCounter.CountInFile(path);
+
+            Console.WriteLine("Number of words : {0}", number);
+            Console.ReadKey();
         }
     }
 }

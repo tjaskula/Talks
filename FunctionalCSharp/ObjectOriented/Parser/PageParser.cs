@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using ObjectOriented.Domain;
 
@@ -9,8 +8,11 @@ namespace ObjectOriented.Parser
     {
         public ParserResult<IEnumerable<BookElement>> Parse(ParserResult<string> input)
         {
-            if (input == null)
-                throw new ArgumentNullException("input");
+            if (!input.IsSuccess)
+                return new ParserResult<IEnumerable<BookElement>>(input.ErrorMessage);
+
+            if (string.IsNullOrWhiteSpace(input.Parsed))
+                return new ParserResult<IEnumerable<BookElement>>("Cannot parse empty input");
 
             var unwrapped = input.Parsed;
             var words = unwrapped.Split(' ');
@@ -23,7 +25,7 @@ namespace ObjectOriented.Parser
                 pages.Add(page);
             }
 
-            return new ParserResult<IEnumerable<BookElement>>(pages, string.Empty);
+            return new ParserResult<IEnumerable<BookElement>>(pages);
         }
     }
 }
