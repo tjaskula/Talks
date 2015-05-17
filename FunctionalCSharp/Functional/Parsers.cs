@@ -64,5 +64,26 @@ namespace Functional
                         return r1.Bind(r => p2(r));
                     };
         }
+
+        public static Parser<A, C> Bind<A, B, C>(this Parser<A, B> p, Func<B, Parser<B, C>> func)
+        {
+            return input =>
+                    {
+                        var r1 = p(input);
+                        var ar1 = r1 as Success<B>;
+
+                        if (ar1 == null)
+                        {
+                            return new Error<C>(((Error<B>)r1).Message);
+                        }
+
+                        return func(ar1.Parsed)(ar1.Parsed);
+                    };
+        }
+
+        public static Parser<A, C> SelectMany<A, B, C>(this Parser<A, B> a, Func<B, Parser<B, C>> func, Func<A, B, C> select)
+        {
+            return a.Bind(a1 => func(a1).Bind(b1 => select(a1, b1)));
+        }
     }
 }
