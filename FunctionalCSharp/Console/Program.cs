@@ -58,6 +58,15 @@ namespace Console
                 from b in startSriper(a)
                 from c in endSriper(b)
                 select c;
+
+
+            var p1 = startSriper.ToParser();
+            var p2 = endSriper.ToParser();
+
+            var composite = p1.Compose(p2);
+
+            var result2 = composite(content);
+
         }
     }
 }

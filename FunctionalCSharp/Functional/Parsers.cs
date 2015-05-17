@@ -49,15 +49,20 @@ namespace Functional
                     select(aval, bval).ToParseResult()));
         }
 
-        public delegate ParseResult<R> Parser<T, R>(ParseResult<T> input);
+        public delegate ParseResult<R> Parser<T, R>(T input);
 
-        //public static Parser<T, V> ApplyFunction<T, R, V>(this Parser<T, R> parser, Func<T, R, Parser<R, V>> func)
-        //{
-        //    return input =>
-        //    {
-        //        var parsed = parser(input);
-        //        var result = parsed.ApplyFunction()
-        //    };
-        //}
+        public static Parser<T, R> ToParser<T, R>(this Func<T, ParseResult<R>> parsingFunc)
+        {
+            return input => parsingFunc(input);
+        }
+
+        public static Parser<T, V> Compose<T, R, V>(this Parser<T, R> p1, Parser<R, V> p2)
+        {
+            return input =>
+                    {
+                        var r1 = p1(input);
+                        return r1.Bind(r => p2(r));
+                    };
+        }
     }
 }
