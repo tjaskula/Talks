@@ -1,7 +1,7 @@
 namespace ObjectOriented.Parser
 {
-    public interface IParser<out T>
+    public interface IParser<T, R>
     {
-        T Parse(string input);
+        ParserResult<R> Parse(ParserResult<T> input);
     }
 }

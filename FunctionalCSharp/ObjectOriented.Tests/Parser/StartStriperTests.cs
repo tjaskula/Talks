@@ -68,9 +68,9 @@ Chapter 1. Marseilles--The Arrival.";
         public void ShouldStripStartDataWhenBookText()
         {
             var startStriper = new StartStriper();
-            var stripped = startStriper.Parse(Input);
+            var stripped = startStriper.Parse(new ParserResult<string>(Input, Input));
 
-            Assert.Equal(Expected, stripped);
+            Assert.Equal(new ParserResult<string>(Expected, Expected).Parsed, stripped.Parsed);
         }
     }
 }

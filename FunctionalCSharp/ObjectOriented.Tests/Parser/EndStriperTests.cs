@@ -67,9 +67,9 @@ End of Project Gutenberg's The Count of Monte Cristo, by Alexandre Dumas, Pere
         public void ShouldStripStartDataWhenBookText()
         {
             var startStriper = new EndStriper();
-            var stripped = startStriper.Parse(Input);
+            var stripped = startStriper.Parse(new ParserResult<string>(Input, Input));
 
-            Assert.Equal(Expected, stripped);
+            Assert.Equal(new ParserResult<string>(Expected, Expected).Parsed, stripped.Parsed);
         }
     }
 }

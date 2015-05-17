@@ -11,9 +11,8 @@ namespace Console
 
         public Resolver Initialize()
         {
-            var parsers = new ParserCombinator();
-            parsers.AddNext(new StartStriper()).AddNext(new EndStriper());
-            var wordCounter = new WordCounterService(new WordCounter(), parsers, new FileStoreReader());
+            var parser = new ParserCombinator(new StartStriper(), new EndStriper(), new PageParser());
+            var wordCounter = new WordCounterService(new WordCounter(), parser, new FileStoreReader());
             _resolver.Register(wordCounter);
 
             return _resolver;

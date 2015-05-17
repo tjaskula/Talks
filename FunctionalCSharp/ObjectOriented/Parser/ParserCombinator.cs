@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using ObjectOriented.Domain;
 
 namespace ObjectOriented.Parser
 {
-    public class ParserCombinator : IParser<string>
+    public class ParserCombinator
     {
-        private readonly IList<IParser<string>> _parsers = new List<IParser<string>>(); 
-        
-        public string Parse(string input)
+        private readonly IParser<string, string> _start;
+        private readonly IParser<string, string> _end;
+        private readonly IParser<string, IEnumerable<BookElement>> _page;
+
+        public ParserCombinator(IParser<string, string> start, IParser<string, string> end, IParser<string, IEnumerable<BookElement>> page)
         {
-            string result = input;
-            foreach (var parser in _parsers)
-                result = parser.Parse(result);
-            return result;
+            if (start == null) throw new ArgumentNullException("start");
+            if (end == null) throw new ArgumentNullException("end");
+            if (page == null) throw new ArgumentNullException("page");
+
+            _start = start;
+            _end = end;
+            _page = page;
         }
 
-        public ParserCombinator AddNext(IParser<string> parser)
+        public IEnumerable<BookElement> Parse(string input)
         {
-            if (parser == null)
-                throw new ArgumentNullException("parser");
-
-            _parsers.Add(parser);
-
-            return this;
+            return _page.Parse(_end.Parse(_start.Parse(new ParserResult<string>(input, input)))).Parsed;
         }
     }
 }

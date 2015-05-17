@@ -43,13 +43,13 @@
     <Compile Include="ApplicationSerivice\WordCounterService.cs" />
     <Compile Include="Domain\BookElement.cs" />
     <Compile Include="Domain\BookElementType.cs" />
-    <Compile Include="Domain\Chapter.cs" />
-    <Compile Include="Domain\Content.cs" />
     <Compile Include="Domain\Page.cs" />
     <Compile Include="Domain\WordCounter.cs" />
     <Compile Include="Parser\EndStriper.cs" />
     <Compile Include="Parser\IParser.cs" />
+    <Compile Include="Parser\PageParser.cs" />
     <Compile Include="Parser\ParserCombinator.cs" />
+    <Compile Include="Parser\ParserResult.cs" />
     <Compile Include="Parser\StartStriper.cs" />
     <Compile Include="IO\FileStoreReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

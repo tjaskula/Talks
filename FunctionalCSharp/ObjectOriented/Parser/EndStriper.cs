@@ -2,16 +2,18 @@
 
 namespace ObjectOriented.Parser
 {
-    public class EndStriper : IParser<string>
+    public class EndStriper : IParser<string, string>
     {
-        public string Parse(string input)
+        public ParserResult<string> Parse(ParserResult<string> input)
         {
-            if (string.IsNullOrWhiteSpace(input))
+            if (input == null)
                 throw new ArgumentNullException("input");
 
             const string endPattern = "*** END";
-            int endLineIndx = input.IndexOf(endPattern, StringComparison.OrdinalIgnoreCase);
-            return input.Remove(endLineIndx);
+            string unwrapped = input.Parsed;
+            int endLineIndx = unwrapped.IndexOf(endPattern, StringComparison.OrdinalIgnoreCase);
+            string remaining = unwrapped.Remove(endLineIndx);
+            return new ParserResult<string>(remaining, remaining);
         }
     }
 }

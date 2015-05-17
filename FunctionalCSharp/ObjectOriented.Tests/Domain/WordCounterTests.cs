@@ -23,20 +23,12 @@ namespace ObjectOriented.Tests.Domain
             Assert.Equal(0, wordCounter.Count(null));
         }
 
-        [Fact]
-        public void ShouldNotCountWhiteSpaces()
-        {
-            var wordCounter = new WordCounter();
-
-            Assert.Equal(0, wordCounter.Count("\n\n\n\n\n\n\n\n\n\n\r"));
-        }
-
         [Theory, PropertyData("GetText")]
         public void ShouldReturnCountWhenText(string text, int expectedCount)
         {
             var wordCounter = new WordCounter();
 
-            Assert.Equal(expectedCount, wordCounter.Count(text));
+            Assert.Equal(expectedCount, wordCounter.Count(new List<BookElement>{ new Page(text)}));
         }
 
         public static IEnumerable<object[]> GetText
