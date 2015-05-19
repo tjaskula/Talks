@@ -67,6 +67,12 @@ namespace Console
 
             var result2 = composite(content);
 
+            var parsers = from a in p1
+                          from b in p2
+                          select b;
+
+            var result3 = parsers(content);
+
         }
     }
 }

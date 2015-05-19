@@ -65,25 +65,27 @@ namespace Functional
                     };
         }
 
-        public static Parser<A, C> Bind<A, B, C>(this Parser<A, B> p, Func<B, Parser<B, C>> func)
+        public static Parser<TSource, TResult> Bind<TSource, TResultTemp, TResult>(this Parser<TSource, TResultTemp> p, Func<TResultTemp, ParseResult<TResult>> func)
         {
             return input =>
-                    {
-                        var r1 = p(input);
-                        var ar1 = r1 as Success<B>;
+            {
+                var r1 = p(input);
+                var ar1 = r1 as Success<TResultTemp>;
 
-                        if (ar1 == null)
-                        {
-                            return new Error<C>(((Error<B>)r1).Message);
-                        }
+                if (ar1 == null)
+                {
+                    return new Error<TResult>(((Error<TResultTemp>)r1).Message);
+                }
 
-                        return func(ar1.Parsed)(ar1.Parsed);
-                    };
+                return func(ar1.Parsed);
+            };
         }
 
-        public static Parser<A, C> SelectMany<A, B, C>(this Parser<A, B> a, Func<B, Parser<B, C>> func, Func<A, B, C> select)
+        public static Parser<TSource, TResult> SelectMany<TSource, TResultTemp, TCollection, TResult>(this Parser<TSource, TResultTemp> source,
+                        Func<TResultTemp, Parser<TResultTemp, TCollection>> collectionSelector,
+                        Func<TResultTemp, TCollection, TResult> resultSelector)
         {
-            return a.Bind(a1 => func(a1).Bind(b1 => select(a1, b1)));
+            return source.Bind(a => collectionSelector(a).Bind(b => resultSelector(a, b).ToParseResult())(a));
         }
     }
 }
