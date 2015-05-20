@@ -4,13 +4,18 @@ using ObjectOriented.Domain;
 
 namespace ObjectOriented.Parser
 {
+    /// <summary>
+    /// Compose different parsers together
+    /// </summary>
     public class ParserCombinator
     {
         private readonly IParser<string, string> _start;
         private readonly IParser<string, string> _end;
         private readonly IParser<string, IEnumerable<BookElement>> _page;
 
-        public ParserCombinator(IParser<string, string> start, IParser<string, string> end, IParser<string, IEnumerable<BookElement>> page)
+        public ParserCombinator(IParser<string, string> start, 
+                                IParser<string, string> end, 
+                                IParser<string, IEnumerable<BookElement>> page)
         {
             if (start == null) throw new ArgumentNullException("start");
             if (end == null) throw new ArgumentNullException("end");
