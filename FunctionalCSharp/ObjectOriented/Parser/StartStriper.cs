@@ -16,9 +16,9 @@ namespace ObjectOriented.Parser
             
             string unwrapped = input.Parsed;
             int startLineIndx = unwrapped.IndexOf(startPattern, StringComparison.OrdinalIgnoreCase);
-            // TODO : this may throw an exception if startLineIndx is null
+            if (startLineIndx == -1)
+                return new ParserResult<string>(parsed: input.Parsed);
             int endOfLineIndx = unwrapped.IndexOf("***", startLineIndx + startPattern.Length, StringComparison.OrdinalIgnoreCase);
-            // TODO : this may throw an exception if endOfLineIndx is null
             string remaining = unwrapped.Remove(0, endOfLineIndx + "***".Length);
             
             return new ParserResult<string>(parsed: remaining);

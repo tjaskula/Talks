@@ -64,6 +64,9 @@ by Alexandre Dumas, Pere
 
 Chapter 1. Marseilles--The Arrival.";
 
+
+        private const string InputNotToParse = "No text to find";
+
         [Fact]
         public void ShouldStripStartDataWhenBookText()
         {
@@ -71,6 +74,15 @@ Chapter 1. Marseilles--The Arrival.";
             var stripped = startStriper.Parse(new ParserResult<string>(parsed : Input));
 
             Assert.Equal(new ParserResult<string>(parsed: Expected).Parsed, stripped.Parsed);
+        }
+
+        [Fact]
+        public void ShouldDoNothingWhenBookTextContainsNoMatchingText()
+        {
+            var startStriper = new StartStriper();
+            var stripped = startStriper.Parse(new ParserResult<string>(parsed: InputNotToParse));
+
+            Assert.Equal(new ParserResult<string>(parsed: InputNotToParse).Parsed, stripped.Parsed);
         }
     }
 }
