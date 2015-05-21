@@ -15,6 +15,7 @@ namespace ObjectOriented.Parser
             const string endPattern = "*** END";
             string unwrapped = input.Parsed;
             int endLineIndx = unwrapped.IndexOf(endPattern, StringComparison.OrdinalIgnoreCase);
+            // TODO : this may throw an exception if startLineIndx is null
             string remaining = unwrapped.Remove(endLineIndx);
             return new ParserResult<string>(parsed : remaining);
         }
