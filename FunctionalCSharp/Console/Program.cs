@@ -1,8 +1,10 @@
-﻿using Functional;
+﻿using System.Collections.Generic;
+using Functional;
 using ObjectOriented.ApplicationSerivice;
 using ObjectOriented.IO;
 using ObjectOriented.Parser;
 using System.Linq;
+using ObjectOriented.Domain;
 
 namespace Console
 {
@@ -52,27 +54,60 @@ namespace Console
                                     return new Parsers.Success<string>(remaining);
                                 };
 
-            var pipline = new Parsers.Success<string>(content).Bind(startSriper).Bind(endSriper);
+
+            Func<string, Parsers.ParseResult<string>> endSriper2 = input =>
+                                {
+                                    if (string.IsNullOrWhiteSpace(input))
+                                        return new Parsers.Error<string>("Cannot process an empty input");
+
+                                    const string endPattern = "*** END";
+                                    int endLineIndx = input.IndexOf(endPattern, StringComparison.OrdinalIgnoreCase);
+                                    string remaining = input.Remove(endLineIndx);
+
+                                    return new Parsers.Success<string>(remaining);
+                                };
+
+
+            Func<string, Parsers.ParseResult<IEnumerable<BookElement>>> pageStriper = input =>
+                                {
+                                    if (string.IsNullOrWhiteSpace(input))
+                                        return new Parsers.Error<IEnumerable<BookElement>>("Cannot process an empty input");
+
+                                    var words = input.Split(' ');
+
+                                    List<Page> pages = new List<Page>();
+                                    for (int i = 0; i < words.Length; i += 1000)
+                                    {
+                                        var pagedWords = words.Skip(i).Take(i + 1000);
+                                        var page = new Page(string.Join(" ", pagedWords));
+                                        pages.Add(page);
+                                    }
+
+                                    return new Parsers.Success<IEnumerable<BookElement>>(pages);
+                                };
+
+            //var pipline = new Parsers.Success<string>(content).Bind(startSriper).Bind(endSriper);
+            //var pipline = new Parsers.Success<string>(content).Bind(startSriper).Bind(endSriper).Bind(pageStriper);
 
             var result = from a in content.ToParseResult()
-                from b in startSriper(a)
-                from c in endSriper(b)
-                select c;
+                         from b in startSriper(a)
+                         from c in endSriper(b)
+                         select c;
 
 
             var p1 = startSriper.ToParser();
             var p2 = endSriper.ToParser();
+            //var p3 = endSriper2.ToParser();
+            var p3 = pageStriper.ToParser();
 
-            var composite = p1.Compose(p2);
+            //var composite = p1.Compose(p2);
 
-            var result2 = composite(content);
+            //var result2 = composite(content);
 
-            var parsers = from a in p1
-                          from b in p2
-                          select b;
-
-            var result3 = parsers(content);
-
+            var parsers = from a in p1(content)
+                          from b in p2(a)
+                          from c in p3(b)
+                          select c;
         }
     }
 }

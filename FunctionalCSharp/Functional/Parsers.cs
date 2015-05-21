@@ -65,7 +65,8 @@ namespace Functional
                     };
         }
 
-        public static Parser<TSource, TResult> Bind<TSource, TResultTemp, TResult>(this Parser<TSource, TResultTemp> p, Func<TResultTemp, ParseResult<TResult>> func)
+        public static Parser<TSource, TResult> Bind<TSource, TResultTemp, TResult>(
+                            this Parser<TSource, TResultTemp> p, Func<TResultTemp, ParseResult<TResult>> func)
         {
             return input =>
             {
@@ -81,7 +82,8 @@ namespace Functional
             };
         }
 
-        public static Parser<TSource, TResult> SelectMany<TSource, TResultTemp, TCollection, TResult>(this Parser<TSource, TResultTemp> source,
+        public static Parser<TSource, TResult> SelectMany<TSource, TResultTemp, TCollection, TResult>(
+                        this Parser<TSource, TResultTemp> source,
                         Func<TResultTemp, Parser<TResultTemp, TCollection>> collectionSelector,
                         Func<TResultTemp, TCollection, TResult> resultSelector)
         {
