@@ -62,6 +62,7 @@ human wisdom is summed up in two words?--'_Wait and hope_.'""
 End of Project Gutenberg's The Count of Monte Cristo, by Alexandre Dumas, Pere
 
 ";
+        private const string InputNotToParse = "No text to strip";
 
         [Fact]
         public void ShouldStripStartDataWhenBookText()
@@ -70,6 +71,15 @@ End of Project Gutenberg's The Count of Monte Cristo, by Alexandre Dumas, Pere
             var stripped = startStriper.Parse(new ParserResult<string>(parsed : Input));
 
             Assert.Equal(new ParserResult<string>(parsed : Expected).Parsed, stripped.Parsed);
+        }
+
+        [Fact]
+        public void ShouldDoNothingWhenBookTextContainsNoMatchingText()
+        {
+            var startStriper = new EndStriper();
+            var stripped = startStriper.Parse(new ParserResult<string>(parsed: InputNotToParse));
+
+            Assert.Equal(new ParserResult<string>(parsed: InputNotToParse).Parsed, stripped.Parsed);
         }
     }
 }
