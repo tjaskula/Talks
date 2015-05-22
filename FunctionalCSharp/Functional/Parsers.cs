@@ -1,93 +1,77 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Functional
 {
-    public static class Parsers
+    public static partial class Parsers
     {
-        public abstract class ParseResult<T>
+        public static Parser<string, string> GetStartStriper()
         {
+            return GetStartStriperFunc().ToParser();
         }
 
-        public class Success<T> : ParseResult<T>
-        {
-            public Success(T parsed)
-            {
-                Parsed = parsed;
-            }
-
-            public T Parsed { get; private set; }
-        }
-
-        public class Error<T> : ParseResult<T>
-        {
-            public Error(string message)
-            {
-                Message = message;
-            }
-
-            public string Message { get; private set; }
-        }
-
-        public static ParseResult<R> Bind<A, R>(this ParseResult<A> parsed, Func<A, ParseResult<R>> function)
-        {
-            var parseda = parsed as Success<A>;
-
-            return parseda == null
-                ? new Error<R>(((Error<A>)parsed).Message)
-                : function(parseda.Parsed);
-        }
-
-        public static ParseResult<T> ToParseResult<T>(this T value)
-        {
-            return new Success<T>(value);
-        }
-
-        public static ParseResult<C> SelectMany<A, B, C>(this ParseResult<A> a, Func<A, ParseResult<B>> func, Func<A, B, C> select)
-        {
-            return a.Bind(aval =>
-                    func(aval).Bind(bval =>
-                    select(aval, bval).ToParseResult()));
-        }
-
-        public delegate ParseResult<R> Parser<T, R>(T input);
-
-        public static Parser<T, R> ToParser<T, R>(this Func<T, ParseResult<R>> parsingFunc)
-        {
-            return input => parsingFunc(input);
-        }
-
-        public static Parser<T, V> Compose<T, R, V>(this Parser<T, R> p1, Parser<R, V> p2)
-        {
-            return input =>
-                    {
-                        var r1 = p1(input);
-                        return r1.Bind(r => p2(r));
-                    };
-        }
-
-        public static Parser<TSource, TResult> Bind<TSource, TResultTemp, TResult>(
-                            this Parser<TSource, TResultTemp> p, Func<TResultTemp, ParseResult<TResult>> func)
+        public static Func<string, ParseResult<string>> GetStartStriperFunc()
         {
             return input =>
             {
-                var r1 = p(input);
-                var ar1 = r1 as Success<TResultTemp>;
+                if (string.IsNullOrWhiteSpace(input))
+                    return new Error<string>("Cannot process an empty input");
 
-                if (ar1 == null)
-                {
-                    return new Error<TResult>(((Error<TResultTemp>)r1).Message);
-                }
+                const string startPattern = "*** START";
 
-                return func(ar1.Parsed);
+                int startLineIndx = input.IndexOf(startPattern, StringComparison.OrdinalIgnoreCase);
+                int endOfLineIndx = input.IndexOf("***", startLineIndx + startPattern.Length, StringComparison.OrdinalIgnoreCase);
+                string remaining = input.Remove(0, endOfLineIndx + "***".Length);
+
+                return new Success<string>(remaining);
             };
         }
 
-        public static Parser<TSource, TResult> SelectMany<TSource, TResultTemp, TCollection, TResult>(
-                        this Parser<TSource, TResultTemp> source,
-                        Func<TResultTemp, Parser<TResultTemp, TCollection>> collectionSelector,
-                        Func<TResultTemp, TCollection, TResult> resultSelector)
+        public static Parser<string, string> GetEndStriper()
         {
-            return source.Bind(a => collectionSelector(a).Bind(b => resultSelector(a, b).ToParseResult())(a));
+            return GetEndStriperFunc().ToParser();
+        }
+
+        public static Func<string, ParseResult<string>> GetEndStriperFunc()
+        {
+            return input =>
+            {
+                if (string.IsNullOrWhiteSpace(input))
+                    return new Error<string>("Cannot process an empty input");
+
+                const string endPattern = "*** END";
+                int endLineIndx = input.IndexOf(endPattern, StringComparison.OrdinalIgnoreCase);
+                string remaining = input.Remove(endLineIndx);
+
+                return new Success<string>(remaining);
+            };
+        }
+
+        public static Parser<string, IEnumerable<Domain.BookElement>> GetPageParser()
+        {
+            return GetPageParserFunc().ToParser();
+        }
+
+        public static Func<string, ParseResult<IEnumerable<Domain.BookElement>>> GetPageParserFunc()
+        {
+            return input =>
+            {
+                if (string.IsNullOrWhiteSpace(input))
+                    return new Error<IEnumerable<Domain.BookElement>>("Cannot process an empty input");
+
+                var words = input.Split(' ');
+
+                List<Domain.Page> pages = new List<Domain.Page>();
+                for (int i = 0; i < words.Length; i += 1000)
+                {
+                    var pagedWords = words.Skip(i).Take(i + 1000);
+                    var page = new Domain.Page(string.Join(" ", pagedWords));
+                    pages.Add(page);
+                }
+
+                return new Success<IEnumerable<Domain.BookElement>>(pages);
+            };
         }
     }
 }

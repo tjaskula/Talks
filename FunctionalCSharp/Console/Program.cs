@@ -1,113 +1,89 @@
-﻿using System.Collections.Generic;
-using Functional;
+﻿using Functional;
 using ObjectOriented.ApplicationSerivice;
 using ObjectOriented.IO;
-using ObjectOriented.Parser;
-using System.Linq;
-using ObjectOriented.Domain;
 
 namespace Console
 {
-    using System;
-
     class Program
     {
         static void Main(string[] args)
         {
             const string path = "../../Data/monteCristo.txt";
 
-            //var bootstrapper = new Bootstraper();
-            //var resolver = bootstrapper.Initialize();
+            /*
+             * Object Oriented version
+            */
+            var bootstrapper = new Bootstraper();
+            var resolver = bootstrapper.Initialize();
 
-            //var wordCounter = resolver.Resolve<WordCounterService>();
-            //var number = wordCounter.CountInFile(path);
+            var wordCounterService = resolver.Resolve<WordCounterService>();
+            var number = wordCounterService.CountInFile(path);
 
-            //Console.WriteLine("Number of words : {0}", number);
-            //Console.ReadKey();
+            System.Console.WriteLine("Number of words : {0}", number);
+            System.Console.ReadKey();
 
-
+            /*
+             * Functional version
+             */
             var content = new FileStoreReader().Read(path);
+            var wordCounter = new Domain.WordCounter();
 
-            Func<string, Parsers.ParseResult<string>> startSriper = input =>
-                                {
-                                    if (string.IsNullOrWhiteSpace(input))
-                                        return new Parsers.Error<string>("Cannot process an empty input");
+            // composing functions
+            var startStriperFunc = Parsers.GetStartStriperFunc();
+            var endStriperFunc = Parsers.GetEndStriperFunc();
+            var pageParserFunc = Parsers.GetPageParserFunc();
 
-                                    const string startPattern = "*** START";
+            int funcParsedNumber = 0;
 
-                                    int startLineIndx = input.IndexOf(startPattern, StringComparison.OrdinalIgnoreCase);
-                                    int endOfLineIndx = input.IndexOf("***", startLineIndx + startPattern.Length, StringComparison.OrdinalIgnoreCase);
-                                    string remaining = input.Remove(0, endOfLineIndx + "***".Length);
+            var funcParsed = new Parsers.Success<string>(content).Bind(startStriperFunc).Bind(endStriperFunc).Bind(pageParserFunc);
+            if (funcParsed.IsSuccess)
+                funcParsedNumber = wordCounter.Count(funcParsed.FromParseResult());
 
-                                    return new Parsers.Success<string>(remaining);
-                                };
+            System.Console.WriteLine("Number of words (func composition) : {0}", funcParsedNumber);
+            System.Console.ReadKey();
 
-            Func<string, Parsers.ParseResult<string>> endSriper = input =>
-                                {
-                                    if (string.IsNullOrWhiteSpace(input))
-                                        return new Parsers.Error<string>("Cannot process an empty input");
+            int funcParsedNumberLinq = 0;
 
-                                    const string endPattern = "*** END";
-                                    int endLineIndx = input.IndexOf(endPattern, StringComparison.OrdinalIgnoreCase);
-                                    string remaining = input.Remove(endLineIndx);
+            var funcParsedLinq = from a in content.ToParseResult()
+                                 from b in startStriperFunc(a)
+                                 from c in endStriperFunc(b)
+                                 from d in pageParserFunc(c)
+                                 select d;
 
-                                    return new Parsers.Success<string>(remaining);
-                                };
+            if (funcParsedLinq.IsSuccess)
+                funcParsedNumberLinq = wordCounter.Count(funcParsedLinq.FromParseResult());
 
+            System.Console.WriteLine("Number of words (func composition Linq) : {0}", funcParsedNumberLinq);
+            System.Console.ReadKey();
 
-            Func<string, Parsers.ParseResult<string>> endSriper2 = input =>
-                                {
-                                    if (string.IsNullOrWhiteSpace(input))
-                                        return new Parsers.Error<string>("Cannot process an empty input");
+            // composing parsers
+            var startSriper = Parsers.GetStartStriper();
+            var endStriper = Parsers.GetEndStriper();
+            var pageStriper = Parsers.GetPageParser();
 
-                                    const string endPattern = "*** END";
-                                    int endLineIndx = input.IndexOf(endPattern, StringComparison.OrdinalIgnoreCase);
-                                    string remaining = input.Remove(endLineIndx);
+            int numberComposite = 0;
 
-                                    return new Parsers.Success<string>(remaining);
-                                };
+            var composite = startSriper.Compose(endStriper.Compose(pageStriper));
+            var compParseResult = composite(content);
 
+            if (compParseResult.IsSuccess)
+                numberComposite = wordCounter.Count(compParseResult.FromParseResult());
 
-            Func<string, Parsers.ParseResult<IEnumerable<BookElement>>> pageStriper = input =>
-                                {
-                                    if (string.IsNullOrWhiteSpace(input))
-                                        return new Parsers.Error<IEnumerable<BookElement>>("Cannot process an empty input");
+            System.Console.WriteLine("Number of words (composing parsers) : {0}", numberComposite);
+            System.Console.ReadKey();
 
-                                    var words = input.Split(' ');
+            int numberCompositeLinq = 0;
 
-                                    List<Page> pages = new List<Page>();
-                                    for (int i = 0; i < words.Length; i += 1000)
-                                    {
-                                        var pagedWords = words.Skip(i).Take(i + 1000);
-                                        var page = new Page(string.Join(" ", pagedWords));
-                                        pages.Add(page);
-                                    }
-
-                                    return new Parsers.Success<IEnumerable<BookElement>>(pages);
-                                };
-
-            //var pipline = new Parsers.Success<string>(content).Bind(startSriper).Bind(endSriper);
-            //var pipline = new Parsers.Success<string>(content).Bind(startSriper).Bind(endSriper).Bind(pageStriper);
-
-            var result = from a in content.ToParseResult()
-                         from b in startSriper(a)
-                         from c in endSriper(b)
-                         select c;
-
-
-            var p1 = startSriper.ToParser();
-            var p2 = endSriper.ToParser();
-            //var p3 = endSriper2.ToParser();
-            var p3 = pageStriper.ToParser();
-
-            //var composite = p1.Compose(p2);
-
-            //var result2 = composite(content);
-
-            var parsers = from a in p1(content)
-                          from b in p2(a)
-                          from c in p3(b)
+            var parsers = from a in startSriper(content)
+                          from b in endStriper(a)
+                          from c in pageStriper(b)
                           select c;
+
+            if (parsers.IsSuccess)
+                numberCompositeLinq = wordCounter.Count(parsers.FromParseResult());
+
+            System.Console.WriteLine("Number of words (func composition Linq) : {0}", numberCompositeLinq);
+            System.Console.ReadKey();
         }
     }
 }
