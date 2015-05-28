@@ -47,10 +47,6 @@
       <Project>{76A42A82-C372-49BB-BBAB-A78D1E9D1B0E}</Project>
       <Name>Api.Rest.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Api.Rest.Infrastructure\Api.Rest.Infrastructure.csproj">
-      <Project>{A2F44C50-D715-4762-9823-7DC43271334F}</Project>
-      <Name>Api.Rest.Infrastructure</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
