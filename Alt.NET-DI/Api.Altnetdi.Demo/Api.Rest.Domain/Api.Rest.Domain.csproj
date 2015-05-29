@@ -44,7 +44,6 @@
     <Compile Include="Customer.cs" />
     <Compile Include="ICustomerRepository.cs" />
     <Compile Include="IOrderRepository.cs" />
-    <Compile Include="IProductRepository.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrderLine.cs" />
     <Compile Include="Processors\IOrderProcessor.cs" />
