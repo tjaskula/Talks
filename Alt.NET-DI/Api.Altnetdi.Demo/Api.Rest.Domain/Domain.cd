@@ -39,13 +39,6 @@
       <FileName>Address.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Api.Rest.Domain.Product">
-    <Position X="9.25" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Product.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Api.Rest.Domain.Customer">
     <Position X="6" Y="0.5" Width="1.5" />
     <TypeIdentifier>
