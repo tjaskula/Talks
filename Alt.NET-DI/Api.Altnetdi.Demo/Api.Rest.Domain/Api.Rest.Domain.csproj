@@ -49,7 +49,6 @@
     <Compile Include="Processors\IOrderProcessor.cs" />
     <Compile Include="Processors\SuccessResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShippingMethod.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Domain.cd" />

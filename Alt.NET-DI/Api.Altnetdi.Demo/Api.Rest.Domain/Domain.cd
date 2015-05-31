@@ -4,8 +4,8 @@
     <Position X="6" Y="2.25" Width="1.5" />
     <AssociationLine Name="BillingAddress" Type="Api.Rest.Domain.Address" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="6" Y="3.624" />
-        <Point X="3.812" Y="3.624" />
+        <Point X="6" Y="3.781" />
+        <Point X="3.812" Y="3.781" />
         <Point X="3.812" Y="3.312" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
@@ -19,7 +19,6 @@
     <ShowAsAssociation>
       <Property Name="BillingAddress" />
       <Property Name="ShippingAddress" />
-      <Property Name="ShippingMethod" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="OrderLines" />
@@ -46,12 +45,5 @@
       <FileName>Customer.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Enum Name="Api.Rest.Domain.ShippingMethod" Collapsed="true">
-    <Position X="6" Y="5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ShippingMethod.cs</FileName>
-    </TypeIdentifier>
-  </Enum>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
