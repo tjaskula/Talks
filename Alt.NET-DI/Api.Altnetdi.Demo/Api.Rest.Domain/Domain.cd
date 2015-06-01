@@ -4,8 +4,8 @@
     <Position X="6" Y="2.25" Width="1.5" />
     <AssociationLine Name="BillingAddress" Type="Api.Rest.Domain.Address" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="6" Y="3.781" />
-        <Point X="3.812" Y="3.781" />
+        <Point X="6" Y="3.938" />
+        <Point X="3.812" Y="3.938" />
         <Point X="3.812" Y="3.312" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
@@ -20,16 +20,6 @@
       <Property Name="BillingAddress" />
       <Property Name="ShippingAddress" />
     </ShowAsAssociation>
-    <ShowAsCollectionAssociation>
-      <Property Name="OrderLines" />
-    </ShowAsCollectionAssociation>
-  </Class>
-  <Class Name="Api.Rest.Domain.OrderLine">
-    <Position X="9.25" Y="2.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAACAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
-      <FileName>OrderLine.cs</FileName>
-    </TypeIdentifier>
   </Class>
   <Class Name="Api.Rest.Domain.Address" Collapsed="true">
     <Position X="3" Y="2.75" Width="1.5" />
