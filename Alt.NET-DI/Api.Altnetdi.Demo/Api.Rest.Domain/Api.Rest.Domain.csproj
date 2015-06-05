@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Address.cs" />
     <Compile Include="Processors\IOrderProcessor.cs" />
     <Compile Include="Processors\SuccessResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
