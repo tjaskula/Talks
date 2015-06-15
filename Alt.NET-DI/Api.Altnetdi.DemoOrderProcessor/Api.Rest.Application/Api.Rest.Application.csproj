@@ -50,7 +50,7 @@
   <ItemGroup>
     <Compile Include="MessageDispatcher.cs" />
     <Compile Include="OrderProcessing\AccountsReceivable.cs" />
-    <Compile Include="OrderProcessing\OrderProcessorSL.cs" />
+    <Compile Include="OrderProcessing\OrderProcessorServiceLocator.cs" />
     <Compile Include="OrderProcessing\OrderProcessorContainer.cs" />
     <Compile Include="OrderProcessing\OrderProcessor.cs" />
     <Compile Include="OrderProcessing\OrderShipper.cs" />

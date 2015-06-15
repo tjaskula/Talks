@@ -9,14 +9,14 @@ using Castle.Windsor;
 
 namespace Api.Rest.Application.OrderProcessing
 {
-    public class OrderProcessorSL : IOrderProcessor
+    public class OrderProcessorServiceLocator : IOrderProcessor
     {
         private readonly IUserContext _userContext;
         private readonly IRateExchange _rateExchange;
         private readonly IAccountsReceivable _accountsReceivable;
         public Guid InstanceId { get; private set; }
 
-        public OrderProcessorSL(IUserContext userContext, IRateExchange rateExchange, IAccountsReceivable accountsReceivable)
+        public OrderProcessorServiceLocator(IUserContext userContext, IRateExchange rateExchange, IAccountsReceivable accountsReceivable)
         {
             _userContext = userContext;
             _rateExchange = rateExchange;

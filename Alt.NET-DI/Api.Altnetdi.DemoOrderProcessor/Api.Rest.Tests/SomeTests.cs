@@ -30,7 +30,7 @@ namespace Api.Rest.Tests
         public void Order_Processor_Should_Process_Order2()
         {
             ServiceLocator.Current.Register<IOrderValidator, OrderValidator>();
-            var orderProcessor = new OrderProcessorSL();
+            var orderProcessor = new OrderProcessorServiceLocator();
 
             var order = new Order();
 
