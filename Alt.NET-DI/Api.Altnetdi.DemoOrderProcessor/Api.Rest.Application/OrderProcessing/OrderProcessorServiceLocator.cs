@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Threading;
 using Api.Rest.Domain;
 using Api.Rest.Domain.Processors;
 using Api.Rest.Infrastructure;
-using Api.Rest.Infrastructure.Logger;
-using Api.Rest.Infrastructure.Messages;
-using Castle.Windsor;
 
 namespace Api.Rest.Application.OrderProcessing
 {
