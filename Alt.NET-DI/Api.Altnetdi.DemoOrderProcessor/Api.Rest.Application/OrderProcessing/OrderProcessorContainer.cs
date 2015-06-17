@@ -10,11 +10,18 @@ namespace Api.Rest.Application.OrderProcessing
 {
     public class OrderProcessorContainer : IOrderProcessor
     {
+        private readonly IUserContext _userContext;
+        private readonly IRateExchange _rateExchange;
+        private readonly IAccountsReceivable _accountsReceivable;
         private readonly IWindsorContainer _container;
         public Guid InstanceId { get; private set; }
 
-        public OrderProcessorContainer(IWindsorContainer container)
+        public OrderProcessorContainer(IWindsorContainer container, IUserContext userContext, IRateExchange rateExchange, IAccountsReceivable accountsReceivable)
         {
+            _userContext = userContext;
+            _rateExchange = rateExchange;
+            _accountsReceivable = accountsReceivable;
+
             _container = container;
             InstanceId = Guid.NewGuid();
         }
@@ -37,8 +44,8 @@ namespace Api.Rest.Application.OrderProcessing
         private void Collect(Order order)
         {
             User user = _userContext.GetCurrentUser();
-            Price price = order.GetPrice(_exchange, _userContext);
-            _receivable.Collect(user, price);
+            Price price = order.GetPrice(_rateExchange, _userContext);
+            _accountsReceivable.Collect(user, price);
         }
 
         private SuccessResult CreateStatus(bool isValid)
