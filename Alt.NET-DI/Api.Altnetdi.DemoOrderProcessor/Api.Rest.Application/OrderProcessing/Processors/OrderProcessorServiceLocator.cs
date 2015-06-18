@@ -3,7 +3,7 @@ using Api.Rest.Domain;
 using Api.Rest.Domain.Processors;
 using Api.Rest.Infrastructure;
 
-namespace Api.Rest.Application.OrderProcessing
+namespace Api.Rest.Application.OrderProcessing.Processors
 {
     public class OrderProcessorServiceLocator : IOrderProcessor
     {

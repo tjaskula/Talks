@@ -3,7 +3,7 @@ using Api.Rest.Domain;
 using Api.Rest.Domain.Processors;
 using Castle.Windsor;
 
-namespace Api.Rest.Application.OrderProcessing
+namespace Api.Rest.Application.OrderProcessing.Processors
 {
     public class OrderProcessorContainer : IOrderProcessor
     {

@@ -13,7 +13,10 @@ namespace Api.Rest.Installers
 		{
 			container.Register(Classes.FromAssemblyInDirectory(new AssemblyFilter(Environment.CurrentDirectory))
 			                   	.Where(t => t.Namespace == typeof (IAuthenticationService).Namespace
-										|| t.Namespace == typeof(OrderProcessor).Namespace
+                                        // In the normal application this is the way to do. However we have here for the excercice purpose 3 different implementations that we have to
+                                        // activate manually because otherwise the last registered wins.
+										//|| t.Namespace == typeof(OrderProcessor).Namespace 
+                                        || t.Namespace == typeof(AccountsReceivable).Namespace
 										|| t.Namespace == "Api.Rest.Data")
 								.WithService.FirstInterface()
 								.LifestyleTransient());

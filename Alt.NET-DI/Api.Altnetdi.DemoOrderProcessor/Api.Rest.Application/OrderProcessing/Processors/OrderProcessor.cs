@@ -5,7 +5,7 @@ using Api.Rest.Domain.Processors;
 using Api.Rest.Infrastructure.Logger;
 using Api.Rest.Infrastructure.Messages;
 
-namespace Api.Rest.Application.OrderProcessing
+namespace Api.Rest.Application.OrderProcessing.Processors
 {
 	public class OrderProcessor : IOrderProcessor
 	{

@@ -1,4 +1,5 @@
 ﻿using Api.Rest.Application.OrderProcessing;
+using Api.Rest.Application.OrderProcessing.Processors;
 using Api.Rest.Domain;
 using Api.Rest.Domain.Processors;
 using Api.Rest.Infrastructure;
