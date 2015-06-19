@@ -27,8 +27,14 @@ namespace Api.Rest
             // for the example purpose we will register manually. If you're interested on how it should be done properly
             // please look into the DefaultInstaller class.
             // please chose one implementation of the IOrderProcessor
-		    container.Register(Component.For<IOrderProcessor>().ImplementedBy<OrderProcessor>().LifestyleTransient());
-            //container.Register(Component.For<IOrderProcessor>().ImplementedBy<OrderProcessorContainer>().LifestyleTransient());
+            // 1. OrderProcessor
+		    //container.Register(Component.For<IOrderProcessor>().ImplementedBy<OrderProcessor>().LifestyleTransient());
+
+            // 2. OrderProcessor with windsor container (Anti-Pattern)
+            container.Register(Component.For<IOrderProcessor>().ImplementedBy<OrderProcessorContainer>().LifestyleTransient());
+            container.Register(Component.For<IWindsorContainer>().Instance(container));
+
+            // 3. OrderProcessor with Service Locator (Anti-Pattern)
             //container.Register(Component.For<IOrderProcessor>().ImplementedBy<OrderProcessorServiceLocator>().LifestyleTransient());
 
 			var config = new HttpSelfHostConfiguration("http://localhost:6666");
