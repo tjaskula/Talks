@@ -29,16 +29,16 @@ namespace Api.Rest
             // please look into the DefaultInstaller class.
             // please chose one implementation of the IOrderProcessor
             // 1. OrderProcessor
-		    //container.Register(Component.For<IOrderProcessor>().ImplementedBy<OrderProcessor>().LifestyleTransient());
+		    container.Register(Component.For<IOrderProcessor>().ImplementedBy<OrderProcessor>().LifestyleTransient());
 
             // 2. OrderProcessor with windsor container (Anti-Pattern)
             //container.Register(Component.For<IOrderProcessor>().ImplementedBy<OrderProcessorContainer>().LifestyleTransient());
             //container.Register(Component.For<IWindsorContainer>().Instance(container));
 
             // 3. OrderProcessor with Service Locator (Anti-Pattern)
-            container.Register(Component.For<IOrderProcessor>().ImplementedBy<OrderProcessorServiceLocator>().LifestyleTransient());
-            ServiceLocator.Current.Register<IOrderValidator, OrderValidator>();
-            ServiceLocator.Current.Register<IOrderShipper, OrderShipper>();
+            //container.Register(Component.For<IOrderProcessor>().ImplementedBy<OrderProcessorServiceLocator>().LifestyleTransient());
+            //ServiceLocator.Current.Register<IOrderValidator, OrderValidator>();
+            //ServiceLocator.Current.Register<IOrderShipper, OrderShipper>();
 
 			var config = new HttpSelfHostConfiguration("http://localhost:6666");
 			config.ServiceResolver.SetResolver(new WindsorDependencyResolver(container));
