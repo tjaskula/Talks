@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Rest", "Api.Rest\Api.Rest.csproj", "{9849226C-5008-4E10-BB24-4358BCFB986F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Etapes", "Etapes", "{6068847B-1A96-41DD-9579-F97638FF0455}"
@@ -22,21 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B5641E
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{D57D04F0-02B4-4ACC-A492-AE589D56CE9F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Rest.Tests", "Api.Rest.Tests\Api.Rest.Tests.csproj", "{81FFE792-F1DE-411E-B2A8-7D5B5464C691}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{172C93CC-A977-41A0-A39C-A2995D87FB53}"
-	ProjectSection(SolutionItems) = preProject
-		api.altnetdi.demo.vsmdi = api.altnetdi.demo.vsmdi
-		Local.testsettings = Local.testsettings
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
-	EndProjectSection
-EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = api.altnetdi.demo.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -96,22 +84,11 @@ Global
 		{A2F44C50-D715-4762-9823-7DC43271334F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A2F44C50-D715-4762-9823-7DC43271334F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A2F44C50-D715-4762-9823-7DC43271334F}.Release|x86.ActiveCfg = Release|Any CPU
-		{81FFE792-F1DE-411E-B2A8-7D5B5464C691}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{81FFE792-F1DE-411E-B2A8-7D5B5464C691}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{81FFE792-F1DE-411E-B2A8-7D5B5464C691}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{81FFE792-F1DE-411E-B2A8-7D5B5464C691}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{81FFE792-F1DE-411E-B2A8-7D5B5464C691}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{81FFE792-F1DE-411E-B2A8-7D5B5464C691}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{81FFE792-F1DE-411E-B2A8-7D5B5464C691}.Release|Any CPU.Build.0 = Release|Any CPU
-		{81FFE792-F1DE-411E-B2A8-7D5B5464C691}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{81FFE792-F1DE-411E-B2A8-7D5B5464C691}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{81FFE792-F1DE-411E-B2A8-7D5B5464C691}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{81FFE792-F1DE-411E-B2A8-7D5B5464C691} = {D57D04F0-02B4-4ACC-A492-AE589D56CE9F}
-		{172C93CC-A977-41A0-A39C-A2995D87FB53} = {D57D04F0-02B4-4ACC-A492-AE589D56CE9F}
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = api.altnetdi.demo.vsmdi
 	EndGlobalSection
 EndGlobal
