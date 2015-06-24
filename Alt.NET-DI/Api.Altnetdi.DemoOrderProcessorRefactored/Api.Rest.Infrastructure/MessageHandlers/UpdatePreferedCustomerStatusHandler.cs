@@ -23,7 +23,6 @@ namespace Api.Rest.Infrastructure.MessageHandlers
 
 		public void Dispose()
 		{
-			
 		}
 	}
 }
