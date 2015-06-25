@@ -1,6 +1,5 @@
 ﻿using System;
 using Api.Rest.Infrastructure.Messages;
-using Api.Rest.Infrastructure.NHibernate;
 
 namespace Api.Rest.Infrastructure.MessageHandlers
 {
@@ -24,7 +23,6 @@ namespace Api.Rest.Infrastructure.MessageHandlers
 
 		public void Dispose()
 		{
-			
 		}
 	}
 }
