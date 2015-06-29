@@ -9,7 +9,7 @@ namespace Functional
         public static Parser<string, string> GetStartStriper()
         {
             return GetStartStriperFunc().ToParser();
-        }
+        } 
 
         public static Func<string, ParseResult<string>> GetStartStriperFunc()
         {
