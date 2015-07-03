@@ -14,27 +14,27 @@ namespace Api.Rest.Tests
 	[TestClass]
 	public class SomeTests
 	{
-        [TestMethod]
-        public void Order_Processor_Should_Process_Order1()
-        {
-            IWindsorContainer container = new WindsorContainer();
+		//[TestMethod]
+		//public void Order_Processor_Should_Process_Order()
+		//{
+		//    IWindsorContainer container = new WindsorContainer();
+			
+		//    var orderProcessor = new OrderProcessorContainer(container);
 
-            var orderProcessor = new OrderProcessorContainer(container);
+		//    var order = new Order();
 
-            var order = new Order();
+		//    orderProcessor.Process(order);
+		//}
 
-            orderProcessor.Process(order);
-        }
+		//[TestMethod]
+		//public void Order_Processor_Should_Process_Order()
+		//{
+		//    ServiceLocator.Current.Register<IOrderValidator, OrderValidator>();
+		//    var orderProcessor = new OrderProcessorSL();
 
-        [TestMethod]
-        public void Order_Processor_Should_Process_Order2()
-        {
-            ServiceLocator.Current.Register<IOrderValidator, OrderValidator>();
-            var orderProcessor = new OrderProcessorSL();
+		//    var order = new Order();
 
-            var order = new Order();
-
-            orderProcessor.Process(order);
-        }
+		//    orderProcessor.Process(order);
+		//}
 	}
 }
