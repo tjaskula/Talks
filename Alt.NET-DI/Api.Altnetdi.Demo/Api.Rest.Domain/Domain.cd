@@ -1,26 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Api.Rest.Domain.Order">
-    <Position X="6" Y="2.25" Width="1.5" />
-    <AssociationLine Name="BillingAddress" Type="Api.Rest.Domain.Address" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="6" Y="3.938" />
-        <Point X="3.812" Y="3.938" />
-        <Point X="3.812" Y="3.312" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.06" Y="0.11" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <TypeIdentifier>
-      <HashCode>AQACAAAAUAAAAAAAAAAAAAAQAAAAABABAAAAAAAAAAA=</HashCode>
-      <FileName>Order.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="BillingAddress" />
-      <Property Name="ShippingAddress" />
-    </ShowAsAssociation>
-  </Class>
   <Class Name="Api.Rest.Domain.Address" Collapsed="true">
     <Position X="3" Y="2.75" Width="1.5" />
     <TypeIdentifier>
