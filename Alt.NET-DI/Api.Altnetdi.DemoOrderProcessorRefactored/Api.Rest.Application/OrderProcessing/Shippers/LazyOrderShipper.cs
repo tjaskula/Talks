@@ -1,7 +1,4 @@
-﻿using Api.Rest.Domain;
-using Api.Rest.Domain.Processors;
-
-namespace Api.Rest.Application.OrderProcessing
+﻿namespace Api.Rest.Application.OrderProcessing.Shippers
 {
 	//public class LazyOrderShipper : IOrderShipper
 	//{

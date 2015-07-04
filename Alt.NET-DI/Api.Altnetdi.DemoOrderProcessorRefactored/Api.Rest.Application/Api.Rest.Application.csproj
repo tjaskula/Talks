@@ -44,12 +44,12 @@
   <ItemGroup>
     <Compile Include="MessageDispatcher.cs" />
     <Compile Include="OrderProcessing\AccountsReceivable.cs" />
-    <Compile Include="OrderProcessing\LazyOrderShipper.cs" />
     <Compile Include="OrderProcessing\OrderCollector.cs" />
     <Compile Include="OrderProcessing\OrderProcessor.cs" />
-    <Compile Include="OrderProcessing\OrderShipper.cs" />
     <Compile Include="OrderProcessing\OrderValidator.cs" />
     <Compile Include="OrderProcessing\RateExchange.cs" />
+    <Compile Include="OrderProcessing\Shippers\LazyOrderShipper.cs" />
+    <Compile Include="OrderProcessing\Shippers\OrderShipper.cs" />
     <Compile Include="OrderProcessing\UserContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
