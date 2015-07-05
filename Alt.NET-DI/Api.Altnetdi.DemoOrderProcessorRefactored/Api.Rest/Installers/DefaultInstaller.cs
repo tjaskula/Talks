@@ -1,6 +1,5 @@
 ﻿using System;
 using Api.Rest.Application.OrderProcessing;
-using Api.Rest.Domain.Processors;
 using Api.Rest.Infrastructure;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
