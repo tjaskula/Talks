@@ -77,7 +77,8 @@ namespace Api.Controllers
 
                     if (!account.IsEmailConfirmed)
                     {
-                        account.SetActivationCode(Guid.NewGuid(), DateTime.Now.AddDays(5));
+                        var expirationEndDate = DateTime.Now.AddDays(5);
+                        account.SetActivationCode(Guid.NewGuid(), expirationEndDate);
                         var notifier = new Notifier();
                         notifier.SendActivationNotification(account.Email);
 
@@ -85,7 +86,7 @@ namespace Api.Controllers
                         {
                             Email = account.Email,
                             Code = account.ActivationCode,
-                            ExpirationTime = account.ActivationCodeExpirationTime.Value
+                            ExpirationTime = account.ActivationCodeExpirationTime.GetValueOrDefault(expirationEndDate)
                         });
                     }
 
