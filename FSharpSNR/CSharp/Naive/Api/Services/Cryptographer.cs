@@ -8,7 +8,7 @@ namespace Api.Services
     {
         public string CreateSalt()
         {
-            int size = 64;
+            const int size = 64;
             //Generate a cryptographic random number.
             var rng = new RNGCryptoServiceProvider();
             var buff = new byte[size];
@@ -30,7 +30,7 @@ namespace Api.Services
         {
             var asciiEncoding = new ASCIIEncoding();
             byte[] hashValue, messageBytes = asciiEncoding.GetBytes(valueToHash);
-            SHA1Managed sHhash = new SHA1Managed();
+            var sHhash = new SHA1Managed();
             string hex = "";
 
             hashValue = sHhash.ComputeHash(messageBytes);
