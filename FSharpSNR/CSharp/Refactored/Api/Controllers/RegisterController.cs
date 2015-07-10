@@ -73,14 +73,15 @@ namespace Api.Controllers
 
                 if (_registrationService.ShouldConfirmSubscription(registerRepresentation))
                 {
-                    account.SetActivationCode(Guid.NewGuid(), DateTime.Now.AddDays(5));
+                    var expirationEndDate = DateTime.Now.AddDays(5);
+                    account.SetActivationCode(Guid.NewGuid(), expirationEndDate);
                     _notifier.SendActivationNotification(account.Email);
 
                     response = Created(confirmationUrl, new ConfirmationRepresentation
                                                                 {
                                                                     Email = account.Email,
                                                                     Code = account.ActivationCode,
-                                                                    ExpirationTime = account.ActivationCodeExpirationTime.Value
+                                                                    ExpirationTime = account.ActivationCodeExpirationTime.GetValueOrDefault(expirationEndDate)
                                                                 });
                 }
 
