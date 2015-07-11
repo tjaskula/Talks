@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Api.Attributs;
 
 namespace Api.Models
 {
@@ -13,7 +12,6 @@ namespace Api.Models
         public string Password { get; set; }
 
         [Required]
-        [BooleanRequired]
         public bool Privacy { get; set; }
 
         [Required]
