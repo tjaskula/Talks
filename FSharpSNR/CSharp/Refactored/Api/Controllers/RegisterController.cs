@@ -58,6 +58,9 @@ namespace Api.Controllers
         {
             var confirmationUrl = new Uri(Request.RequestUri, "/confirmation");
 
+            if (registerRepresentation == null)
+                ModelState.AddModelError(string.Empty, "The posted body is not valid.");
+
             if (_validator.Validate(registerRepresentation))
                 ModelState.AddModelError("password", "The password format does not match the policy");
 
