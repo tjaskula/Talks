@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using System.Web.Http.Results;
 using System.Web.Http.Routing;
 using Api.Controllers;
 using Api.Services;
@@ -29,11 +30,11 @@ namespace Api.Tests
             controller.Request = new HttpRequestMessage(HttpMethod.Post, new Uri("http://localhost/api/register"));
             controller.ControllerContext = new HttpControllerContext(new HttpConfiguration(), new HttpRouteData(new HttpRoute("api/register")), controller.Request);
 
-            var result = controller.Register(null);
+            var result = controller.Register(null) as InvalidModelStateResult;
             var response = result.ExecuteAsync(new CancellationToken()).Result;
 
             Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-
+            Assert.AreEqual("The posted body is not valid.", result.ModelState[string.Empty].Errors[0].ErrorMessage);
         }
     }
 }
