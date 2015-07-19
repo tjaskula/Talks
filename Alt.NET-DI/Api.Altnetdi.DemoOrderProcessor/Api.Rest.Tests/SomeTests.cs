@@ -2,7 +2,6 @@
 using Api.Rest.Domain;
 using Api.Rest.Domain.Processors;
 using Api.Rest.Infrastructure;
-using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -19,7 +18,7 @@ namespace Api.Rest.Tests
         {
             IWindsorContainer container = new WindsorContainer();
 
-            var orderProcessor = new OrderProcessorContainer(container);
+            var orderProcessor = new OrderProcessorContainer(container, new UserContext(), new RateExchange(), new AccountsReceivable());
 
             var order = new Order();
 
@@ -30,7 +29,7 @@ namespace Api.Rest.Tests
         public void Order_Processor_Should_Process_Order2()
         {
             ServiceLocator.Current.Register<IOrderValidator, OrderValidator>();
-            var orderProcessor = new OrderProcessorServiceLocator();
+            var orderProcessor = new OrderProcessorServiceLocator(new UserContext(), new RateExchange(), new AccountsReceivable());
 
             var order = new Order();
 
