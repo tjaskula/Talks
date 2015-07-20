@@ -9,21 +9,21 @@ namespace Api.Rest.WebApiInfrastructure
 {
 	public class WindsorDependencyResolver : IDependencyResolver
 	{
-		public static IWindsorContainer _windsorContainer;
+		public static IWindsorContainer WindsorContainer;
 
 		public WindsorDependencyResolver(IWindsorContainer windsorContainer)
 		{
 			if (windsorContainer == null)
 				throw new ArgumentNullException("windsorContainer", "The instance of the container cannot be null.");
 
-			_windsorContainer = windsorContainer;
+			WindsorContainer = windsorContainer;
 		}
 
 		public object GetService(Type serviceType)
 		{
 			try
 			{
-				return _windsorContainer.Resolve(serviceType);
+				return WindsorContainer.Resolve(serviceType);
 			}
 			catch (ComponentNotFoundException)
 			{
@@ -35,7 +35,7 @@ namespace Api.Rest.WebApiInfrastructure
 		{
 			try
 			{
-				return _windsorContainer.ResolveAll(serviceType).Cast<object>();
+				return WindsorContainer.ResolveAll(serviceType).Cast<object>();
 			}
 			catch (ComponentNotFoundException)
 			{
