@@ -21,16 +21,17 @@ namespace Api.Tests
     {
         private RegisterController _controller;
         private Mock<IRepresentationValidator> _representationValidatorMock;
+        private Mock<IRegistrationService> _registrationServiceMock;
 
         [TestInitialize]
         public void SetupController()
         {
             var accountRepositoryMock = new Mock<IAccountRepository>();
             _representationValidatorMock = new Mock<IRepresentationValidator>();
-            var registrationServiceMock = new Mock<IRegistrationService>();
+            _registrationServiceMock = new Mock<IRegistrationService>();
             var notifierMock = new Mock<INotifier>();
 
-            _controller = new RegisterController(accountRepositoryMock.Object, _representationValidatorMock.Object, registrationServiceMock.Object, notifierMock.Object);
+            _controller = new RegisterController(accountRepositoryMock.Object, _representationValidatorMock.Object, _registrationServiceMock.Object, notifierMock.Object);
             _controller.Request = new HttpRequestMessage(HttpMethod.Post, new Uri("http://localhost/api/register"));
             _controller.ControllerContext = new HttpControllerContext(new HttpConfiguration(), new HttpRouteData(new HttpRoute("api/register")), _controller.Request);
         }
@@ -57,6 +58,21 @@ namespace Api.Tests
 
             Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
             Assert.AreEqual("The password format does not match the policy", result.ModelState["password"].Errors[0].ErrorMessage);
+        }
+
+        [TestMethod]
+        public void RegisterShouldReturnConflictIfCannotRegister()
+        {
+            var registerRepresentation = new RegisterRepresentation();
+
+            _representationValidatorMock.Setup(m => m.Validate(registerRepresentation)).Returns(true);
+            Func<string, Account> callback = email => new Account("other@email.com", "pass", "");
+            _registrationServiceMock.Setup(m => m.CanRegister(registerRepresentation.Email, callback)).Returns(false);
+
+            var result = _controller.Register(registerRepresentation) as ConflictResult;
+            var response = result.ExecuteAsync(new CancellationToken()).Result;
+
+            Assert.AreEqual(HttpStatusCode.Conflict, response.StatusCode);
         }
     }
 }
