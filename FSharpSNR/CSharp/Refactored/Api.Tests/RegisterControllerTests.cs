@@ -22,16 +22,17 @@ namespace Api.Tests
         private RegisterController _controller;
         private Mock<IRepresentationValidator> _representationValidatorMock;
         private Mock<IRegistrationService> _registrationServiceMock;
+        private Mock<IAccountRepository> _accountRepositoryMock;
 
         [TestInitialize]
         public void SetupController()
         {
-            var accountRepositoryMock = new Mock<IAccountRepository>();
+            _accountRepositoryMock = new Mock<IAccountRepository>();
             _representationValidatorMock = new Mock<IRepresentationValidator>();
             _registrationServiceMock = new Mock<IRegistrationService>();
             var notifierMock = new Mock<INotifier>();
 
-            _controller = new RegisterController(accountRepositoryMock.Object, _representationValidatorMock.Object, _registrationServiceMock.Object, notifierMock.Object);
+            _controller = new RegisterController(_accountRepositoryMock.Object, _representationValidatorMock.Object, _registrationServiceMock.Object, notifierMock.Object);
             _controller.Request = new HttpRequestMessage(HttpMethod.Post, new Uri("http://localhost/api/register"));
             _controller.ControllerContext = new HttpControllerContext(new HttpConfiguration(), new HttpRouteData(new HttpRoute("api/register")), _controller.Request);
         }
@@ -66,13 +67,29 @@ namespace Api.Tests
             var registerRepresentation = new RegisterRepresentation();
 
             _representationValidatorMock.Setup(m => m.Validate(registerRepresentation)).Returns(true);
-            Func<string, Account> callback = email => new Account("other@email.com", "pass", "");
-            _registrationServiceMock.Setup(m => m.UserExists(registerRepresentation.Email, callback)).Returns(false);
+            _registrationServiceMock.Setup(m => m.UserExists(registerRepresentation.Email, It.IsAny<Func<string, Account>>())).Returns(true);
 
             var result = _controller.Register(registerRepresentation) as ConflictResult;
             var response = result.ExecuteAsync(new CancellationToken()).Result;
 
             Assert.AreEqual(HttpStatusCode.Conflict, response.StatusCode);
+        }
+
+        [TestMethod]
+        public void RegisterShouldReturnOkIfAccountCreated()
+        {
+            var registerRepresentation = new RegisterRepresentation();
+            var account = new Account("other@email.com", "pass", "");
+
+            _representationValidatorMock.Setup(m => m.Validate(registerRepresentation)).Returns(true);
+            _registrationServiceMock.Setup(m => m.UserExists(registerRepresentation.Email, It.IsAny<Func<string, Account>>())).Returns(false);
+            _registrationServiceMock.Setup(m => m.Register(registerRepresentation)).Returns(account);
+
+            var result = _controller.Register(registerRepresentation) as OkResult;
+            var response = result.ExecuteAsync(new CancellationToken()).Result;
+
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            _accountRepositoryMock.Verify(m => m.Save(account), Times.Once());
         }
     }
 }
