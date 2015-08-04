@@ -29,7 +29,7 @@ namespace Api.Services
             return true;
         }
 
-        public bool CanRegister(string accountEmail, Func<string, Account> canRegister)
+        public bool UserExists(string accountEmail, Func<string, Account> canRegister)
         {
             return !canRegister(accountEmail).Equals(Account.Empty);
         }

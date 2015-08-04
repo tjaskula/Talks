@@ -67,7 +67,7 @@ namespace Api.Tests
 
             _representationValidatorMock.Setup(m => m.Validate(registerRepresentation)).Returns(true);
             Func<string, Account> callback = email => new Account("other@email.com", "pass", "");
-            _registrationServiceMock.Setup(m => m.CanRegister(registerRepresentation.Email, callback)).Returns(false);
+            _registrationServiceMock.Setup(m => m.UserExists(registerRepresentation.Email, callback)).Returns(false);
 
             var result = _controller.Register(registerRepresentation) as ConflictResult;
             var response = result.ExecuteAsync(new CancellationToken()).Result;

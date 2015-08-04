@@ -66,7 +66,7 @@ namespace Api.Controllers
 
             if (ModelState.IsValid)
             {
-                if (!_registrationService.CanRegister(registerRepresentation.Email,
+                if (!_registrationService.UserExists(registerRepresentation.Email,
                                                         email => _accountRepository.FindByEmail(email)))
                     return Conflict();
 
