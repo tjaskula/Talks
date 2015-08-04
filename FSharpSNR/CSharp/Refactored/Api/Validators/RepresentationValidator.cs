@@ -9,7 +9,7 @@ namespace Api.Validators
         {
             if (representation == null)
                 return false;
-            return !Regex.IsMatch(representation.Password, @"(?!.*\s)[0-9a-zA-Z!@#\\$%*()_+^&amp;}{:;?.]*$");
+            return Regex.IsMatch(representation.Password, @"(?!.*\s)[0-9a-zA-Z!@#\\$%*()_+^&amp;}{:;?.]*$");
         }
     }
 }

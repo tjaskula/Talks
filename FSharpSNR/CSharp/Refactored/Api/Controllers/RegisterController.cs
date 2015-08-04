@@ -61,7 +61,7 @@ namespace Api.Controllers
             if (registerRepresentation == null)
                 ModelState.AddModelError(string.Empty, "The posted body is not valid.");
 
-            if (_validator.Validate(registerRepresentation))
+            if (!_validator.Validate(registerRepresentation))
                 ModelState.AddModelError("password", "The password format does not match the policy");
 
             if (ModelState.IsValid)
