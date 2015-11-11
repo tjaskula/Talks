@@ -1,1 +1,9 @@
-
+FRAMEWORK: >= NET45
+NUGET
+  remote: https://nuget.org/api/v2
+  specs:
+    FSharp.Core (4.0.0.1)
+    FsPickler (1.5.2)
+    Suave (0.28.1)
+      FSharp.Core (>= 3.1.2.1)
+      FsPickler (>= 1.0.7)
