@@ -22,10 +22,25 @@ let app = OK("Hello ALT.Net Paris World!")
 let cts = startServer app
 stopServer cts
 
-open Suave.Types
+// 2'. Defining routing
 open Suave.Http
+open Suave.Types
 open Suave.Http.RequestErrors
 open Suave.Http.Applicatives
+
+let app_1 =
+  choose
+    [ GET >>= choose
+        [ path "/hello" >>= OK "Hello GET"
+          path "/goodbye" >>= OK "Good bye GET" ]
+      POST >>= choose
+        [ path "/hello" >>= OK "Hello POST"
+          path "/goodbye" >>= OK "Good bye POST" ] ]
+
+let cts1 = startServer app_1
+stopServer cts1
+
+
 
 let app_2 : WebPart =
   choose
