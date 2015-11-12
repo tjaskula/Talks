@@ -1,0 +1,174 @@
+/////////////
+// Introduction
+////////////
+
+- Suave is a lightweight, non-blocking web server
+- The non-blocking I/O model is efficient and suitable for building fast, scalable network applications
+- Suave runs on Linux, OS X and Windows flawlessly
+
+till in its early stages Suave supports:
+- Websocket,
+- HTTPS,
+- multiple TCP/IP bindings,
+- Basic Access Authentication,
+- Keep-Alive and HTTP compression
+
+/////////////
+// Step 1 : Simple Hello World
+////////////
+
+#r "../packages/Suave/lib/net40/Suave.dll"
+
+open Suave
+open Suave.Http.Successful
+open Suave.Web
+
+// 1. The hello world example
+startWebServer defaultConfig (OK "Hello ALT.NET Paris World!")
+
+
+/////////////
+// Step 2 : Server supports TPL to close the connection
+////////////
+
+let startServer app =
+  let config = { defaultConfig with homeFolder = Some __SOURCE_DIRECTORY__ }
+  let _, server = startWebServerAsync config app
+  let cts = new System.Threading.CancellationTokenSource()
+  Async.Start(server, cts.Token)
+  cts
+
+let stopServer (cts : System.Threading.CancellationTokenSource) =
+  cts.Cancel()
+
+// 2. Defining simple application
+let app = OK("Hello ALT.Net Paris World!")
+
+let cts = startServer app
+stopServer cts
+
+
+
+
+
+
+// 2'. Defining routing
+// type SuaveTask<'a> = Async<'a option>
+// type WebPart = HttpContext -> SuaveTask<HttpContext>
+// hence: WebPart = HttpContext -> Async<HttpContext option>
+open Suave.Http
+open Suave.Types
+open Suave.Http.RequestErrors
+open Suave.Http.Applicatives
+
+// val choose : (options : WebPart list) -> WebPart
+
+let app_1 =
+  choose
+    [ GET >>= choose
+        [ path "/hello" >>= OK "Hello GET"
+          path "/goodbye" >>= OK "Good bye GET" ]
+      POST >>= choose
+        [ path "/hello" >>= OK "Hello POST"
+          path "/goodbye" >>= OK "Good bye POST" ] ]
+
+let cts1 = startServer app_1
+stopServer cts1
+
+let greetings q =
+  let f = q |> List.tryFind (fun (k, v) -> k = "name")
+  let v = match f with
+          | Some (k, Some v) -> Some v
+          | _ -> None
+  defaultArg v "World" |> sprintf "Hello %s"
+
+let app_11 : WebPart =
+    path "/hello" >>= choose [
+      GET  >>= request(fun r -> OK <| greetings r.query)
+      POST >>= request(fun r -> OK <| greetings r.form)
+      RequestErrors.NOT_FOUND "Found no handlers" ]
+
+
+let cts11 = startServer app_11
+stopServer cts11
+
+/////////////
+// Step 3 : Routes dynamiques
+////////////
+
+let app_2 : WebPart =
+  choose
+    [ path "/" >>= OK "See <a href=\"/add/40/2\">40 + 2</a>"
+      pathScan "/add/%d/%d" (fun (a,b) -> OK(string (a + b)))
+      NOT_FOUND "Found no handlers" ]
+
+let cts2 = startServer app_2
+stopServer cts2
+
+
+
+
+/////////////
+// Step 3 : Async
+////////////
+
+// ----------------------------------------------------------------------------
+// Understanding Suave WebParts and writing asynchronous servers
+// ----------------------------------------------------------------------------
+
+// Under the cover WebPart is a function 'Context -> Async<Context>'. We
+// can write it directly as a function and use asynchronous operations
+// in the body to avoid blocking
+
+let waitAndReturn time : WebPart = fun ctx -> async {
+  let time = 1000 |> defaultArg time
+  do! Async.Sleep(int time)
+  return! ctx |> OK (sprintf "Waited %d ms" (int time)) }
+
+let app_3 =
+  choose
+    [ pathScan "/wait/%d" (fun time -> waitAndReturn (Some time))
+      path "/wait" >>= (waitAndReturn None)
+      path "/wait/" >>= (waitAndReturn None)
+      NOT_FOUND "Found no handlers" ]
+
+
+
+let cts3 = startServer app_3
+stopServer cts3
+
+
+/////////////
+// Step 4 : News server
+////////////
+
+
+/// Helper function that returns nice HTML page with title & body
+#r "System.Xml.Linq.dll"
+#r "../packages/FSharp.Data/lib/net40/FSharp.Data.dll"
+
+open FSharp.Data
+open System
+open System.IO
+
+
+///// Helper functions
+
+let template = Path.Combine(__SOURCE_DIRECTORY__, "web/index.html")
+let html = File.ReadAllText(template)
+
+/// The main handler for Suave server!
+let app_4 ctx = async {
+  let! data =
+    [ getFeedNews()
+      getGithubEvents()
+      getGithubProjects() ]
+    |> Async.Parallel
+  let html =
+    html.Replace("[FEED-NEWS]", data.[0])
+        .Replace("[GITHUB-NEWS]", data.[1])
+        .Replace("[GITHUB-PROJECTS]", data.[2])
+  return! ctx |> Successful.OK(html) }
+
+let cts4 = startServer app_4
+stopServer cts4
