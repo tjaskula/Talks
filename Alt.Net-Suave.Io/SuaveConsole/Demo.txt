@@ -5,4 +5,23 @@ open Suave.Http.Successful
 open Suave.Web
 
 // 1. The hello world example
+
 startWebServer defaultConfig (OK "Hello ALT.NET Paris World!")
+
+
+
+
+// 2. Defining simple application
+
+type SuaveTask<'a> = Async<'a option>
+type WebPart = HttpContext -> SuaveTask<HttpContext>
+// hence: WebPart = HttpContext -> Async<HttpContext option>
+
+
+let app = OK("Hello ALT.Net Paris World!")
+
+let _, server = startWebServerAsync defaultConfig app
+let cts = new System.Threading.CancellationTokenSource()
+Async.Start(server, cts.Token)
+
+cts.Cancel()
