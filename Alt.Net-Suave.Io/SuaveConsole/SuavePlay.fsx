@@ -1,3 +1,7 @@
+/////////////
+// Step 1 : Simple Hello World
+////////////
+
 #r "../packages/Suave/lib/net40/Suave.dll"
 
 open Suave
@@ -6,6 +10,11 @@ open Suave.Web
 
 // 1. The hello world example
 startWebServer defaultConfig (OK "Hello ALT.NET Paris World!")
+
+
+/////////////
+// Step 2 : Server supports TPL to close the connection
+////////////
 
 let startServer app =
   let config = { defaultConfig with homeFolder = Some __SOURCE_DIRECTORY__ }
@@ -23,11 +32,21 @@ let app = OK("Hello ALT.Net Paris World!")
 let cts = startServer app
 stopServer cts
 
+
+
+
+
+
 // 2'. Defining routing
+// type SuaveTask<'a> = Async<'a option>
+// type WebPart = HttpContext -> SuaveTask<HttpContext>
+// hence: WebPart = HttpContext -> Async<HttpContext option>
 open Suave.Http
 open Suave.Types
 open Suave.Http.RequestErrors
 open Suave.Http.Applicatives
+
+// val choose : (options : WebPart list) -> WebPart
 
 let app_1 =
   choose
@@ -41,7 +60,26 @@ let app_1 =
 let cts1 = startServer app_1
 stopServer cts1
 
+let greetings q =
+  let f = q |> List.tryFind (fun (k, v) -> k = "name")
+  let v = match f with
+          | Some (k, Some v) -> Some v
+          | _ -> None
+  defaultArg v "World" |> sprintf "Hello %s"
 
+let app_11 : WebPart =
+    path "/hello" >>= choose [
+      GET  >>= request(fun r -> OK <| greetings r.query)
+      POST >>= request(fun r -> OK <| greetings r.form)
+      RequestErrors.NOT_FOUND "Found no handlers" ]
+
+
+let cts11 = startServer app_11
+stopServer cts11
+
+/////////////
+// Step 3 : Routes dynamiques
+////////////
 
 let app_2 : WebPart =
   choose
@@ -55,20 +93,46 @@ stopServer cts2
 
 
 
+/////////////
+// Step 3 : Async
+////////////
+
+// ----------------------------------------------------------------------------
+// Understanding Suave WebParts and writing asynchronous servers
+// ----------------------------------------------------------------------------
+
+// Under the cover WebPart is a function 'Context -> Async<Context>'. We
+// can write it directly as a function and use asynchronous operations
+// in the body to avoid blocking
+
+let waitAndReturn time : WebPart = fun ctx -> async {
+  let time = 1000 |> defaultArg time
+  do! Async.Sleep(int time)
+  return! ctx |> OK (sprintf "Waited %d ms" (int time)) }
+
+let app_3 =
+  choose
+    [ pathScan "/wait/%d" (fun time -> waitAndReturn (Some time))
+      path "/wait" >>= (waitAndReturn None)
+      path "/wait/" >>= (waitAndReturn None)
+      NOT_FOUND "Found no handlers" ]
 
 
 
+let cts3 = startServer app_3
+stopServer cts3
 
 
+/////////////
+// Step 4 : News server
+////////////
 
+
+/// Helper function that returns nice HTML page with title & body
 #r "System.Xml.Linq.dll"
 #r "../packages/FSharp.Data/lib/net40/FSharp.Data.dll"
 
 open FSharp.Data
-
-
-// 4. News server
-/// Helper function that returns nice HTML page with title & body
 open System
 open System.IO
 // ----------------------------------------------------------------------------

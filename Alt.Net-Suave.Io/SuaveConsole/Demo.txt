@@ -61,6 +61,8 @@ open Suave.Types
 open Suave.Http.RequestErrors
 open Suave.Http.Applicatives
 
+// val choose : (options : WebPart list) -> WebPart
+
 let app_1 =
   choose
     [ GET >>= choose
@@ -74,7 +76,11 @@ let cts1 = startServer app_1
 stopServer cts1
 
 let greetings q =
-  defaultArg (Option.ofChoice(q ^^ "name")) "World" |> sprintf "Hello %s"
+  let f = q |> List.tryFind (fun (k, v) -> k = "name")
+  let v = match f with
+          | Some (k, Some v) -> Some v
+          | _ -> None
+  defaultArg v "World" |> sprintf "Hello %s"
 
 let app_11 : WebPart =
     path "/hello" >>= choose [
