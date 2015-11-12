@@ -68,7 +68,6 @@ printfn "http://openweathermap.org/img/w/%s.png" paris.Weather.[0].Icon
 
 // 4. News server
 /// Helper function that returns nice HTML page with title & body
-
 open System
 open System.IO
 // ----------------------------------------------------------------------------
