@@ -1,3 +1,22 @@
+/////////////
+// Introduction
+////////////
+
+- Suave is a lightweight, non-blocking web server
+- The non-blocking I/O model is efficient and suitable for building fast, scalable network applications
+- Suave runs on Linux, OS X and Windows flawlessly
+
+till in its early stages Suave supports:
+- Websocket,
+- HTTPS,
+- multiple TCP/IP bindings,
+- Basic Access Authentication,
+- Keep-Alive and HTTP compression
+
+/////////////
+// Step 1 : Simple Hello World
+////////////
+
 #r "../packages/Suave/lib/net40/Suave.dll"
 
 open Suave
@@ -6,6 +25,11 @@ open Suave.Web
 
 // 1. The hello world example
 startWebServer defaultConfig (OK "Hello ALT.NET Paris World!")
+
+
+/////////////
+// Step 2 : Server supports TPL to close the connection
+////////////
 
 let startServer app =
   let config = { defaultConfig with homeFolder = Some __SOURCE_DIRECTORY__ }
@@ -23,7 +47,15 @@ let app = OK("Hello ALT.Net Paris World!")
 let cts = startServer app
 stopServer cts
 
+
+
+
+
+
 // 2'. Defining routing
+// type SuaveTask<'a> = Async<'a option>
+// type WebPart = HttpContext -> SuaveTask<HttpContext>
+// hence: WebPart = HttpContext -> Async<HttpContext option>
 open Suave.Http
 open Suave.Types
 open Suave.Http.RequestErrors
@@ -41,7 +73,22 @@ let app_1 =
 let cts1 = startServer app_1
 stopServer cts1
 
+let greetings q =
+  defaultArg (Option.ofChoice(q ^^ "name")) "World" |> sprintf "Hello %s"
 
+let app_11 : WebPart =
+    path "/hello" >>= choose [
+      GET  >>= request(fun r -> OK <| greetings r.query)
+      POST >>= request(fun r -> OK <| greetings r.form)
+      RequestErrors.NOT_FOUND "Found no handlers" ]
+
+
+let cts11 = startServer app_11
+stopServer cts11
+
+/////////////
+// Step 3 : Routes dynamiques
+////////////
 
 let app_2 : WebPart =
   choose
@@ -52,22 +99,49 @@ let app_2 : WebPart =
 let cts2 = startServer app_2
 stopServer cts2
 
-// 3. Wheater server
+
+
+
+/////////////
+// Step 3 : Async
+////////////
+
+// ----------------------------------------------------------------------------
+// Understanding Suave WebParts and writing asynchronous servers
+// ----------------------------------------------------------------------------
+
+// Under the cover WebPart is a function 'Context -> Async<Context>'. We
+// can write it directly as a function and use asynchronous operations
+// in the body to avoid blocking
+
+let waitAndReturn time : WebPart = fun ctx -> async {
+  let time = 1000 |> defaultArg time
+  do! Async.Sleep(int time)
+  return! ctx |> OK (sprintf "Waited %d ms" (int time)) }
+
+let app_3 =
+  choose
+    [ pathScan "/wait/%d" (fun time -> waitAndReturn (Some time))
+      path "/wait" >>= (waitAndReturn None)
+      path "/wait/" >>= (waitAndReturn None)
+      NOT_FOUND "Found no handlers" ]
+
+
+
+let cts3 = startServer app_3
+stopServer cts3
+
+
+/////////////
+// Step 4 : News server
+////////////
+
+
+/// Helper function that returns nice HTML page with title & body
 #r "System.Xml.Linq.dll"
 #r "../packages/FSharp.Data/lib/net40/FSharp.Data.dll"
 
 open FSharp.Data
-
-type Weather = JsonProvider<"http://api.openweathermap.org/data/2.5/weather?units=metric&q=Paris&APPID=7f62d8ca5abb6dd42bae692fd6cbb11d">
-
-let city = "Paris,France"
-let paris = Weather.Load("http://api.openweathermap.org/data/2.5/weather?&APPID=7f62d8ca5abb6dd42bae692fd6cbb11d&units=metric&q=" + city)
-printfn "%A" paris.Main.Temp
-printfn "http://openweathermap.org/img/w/%s.png" paris.Weather.[0].Icon
-
-
-// 4. News server
-/// Helper function that returns nice HTML page with title & body
 open System
 open System.IO
 // ----------------------------------------------------------------------------
@@ -113,7 +187,7 @@ let getFeedNews () = async {
 // Searching for starred F# projects on GitHub
 // ----------------------------------------------------------------------------
 
-type GithubSearch = JsonProvider<"samples/github-search.json">
+type GithubSearch = JsonProvider<"../samples/github-search.json">
 
 let getGithubProjects () = async {
   let! res =
@@ -135,7 +209,7 @@ let getGithubProjects () = async {
 // Searching for recent GitHub events in 'fsharp' organization
 // ----------------------------------------------------------------------------
 
-type GithubEvents = JsonProvider<"samples/github-events.json">
+type GithubEvents = JsonProvider<"../samples/github-events.json">
 
 let getGithubEvents () = async {
   let! eventsJson =

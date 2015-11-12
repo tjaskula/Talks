@@ -52,18 +52,19 @@ let app_2 : WebPart =
 let cts2 = startServer app_2
 stopServer cts2
 
-// 3. Wheater server
+
+
+
+
+
+
+
+
+
 #r "System.Xml.Linq.dll"
 #r "../packages/FSharp.Data/lib/net40/FSharp.Data.dll"
 
 open FSharp.Data
-
-type Weather = JsonProvider<"http://api.openweathermap.org/data/2.5/weather?units=metric&q=Paris&APPID=7f62d8ca5abb6dd42bae692fd6cbb11d">
-
-let city = "Paris,France"
-let paris = Weather.Load("http://api.openweathermap.org/data/2.5/weather?&APPID=7f62d8ca5abb6dd42bae692fd6cbb11d&units=metric&q=" + city)
-printfn "%A" paris.Main.Temp
-printfn "http://openweathermap.org/img/w/%s.png" paris.Weather.[0].Icon
 
 
 // 4. News server
@@ -113,7 +114,7 @@ let getFeedNews () = async {
 // Searching for starred F# projects on GitHub
 // ----------------------------------------------------------------------------
 
-type GithubSearch = JsonProvider<"samples/github-search.json">
+type GithubSearch = JsonProvider<"../samples/github-search.json">
 
 let getGithubProjects () = async {
   let! res =
@@ -135,7 +136,7 @@ let getGithubProjects () = async {
 // Searching for recent GitHub events in 'fsharp' organization
 // ----------------------------------------------------------------------------
 
-type GithubEvents = JsonProvider<"samples/github-events.json">
+type GithubEvents = JsonProvider<"../samples/github-events.json">
 
 let getGithubEvents () = async {
   let! eventsJson =
