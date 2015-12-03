@@ -16,7 +16,7 @@ namespace ReFuncToring
 
             var result = application.MapViews(query);
 
-            System.Console.WriteLine("Query result", result);
+            System.Console.WriteLine("Query result: {0}", result);
             System.Console.ReadKey();
 
             // Functional 
@@ -31,7 +31,7 @@ namespace ReFuncToring
 
             queryResult = useCasePipline.IsSuccess ? useCasePipline.FromState() : 0.0;
 
-            System.Console.WriteLine("Query result", queryResult);
+            System.Console.WriteLine("Query result: {0}", queryResult);
             System.Console.ReadKey();
         }
     }
