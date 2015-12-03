@@ -34,7 +34,7 @@ namespace ReFuncToring
             return input =>
             {
                 if (string.IsNullOrWhiteSpace(input))
-                    return new Error<string>("Cannot process an empty input");
+                    return new Error<string>("Cannot execute business rules. Input data is broken");
 
                 string blResult = "Business logic executed";
 
@@ -52,7 +52,7 @@ namespace ReFuncToring
             return input =>
             {
                 if (string.IsNullOrWhiteSpace(input))
-                    return new Error<string>("Cannot process an empty input");
+                    return new Error<string>("Cannot map views");
 
                 string mappingResult = "Object Mapped";
 

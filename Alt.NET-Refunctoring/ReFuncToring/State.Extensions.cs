@@ -31,6 +31,16 @@ namespace ReFuncToring
             public string Message { get; private set; }
         }
 
+        public static string FromError<T>(this Result<T> state)
+        {
+            var error = state as Error<T>;
+
+            if (error == null)
+                throw new InvalidOperationException("There is no error.");
+
+            return error.Message;
+        }
+
         public delegate Result<R> StatePiper<T, R>(T input);
 
         public static Result<T> ToState<T>(this T value)
@@ -43,7 +53,7 @@ namespace ReFuncToring
             var newState = state as Success<T>;
 
             if (newState == null)
-                throw new InvalidOperationException("Cannot extract parsed result from error");
+                throw new InvalidOperationException("Cannot extract state from error");
 
             return newState.State;
         }
