@@ -1,4 +1,6 @@
-﻿namespace ReFuncToring
+﻿using ReFuncToring.ObjectOriented;
+
+namespace ReFuncToring
 {
     class Program
     {
@@ -7,6 +9,17 @@
             string query = "Select something";
             double queryResult;
 
+            // Oriented Objet
+            var repository = new Repository();
+            var bl = new BusinessLogic(repository);
+            var application = new ApplicationService(bl);
+
+            var result = application.MapViews(query);
+
+            System.Console.WriteLine("Query result", result);
+            System.Console.ReadKey();
+
+            // Functional 
             var readData = StateMan.GetStateFromData();
             var runRules = StateMan.GetRules();
             var mapViews = StateMan.GetMappers();
