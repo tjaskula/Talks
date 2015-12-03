@@ -5,7 +5,7 @@
         static void Main(string[] args)
         {
             string query = "Select something";
-            string view;
+            double queryResult;
 
             var readData = StateMan.GetStateFromData();
             var runRules = StateMan.GetRules();
@@ -16,9 +16,9 @@
                                  from mappedViews in mapViews(executedRules)
                                  select mappedViews;
 
-            view = useCasePipline.IsSuccess ? useCasePipline.FromState() : "KO";
+            queryResult = useCasePipline.IsSuccess ? useCasePipline.FromState() : 0.0;
 
-            System.Console.WriteLine("The view is executed : {0}", view);
+            System.Console.WriteLine("Query result", queryResult);
             System.Console.ReadKey();
         }
     }

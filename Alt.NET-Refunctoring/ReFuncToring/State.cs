@@ -18,45 +18,45 @@ namespace ReFuncToring
 
                 // execute de query
 
-                var result = "Some result from the database";
+                var result = "30";
 
                 return new Success<string>(result);
             };
         }
 
-        public static StatePiper<string, string> GetRules()
+        public static StatePiper<string, int> GetRules()
         {
             return GetRulesFunc().ToStatePiper();
         }
 
-        public static Func<string, Result<string>> GetRulesFunc()
+        public static Func<string, Result<int>> GetRulesFunc()
         {
             return input =>
             {
                 if (string.IsNullOrWhiteSpace(input))
-                    return new Error<string>("Cannot execute business rules. Input data is broken");
+                    return new Error<int>("Cannot execute business rules. Input data is broken");
 
-                string blResult = "Business logic executed";
+                int blResult = int.Parse(input);
 
-                return new Success<string>(blResult);
+                return new Success<int>(blResult);
             };
         }
 
-        public static StatePiper<string, string> GetMappers()
+        public static StatePiper<int, double> GetMappers()
         {
             return GetMappersFunc().ToStatePiper();
         }
 
-        public static Func<string, Result<string>> GetMappersFunc()
+        public static Func<int, Result<double>> GetMappersFunc()
         {
             return input =>
             {
-                if (string.IsNullOrWhiteSpace(input))
-                    return new Error<string>("Cannot map views");
+                if (input < 0)
+                    return new Error<double>("Cannot map views");
 
-                string mappingResult = "Object Mapped";
+                double mappingResult = input;
 
-                return new Success<string>(mappingResult);
+                return new Success<double>(mappingResult);
             };
         }
     }
