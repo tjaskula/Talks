@@ -11,7 +11,7 @@ namespace ReFuncToring
             string query = "Select something";
 
             Func<string, StateMan.Result<string>> readData = q => new StateMan.Success<string>(null);
-            Func<string, StateMan.Result<string>> mapViews = e => new StateMan.Success<string>(e);
+            Func<int, StateMan.Result<double>> mapViews = e => new StateMan.Success<double>(e);
             var runRules = StateMan.GetRules();
 
             var useCasePipline = from data in readData(query)
