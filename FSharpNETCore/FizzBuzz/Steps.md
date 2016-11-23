@@ -6,7 +6,7 @@ dotnet build
 dotnet run
 dotnet publish
 
-dotnet /Users/tjaskula/Documents/GitHub/Talks/FSharpNETCore/bin/Debug/netcoreapp1.0/publish/FSharpNETCore.dll
+dotnet run /Users/tjaskula/Documents/GitHub/Talks/FSharpNETCore/bin/Debug/netcoreapp1.0/publish/FSharpNETCore.dll
 
 // add a new file FizzBuzz.fs, don't forget to update project.json file and recompile
 module FizzBuzz
