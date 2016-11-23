@@ -30,28 +30,83 @@ mkdir FizzBuzz.tests
 dotnet new --lang fsharp
 
 // edit project.json and add reference to FizzBuzz project
-"frameworks": {
+{
+  "version": "1.0.0-*",
+  "testRunner": "xunit",
+  "buildOptions": {
+    "debugType": "portable",
+    "emitEntryPoint": true,
+    "compilerName": "fsc",
+    "compile": {
+      "includeFiles": [
+        "FizzBuzzTests.fs"
+      ]
+    }
+  },
+  "dependencies": {
+    "Microsoft.FSharp.Core.netcore": "1.0.0-alpha-*",
+     "xunit":"2.1.0",
+     "dotnet-test-xunit": "2.2.0-preview2-build1029",
+     "FizzBuzz": {
+        "target": "project"
+     }
+  },
+  "frameworks": {
     "netcoreapp1.0": {
       "dependencies": {
         "Microsoft.NETCore.App": {
           "type": "platform",
           "version": "1.0.0"
-        },
-        "FizzBuzz":{
-           "target": "project"
-         }
+        }
       },
-      "imports": [
-        "portable-net45+win8",
-        "dnxcore50"
-      ]
+      "imports": "dnxcore50"
     }
+  },
+  "tools": {
+    "dotnet-compile-fsc": {
+      "version": "1.0.0-preview2-*",
+      "imports": "dnxcore50"
+    }
+  }
+}
 
-// add xunit to project.json
-// to dependencies section
-"System.Runtime.Serialization.Primitives": "4.1.1",
-    "xunit": "2.1.0",
-    "dotnet-test-xunit": "1.0.0-rc2-build10015"
+// add FizzBuzzTests.fs
 
-// main section
-"testRunner": "xunit",
+namespace FizzBuzz.Tests
+
+open System
+open Xunit
+open FizzBuzz
+
+module FizzBuzzTests =
+
+    [<Fact>]
+    let ``should print Fizz when divisible by 3``() = 
+        Assert.Equal("Fizz", fizzBuzz 9)
+
+    [<Fact>]
+    let ``should print Buzz when divisible by 5``() = 
+        Assert.Equal("Buzz", fizzBuzz 10)
+
+    [<Fact>]
+    let ``should print FizzBuzz when divisible by 3 and 5``() = 
+        Assert.Equal("FizzBuzz", fizzBuzz 15)
+
+    [<Fact>]
+    let ``should print number otherwise``() = 
+        Assert.Equal("11", fizzBuzz 11)
+
+
+
+dotnet restore
+dotnet build
+dotnet test
+
+
+// pack
+go to FizzBuzz folder
+dotnet pack
+
+
+// some tips
+dotnet --version
