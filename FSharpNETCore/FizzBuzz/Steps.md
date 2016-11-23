@@ -110,3 +110,6 @@ dotnet pack
 
 // some tips
 dotnet --version
+dotnet --info
+which dotnet
+dotnet -v run
