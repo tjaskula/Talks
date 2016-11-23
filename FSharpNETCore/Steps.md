@@ -1,0 +1,1 @@
+dotnet new --lang fsharp
