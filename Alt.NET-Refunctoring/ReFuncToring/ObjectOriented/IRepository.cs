@@ -1,5 +1,4 @@
-﻿using System;
-namespace ReFuncToring.ObjectOriented
+﻿namespace ReFuncToring.ObjectOriented
 {
     public interface IRepository
     {
