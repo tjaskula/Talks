@@ -7,7 +7,7 @@ namespace ReFuncToring
         static void Main(string[] args)
         {
             string query = "Select something";
-            double queryResult;
+            //double queryResult;
 
             // Oriented Objet
             var repository = new Repository();
@@ -20,18 +20,18 @@ namespace ReFuncToring
             System.Console.ReadKey();
 
             // Functional 
-            var readData = StateMan.GetStateFromData();
-            var runRules = StateMan.GetRules();
-            var mapViews = StateMan.GetMappers();
+            //var readData = StateMan.GetStateFromData();
+            //var runRules = StateMan.GetRules();
+            //var mapViews = StateMan.GetMappers();
 
-            var useCasePipline = from data in readData(query)
-                                 from executedRules in runRules(data)
-                                 from mappedViews in mapViews(executedRules)
-                                 select mappedViews;
+            //var useCasePipline = from data in readData(query)
+            //                     from executedRules in runRules(data)
+            //                     from mappedViews in mapViews(executedRules)
+            //                     select mappedViews;
 
-            queryResult = useCasePipline.IsSuccess ? useCasePipline.FromState() : 0.0;
+            //queryResult = useCasePipline.IsSuccess ? useCasePipline.FromState() : 0.0;
 
-            System.Console.WriteLine("Query result: {0}", queryResult);
+            //System.Console.WriteLine("Query result: {0}", queryResult);
             System.Console.ReadKey();
         }
     }
