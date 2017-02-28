@@ -4,60 +4,44 @@ namespace ReFuncToring
 {
     public static class StateMan
     {
-    //    public static Result<string, string> GetStateFromData()
-    //    {
-    //        return GetRepoStateFunc().ToStatePiper();
-    //    }
+        public static Func<string, Result<string, string>> GetRepoStateFunc()
+        {
+            return query =>
+            {
+                if (string.IsNullOrWhiteSpace(query))
+                    return Result.Error<string, string>("Cannot process an empty input");
 
-    //    public static Func<string, Result<string, string>> GetRepoStateFunc()
-    //    {
-    //        return query =>
-    //        {
-    //            if (string.IsNullOrWhiteSpace(query))
-    //                return new Error<string>("Cannot process an empty input");
+                // execute de query
+                var result = "30";
 
-    //            // execute de query
+                return Result.Success<string, string>(result);
+            };
+        }
 
-    //            var result = "30";
+        public static Func<string, Result<string, int>> GetRulesFunc()
+        {
+            return input =>
+            {
+                if (string.IsNullOrWhiteSpace(input))
+                    return Result.Error<string, int>("Cannot execute business rules. Input data is broken");
 
-    //            return new Success<string>(result);
-    //        };
-    //    }
+                int blResult = int.Parse(input);
 
-    //    public static StatePiper<string, int> GetRules()
-    //    {
-    //        return GetRulesFunc().ToStatePiper();
-    //    }
+                return Result.Success<string, int>(blResult);
+            };
+        }
 
-    //    public static Func<string, Result<int>> GetRulesFunc()
-    //    {
-    //        return input =>
-    //        {
-    //            if (string.IsNullOrWhiteSpace(input))
-    //                return new Error<int>("Cannot execute business rules. Input data is broken");
+        public static Func<int, Result<string, double>> GetMappersFunc()
+        {
+            return input =>
+            {
+                if (input < 0)
+                    return Result.Error<string, double>("Cannot map views");
 
-    //            int blResult = int.Parse(input);
+                double mappingResult = input;
 
-    //            return new Success<int>(blResult);
-    //        };
-    //    }
-
-    //    public static StatePiper<int, double> GetMappers()
-    //    {
-    //        return GetMappersFunc().ToStatePiper();
-    //    }
-
-    //    public static Func<int, Result<double>> GetMappersFunc()
-    //    {
-    //        return input =>
-    //        {
-    //            if (input < 0)
-    //                return new Error<double>("Cannot map views");
-
-    //            double mappingResult = input;
-
-    //            return new Success<double>(mappingResult);
-    //        };
-    //    }
+                return Result.Success<string, double>(mappingResult);
+            };
+        }
     }
 }

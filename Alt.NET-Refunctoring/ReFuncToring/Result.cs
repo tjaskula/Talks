@@ -49,5 +49,10 @@
         }
 
         public bool IsSuccess { get; private set; }
+
+        public bool IsError
+        {
+            get { return !IsSuccess; }
+        }
     }
 }

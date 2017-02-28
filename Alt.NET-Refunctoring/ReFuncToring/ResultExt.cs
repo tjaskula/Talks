@@ -17,11 +17,11 @@ namespace ReFuncToring
         {
             var r1 = self.Select(s => collectionSelector(s).Select(col => projector(s, col)));
 
-            if (!self.IsSuccess)
+            if (self.IsError)
                 return Result.Error<TSource, TResult>(self.Error);
 
             var res = collectionSelector(self.Success);
-            if (!res.IsSuccess)
+            if (res.IsError)
                 return Result.Error<TSource, TResult>(self.Error);
 
             var r2 = Result.Success<TSource, TResult>(projector(self.Success, res.Success));

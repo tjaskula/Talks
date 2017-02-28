@@ -20,18 +20,18 @@ namespace ReFuncToring
             System.Console.ReadKey();
 
             // Functional 
-            //var readData = StateMan.GetStateFromData();
-            //var runRules = StateMan.GetRules();
-            //var mapViews = StateMan.GetMappers();
+            var readData = StateMan.GetRepoStateFunc();
+            var runRules = StateMan.GetRulesFunc();
+            var mapViews = StateMan.GetMappersFunc();
 
-            //var useCasePipline = from data in readData(query)
-            //                     from executedRules in runRules(data)
-            //                     from mappedViews in mapViews(executedRules)
-            //                     select mappedViews;
+            var useCasePipline = from data in readData(query)
+                                 from executedRules in runRules(data)
+                                 from mappedViews in mapViews(executedRules)
+                                 select mappedViews;
 
-            //queryResult = useCasePipline.IsSuccess ? useCasePipline.FromState() : 0.0;
+            var queryResult = useCasePipline.IsSuccess ? useCasePipline.Success.ToString() : useCasePipline.Error;
 
-            //System.Console.WriteLine("Query result: {0}", queryResult);
+            System.Console.WriteLine("Query result: {0}", queryResult);
             System.Console.ReadKey();
         }
     }
