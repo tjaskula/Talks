@@ -17,7 +17,7 @@ namespace ReFuncToring
             var result = application.MapViews(query);
 
             System.Console.WriteLine("Query result: {0}", result);
-            //System.Console.ReadKey();
+            System.Console.ReadKey();
 
             // Functional 
             var readData = StateMan.GetRepoStateFunc();
