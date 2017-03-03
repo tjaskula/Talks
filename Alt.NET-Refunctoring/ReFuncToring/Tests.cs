@@ -8,19 +8,19 @@ namespace ReFuncToring
         [Fact]
         public void ShouldFailBusinessLogicWhenDataIsCorrupted()
         {
-            //string query = "Select something";
+            string query = "Select something";
 
-            //Func<string, StateMan.Result<string>> readData = q => new StateMan.Success<string>(null);
-            //Func<int, StateMan.Result<double>> mapViews = e => new StateMan.Success<double>(e);
-            //var runRules = StateMan.GetRules();
+            Func<string, Result<string, string>> readData = q => Result.Success<string, string>(null);
+            Func<int, Result<string, double>> mapViews = e => Result.Success<string, double>(e);
+            var runRules = StateMan.GetRulesFunc();
 
-            //var useCasePipline = from data in readData(query)
-            //                     from executedRules in runRules(data)
-            //                     from mappedViews in mapViews(executedRules)
-            //                     select mappedViews;
+            var useCasePipline = from data in readData(query)
+                                 from executedRules in runRules(data)
+                                 from mappedViews in mapViews(executedRules)
+                                 select mappedViews;
 
-            //Assert.False(useCasePipline.IsSuccess);
-            //Assert.Equal("Cannot execute business rules. Input data is broken", useCasePipline.FromError());
+            Assert.False(useCasePipline.IsSuccess);
+            Assert.Equal("Cannot execute business rules. Input data is broken", useCasePipline.Error);
         }
     }
 }
