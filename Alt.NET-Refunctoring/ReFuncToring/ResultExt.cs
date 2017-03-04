@@ -15,9 +15,7 @@ namespace ReFuncToring
             Func<TResultTemp, Result<TSource, TCollection>> collectionSelector, 
             Func<TResultTemp, TCollection, TResult> projector)
         {
-            var result = self.Select(s => collectionSelector(s).Select(col => projector(s, col)));
-            if (result.IsSuccess) return result.Success;
-            return Result.Error<TSource, TResult>(result.Error);
+            return self.Select(s => collectionSelector(s).Select(col => projector(s, col)).Success);
         }
     }
 }
