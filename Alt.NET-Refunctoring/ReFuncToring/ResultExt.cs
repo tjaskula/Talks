@@ -17,5 +17,12 @@ namespace ReFuncToring
         {
             return self.Select(s => collectionSelector(s).Select(col => projector(s, col)).Success);
         }
+
+        public static Result<TSource, TResult> SelectMany<TSource, TResultTemp, TResult>(
+            this Result<TSource, TResultTemp> self,
+            Func<TResultTemp, Result<TSource, TResult>> collectionSelector)
+        {
+            return self.SelectMany(collectionSelector, (request, validated) => validated);
+        }
     }
 }
