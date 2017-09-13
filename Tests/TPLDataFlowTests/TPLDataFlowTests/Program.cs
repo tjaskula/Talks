@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Concurrency;
-using System.Reactive.Disposables;
+//using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reflection;
@@ -35,7 +35,7 @@ namespace TPLDataFlowTests
 
         public void Handle(SubEvent1 @event)
         {
-            if (@event.I > 5) throw new Exception("Baddddd");
+            //if (@event.I > 5) throw new Exception("Baddddd");
             Thread.Sleep(_timeout);
             Trace.TraceInformation($"Handler {_id}. Handling event : {@event.I}. Thread: {Thread.CurrentThread.ManagedThreadId}");
         }
@@ -138,10 +138,10 @@ namespace TPLDataFlowTests
 
             //var unprocessedMessages = intBufferTargets.SelectMany(t =>
             //{
-            //                                IList<int> unprocessed;
-            //                                ((IReceivableSourceBlock<int>) t).TryReceiveAll(out unprocessed);
-            //                                return unprocessed ?? new List<int>();
-            //                            });
+            //    IList<int> unprocessed;
+            //    ((IReceivableSourceBlock<int>)t).TryReceiveAll(out unprocessed);
+            //    return unprocessed ?? new List<int>();
+            //});
 
             //foreach (var unprocessedMessage in unprocessedMessages)
             //{
@@ -154,6 +154,18 @@ namespace TPLDataFlowTests
 
             //Trace.TraceInformation("Finishing the whole pipline");
 
+
+            var eqDispatcher = new EventQueueDispatcher();
+            eqDispatcher.Subscribe(new SubEvent1Handler(1, 100));
+            eqDispatcher.Subscribe(new SubEvent2Handler(1, 200));
+
+            for (int i = 1; i <= 10; i++)
+            {
+                eqDispatcher.Publish(new SubEvent1(i));
+                eqDispatcher.Publish(new SubEvent2(i));
+            }
+
+            Trace.TraceInformation("Finished publishing");
 
             ////////////////
             /// RX       ///
@@ -210,7 +222,7 @@ namespace TPLDataFlowTests
             //catch
             //{ }
 
-            //Console.ReadLine();
+            Console.ReadLine();
         }
 
         //private static void CompleteWhenAll(IDataflowBlock target, params IDataflowBlock[] sources)

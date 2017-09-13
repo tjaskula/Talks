@@ -1,16 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TPLDataFlowTests
 {
     public class EventQueueDispatcher
     {
-        public void RegisterHandler(Type eventType, Action<Event> handler)
+        private readonly Subscriber _subscriber;
+
+        public EventQueueDispatcher()
         {
-            
+            _subscriber = new Subscriber();
+            AddResolver(new CompositeSubscription());
+        }
+
+        public void Subscribe(object subscriber)
+        {
+            _subscriber.Subscribe(subscriber);
+        }
+
+        public void Publish(object message)
+        {
+            var subs = _subscriber.GetSubscriptionsFor(message);
+            foreach (var sub in subs)
+                sub.Push(message);
+        }
+
+        private void AddResolver(ISubscriptionResolver resolver)
+        {
+            _subscriber.AddResolver(resolver);
         }
     }
 }
