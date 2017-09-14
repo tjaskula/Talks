@@ -196,7 +196,7 @@ namespace TPLDataFlowTests
             ///// 
 
             //var bus = BusSetup.StartWith<Conservative>()
-            //    .Apply<FlexibleSubscribeAdapter>(a => a.RegisterMethods("Handle"))
+            //    .Apply<FlexibleSubscribePolicy>(a => a.RegisterMethods("Handle"))
             //    .Construct();
 
             //bus.Subscribe(new SubEvent1Handler(1, 10000));

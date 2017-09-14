@@ -14,10 +14,10 @@ namespace TPLDataFlowTests
 
         public void Subscribe(object subscriber)
         {
-            var svc = new FlexibleSubscribeAdapter().RegisterMethods("Handle");
+            var svc = new FlexibleSubscribePolicy().RegisterMethods("Handle");
             if (svc == null)
                 throw new InvalidOperationException(
-                    "No subscription adapter rules were formulated. Apply the FlexibleSubscribeAdapter to state rules how some instance may be wired up into MemBus.");
+                    "No subscription policy was choosen.");
             svc.WireUpSubscriber(_resolvers, subscriber);
         }
 

@@ -10,7 +10,7 @@ namespace TPLDataFlowTests
         void Subscribe<T>(Action<T> subscription);
 
         /// <summary>
-        /// Subscribe any methods defined on the subscriber. You need to have added and configured the <see cref="FlexibleSubscribeAdapter"/>
+        /// Subscribe any methods defined on the subscriber. You need to have added and configured the <see cref="FlexibleSubscribePolicy"/>
         /// for this to work
         /// </summary>
         void Subscribe(object subscriber);

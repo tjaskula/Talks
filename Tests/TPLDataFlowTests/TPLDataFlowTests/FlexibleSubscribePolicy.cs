@@ -4,17 +4,17 @@ using System.Reflection;
 
 namespace TPLDataFlowTests
 {
-    public class FlexibleSubscribeAdapter
+    public class FlexibleSubscribePolicy
     {
         private readonly MessageEndpointsBuilder _builder = new MessageEndpointsBuilder();
 
-        public FlexibleSubscribeAdapter RegisterMethods(string methodName)
+        public FlexibleSubscribePolicy RegisterMethods(string methodName)
         {
             AddToScanners(new MethodScanner(methodName));
             return this;
         }
 
-        public FlexibleSubscribeAdapter RegisterMethods(Func<MethodInfo, bool> methodSelector)
+        public FlexibleSubscribePolicy RegisterMethods(Func<MethodInfo, bool> methodSelector)
         {
             AddToScanners(new MethodScanner(methodSelector));
             return this;

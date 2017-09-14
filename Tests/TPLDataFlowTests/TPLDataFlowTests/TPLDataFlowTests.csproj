@@ -65,7 +65,7 @@
     <Compile Include="CompositeSubscription.cs" />
     <Compile Include="EventQueueDispatcher.cs" />
     <Compile Include="EventQueuePipline.cs" />
-    <Compile Include="FlexibleSubscribeAdapter.cs" />
+    <Compile Include="FlexibleSubscribePolicy.cs" />
     <Compile Include="IMethodInfoScanner.cs" />
     <Compile Include="ISubscriber.cs" />
     <Compile Include="ISubscription.cs" />
