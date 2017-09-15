@@ -5,6 +5,7 @@ namespace TPLDataFlowTests
     public class EventQueueDispatcher
     {
         private readonly Subscriber _subscriber;
+        private readonly IServices _services = new StandardServices();
 
         public EventQueueDispatcher()
         {
