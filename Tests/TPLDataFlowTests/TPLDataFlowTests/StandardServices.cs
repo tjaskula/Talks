@@ -12,7 +12,7 @@ namespace TPLDataFlowTests
     {
     }
 
-    public abstract class AbstractServices<TARGET> : IServices<TARGET>, IDisposable, IEnumerable<object> where TARGET : AbstractServices<TARGET>
+    public abstract class AbstractServices<TTarget> : IServices<TTarget>, IDisposable, IEnumerable<object> where TTarget : AbstractServices<TTarget>
     {
 
         /// <summary>
@@ -27,34 +27,34 @@ namespace TPLDataFlowTests
         /// </summary>
         /// <typeparam name="T">The type of the extension</typeparam>
         /// <param name="extension">The extension which must implement the <see cref="IServicesExtension{T}"/> interface</param>
-        public virtual void AddExtension<T>(T extension) where T : IServicesExtension<TARGET>
+        public virtual void AddExtension<T>(T extension) where T : IServicesExtension<TTarget>
         {
             if (_attachedObjects.ContainsKey(typeof(T)))
                 throw new ArgumentException(string.Format("An object of Type {0} is already attached to this context",
                     typeof(T).Name));
             _attachedObjects.Add(typeof(T), (AttachedObject<T>) extension);
-            extension.Attach((TARGET) this);
+            extension.Attach((TTarget) this);
         }
 
         /// <summary>
         /// Remove an extension
         /// </summary>
         /// <typeparam name="T">The type of the extension to remove</typeparam>
-        public virtual void RemoveExtension<T>() where T : IServicesExtension<TARGET>
+        public virtual void RemoveExtension<T>() where T : IServicesExtension<TTarget>
         {
             if (!_attachedObjects.ContainsKey(typeof(T))) return;
-            Remove((IServicesExtension<TARGET>) _attachedObjects[typeof(T)].TheObject);
+            Remove((IServicesExtension<TTarget>) _attachedObjects[typeof(T)].TheObject);
         }
 
         /// <summary>
         /// Remove a specific extension
         /// </summary>
         /// <param name="extension">The extension instance to remove</param>
-        public virtual void Remove(IServicesExtension<TARGET> extension)
+        public virtual void Remove(IServicesExtension<TTarget> extension)
         {
             var ext = _attachedObjects.Values.Where(e => e.TheObject == extension).FirstOrDefault();
             if (ext == null) return;
-            ((IServicesExtension<TARGET>) ext.TheObject).Remove((TARGET) this);
+            ((IServicesExtension<TTarget>) ext.TheObject).Remove((TTarget) this);
             _attachedObjects.Remove(ext.TheObject.GetType());
         }
 
@@ -98,9 +98,9 @@ namespace TPLDataFlowTests
         protected void ForceAdd<T>(T @object)
         {
             _attachedObjects[typeof(T)] = (AttachedObject<T>) @object;
-            if ((@object != null) && @object.GetType().ImplementsInterface<IServicesExtension<TARGET>>())
+            if ((@object != null) && @object.GetType().ImplementsInterface<IServicesExtension<TTarget>>())
             {
-                ((IServicesExtension<TARGET>) @object).Attach((TARGET) this);
+                ((IServicesExtension<TTarget>) @object).Attach((TTarget) this);
             }
         }
 
@@ -110,13 +110,13 @@ namespace TPLDataFlowTests
         /// <typeparam name="T">The type of the object to be added</typeparam>
         /// <param name="object">The instance</param>
         /// <returns>This instance</returns>
-        public virtual TARGET Replace<T>(T @object)
+        public virtual TTarget Replace<T>(T @object)
         {
             if (@object != null)
             {
                 ForceAdd(@object);
             }
-            return (TARGET) this;
+            return (TTarget) this;
         }
 
         /// <summary>
@@ -134,15 +134,15 @@ namespace TPLDataFlowTests
         /// however you can modify the copy in any way you want.
         /// </summary>
         /// <returns>A new instance in the same state as the original context</returns>
-        public virtual TARGET CloneContext()
+        public virtual TTarget CloneContext()
         {
-            var obj = (TARGET) MemberwiseClone();
+            var obj = (TTarget) MemberwiseClone();
             obj._attachedObjects = new Dictionary<Type, IAttachedObject>(_attachedObjects);
             return obj;
         }
 
         /// <summary>
-        /// <see cref="IServices{TARGET}.WhatDoIHave()"/>
+        /// <see cref="IServices{TTarget}.WhatDoIHave()"/>
         /// </summary>
         public string WhatDoIHave
         {
@@ -165,9 +165,9 @@ namespace TPLDataFlowTests
             var disposedObjects = new HashSet<object>();
             foreach (IAttachedObject o in _attachedObjects.Values)
             {
-                var extension = o.TheObject as IServicesExtension<TARGET>;
+                var extension = o.TheObject as IServicesExtension<TTarget>;
                 if (extension != null)
-                    extension.Remove((TARGET) this);
+                    extension.Remove((TTarget) this);
                 var disp = o.TheObject as IDisposable;
                 if (disp == null || !o.CanBeDisposed || disposedObjects.Contains(disp)) continue;
                 disp.Dispose();

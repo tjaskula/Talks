@@ -8,10 +8,8 @@
         string WhatDoIHave { get; }
     }
 
-    public interface IServices<TTarget> : IServices
+    public interface IServices<out TTarget> : IServices
     {
-        void AddExtension<T>(T extension) where T : IServicesExtension<TTarget>;
-        void RemoveExtension<T>() where T : IServicesExtension<TTarget>;
         TTarget Replace<T>(T @object);
         TTarget CloneContext();
     }
