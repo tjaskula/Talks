@@ -64,11 +64,13 @@
     <Compile Include="AbstractServices.cs" />
     <Compile Include="CompositeResolver.cs" />
     <Compile Include="CompositeSubscription.cs" />
+    <Compile Include="DispatcherSetup.cs" />
     <Compile Include="EventQueueDispatcher.cs" />
     <Compile Include="EventQueuePipline.cs" />
     <Compile Include="FlexibleSubscribePolicy.cs" />
     <Compile Include="IMethodInfoScanner.cs" />
     <Compile Include="IServices.cs" />
+    <Compile Include="ISubscribePolicy.cs" />
     <Compile Include="ISubscriber.cs" />
     <Compile Include="ISubscription.cs" />
     <Compile Include="ISubscriptionResolver.cs" />
