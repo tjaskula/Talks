@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TPLDataFlowTests
+﻿namespace TPLDataFlowTests
 {
     public class EventQueueDispatcher
     {

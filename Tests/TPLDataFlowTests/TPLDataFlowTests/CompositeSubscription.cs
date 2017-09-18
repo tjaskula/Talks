@@ -43,7 +43,6 @@ namespace TPLDataFlowTests
             return Snapshot.Where(s => s.Handles(message.GetType())).ToArray();
         }
 
-        /// <inheritdoc/>
         public bool Add(ISubscription subscription)
         {
             if (subscription == null)
@@ -59,7 +58,6 @@ namespace TPLDataFlowTests
                 _rwLock.ExitWriteLock();
             }
         }
-
 
         IEnumerator IEnumerable.GetEnumerator()
         {
