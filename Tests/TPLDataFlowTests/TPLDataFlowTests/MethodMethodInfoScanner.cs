@@ -5,16 +5,16 @@ using System.Reflection;
 
 namespace TPLDataFlowTests
 {
-    internal class MethodScanner : IMethodInfoScanner
+    internal class MethodMethodInfoScanner : IMethodInfoScanner
     {
         private readonly Func<MethodInfo, bool> _methodSelector;
 
-        public MethodScanner(Func<MethodInfo, bool> methodSelector)
+        public MethodMethodInfoScanner(Func<MethodInfo, bool> methodSelector)
         {
             _methodSelector = methodSelector;
         }
 
-        public MethodScanner(string methodName)
+        public MethodMethodInfoScanner(string methodName)
             : this(mi => mi.Name == methodName)
         {
         }

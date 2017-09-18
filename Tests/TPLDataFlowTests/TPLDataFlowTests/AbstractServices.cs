@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace TPLDataFlowTests
 {
-    public abstract class AbstractServices<TTarget> : IDisposable, IEnumerable<object> where TTarget : AbstractServices<TTarget>
+    public abstract class AbstractServices<TTarget> : IServices, IDisposable, IEnumerable<object> where TTarget : AbstractServices<TTarget>
     {
         private Dictionary<Type, IAttachedObject> _attachedObjects = new Dictionary<Type, IAttachedObject>();
 

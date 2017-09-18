@@ -10,13 +10,13 @@ namespace TPLDataFlowTests
 
         public FlexibleSubscribePolicy RegisterMethods(string methodName)
         {
-            AddToScanners(new MethodScanner(methodName));
+            AddToScanners(new MethodMethodInfoScanner(methodName));
             return this;
         }
 
         public FlexibleSubscribePolicy RegisterMethods(Func<MethodInfo, bool> methodSelector)
         {
-            AddToScanners(new MethodScanner(methodSelector));
+            AddToScanners(new MethodMethodInfoScanner(methodSelector));
             return this;
         }
 

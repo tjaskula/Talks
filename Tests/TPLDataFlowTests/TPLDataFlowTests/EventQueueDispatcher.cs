@@ -9,7 +9,7 @@ namespace TPLDataFlowTests
 
         public EventQueueDispatcher()
         {
-            _subscriber = new Subscriber();
+            _subscriber = new Subscriber(_services);
             AddResolver(new CompositeSubscription());
         }
 

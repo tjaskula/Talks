@@ -5,7 +5,13 @@ namespace TPLDataFlowTests
 {
     public class Subscriber : ISubscriber, IDisposable, ISubscriptionResolver
     {
+        private readonly IServices _services;
         private readonly CompositeResolver _resolvers = new CompositeResolver();
+
+        public Subscriber(IServices services)
+        {
+            _services = services;
+        }
 
         public void Subscribe<T>(Action<T> subscription)
         {

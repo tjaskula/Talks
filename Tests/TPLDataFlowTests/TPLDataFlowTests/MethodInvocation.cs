@@ -6,9 +6,6 @@ namespace TPLDataFlowTests
     {
         private readonly Action<T> _action;
 
-        /// <summary>
-        /// ctor for any delegate. Can fail with <see cref="InvalidCastException"/>
-        /// </summary>
         public MethodInvocation(Delegate action) : this((Action<T>)action)
         {
         }

@@ -10,9 +10,9 @@ namespace TPLDataFlowTests
     {
         private readonly List<IMethodInfoScanner> _scanner = new List<IMethodInfoScanner>();
 
-        public void AddScanner(IMethodInfoScanner scanner)
+        public void AddScanner(IMethodInfoScanner methodInfoScanner)
         {
-            _scanner.Add(scanner);
+            _scanner.Add(methodInfoScanner);
         }
 
         public IEnumerable<ISubscription> BuildSubscriptions(object targetToAdapt)
