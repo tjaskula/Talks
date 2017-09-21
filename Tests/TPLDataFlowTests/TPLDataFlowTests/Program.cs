@@ -87,72 +87,72 @@ namespace TPLDataFlowTests
     {
         static void Main(string[] args)
         {
-            //var intActionTargets = new List<ITargetBlock<int>>();
-            //var doubleActionTargets = new List<ITargetBlock<double>>();
-            //var intBufferTargets = new List<ISourceBlock<int>>();
-            //var doubleBufferTargets = new List<ISourceBlock<double>>();
+            var intActionTargets = new List<ITargetBlock<int>>();
+            var doubleActionTargets = new List<ITargetBlock<double>>();
+            var intBufferTargets = new List<ISourceBlock<int>>();
+            var doubleBufferTargets = new List<ISourceBlock<double>>();
 
-            //for (var i = 1; i <= 2; i++)
-            //{
-            //    var temp = i;
-            //    var buffer = CreateBuffer<int>();
-            //    intActionTargets.Add(CreateAction(buffer, async item =>
-            //                    {
-            //                        await Task.Delay(500);
-            //                        Trace.TraceInformation($"Target: {temp} | Type: {typeof(int).Name} | Thread: {Thread.CurrentThread.ManagedThreadId} | Message: {item}");
-            //                        if (item >= 5) throw new Exception($"Something bad happened in action {temp}");
-            //                    }));
-            //    intBufferTargets.Add(buffer);
-            //}
+            for (var i = 1; i <= 3; i++)
+            {
+                var temp = i;
+                var buffer = CreateBuffer<int>();
+                intActionTargets.Add(CreateAction(buffer, async item =>
+                                {
+                                    await Task.Delay(temp * 500);
+                                    Trace.TraceInformation($"Target: {temp} | Type: {typeof(int).Name} | Thread: {Thread.CurrentThread.ManagedThreadId} | Message: {item}");
+                                    //if (item >= 5) throw new Exception($"Something bad happened in action {temp}");
+                                }));
+                intBufferTargets.Add(buffer);
+            }
 
-            //for (var i = 1; i <= 2; i++)
-            //{
-            //    var temp = i;
-            //    var buffer = CreateBuffer<double>();
-            //    doubleBufferTargets.Add(buffer);
-            //    doubleActionTargets.Add(CreateAction(buffer, async item =>
-            //                    {
-            //                        await Task.Delay(100);
-            //                        Trace.TraceInformation($"Target: {temp} | Type: {typeof(double).Name} | Thread: {Thread.CurrentThread.ManagedThreadId} | Message: {item}");
-            //                    }));
-            //}
+            for (var i = 1; i <= 2; i++)
+            {
+                var temp = i;
+                var buffer = CreateBuffer<double>();
+                doubleBufferTargets.Add(buffer);
+                doubleActionTargets.Add(CreateAction(buffer, async item =>
+                                {
+                                    await Task.Delay(100);
+                                    Trace.TraceInformation($"Target: {temp} | Type: {typeof(double).Name} | Thread: {Thread.CurrentThread.ManagedThreadId} | Message: {item}");
+                                }));
+            }
 
-            //var intBroadcaster = CreateBroadcaster(intBufferTargets);
-            //var doubleBroadcaster = CreateBroadcaster(doubleBufferTargets);
+            var intBroadcaster = CreateBroadcaster(intBufferTargets);
+            var doubleBroadcaster = CreateBroadcaster(doubleBufferTargets);
 
-            //for (var i = 1; i <= 10; i++)
-            //{
-            //    intBroadcaster.Post(i);
-            //    doubleBroadcaster.Post(i);
-            //}
+            for (var i = 1; i <= 10; i++)
+            {
+                intBroadcaster.SendAsync(i).Wait();
+                //doubleBroadcaster.SendAsync(i).Wait();
+            }
 
-            //Thread.Sleep(10000);
+            Thread.Sleep(10000);
 
-            //var intCompletions = intBufferTargets.Select(t => t.Completion);
-            //var doubleCompletions = doubleBufferTargets.Select(t => t.Completion);
+            var intCompletions = intBufferTargets.Select(t => t.Completion);
+            var doubleCompletions = doubleBufferTargets.Select(t => t.Completion);
 
-            //intBroadcaster.Complete();
-            //doubleBroadcaster.Complete();
-            //intBufferTargets.ForEach(t => t.Complete());
-            //doubleBufferTargets.ForEach(t => t.Complete());
+            intBroadcaster.Complete();
+            doubleBroadcaster.Complete();
+            intBufferTargets.ForEach(t => t.Complete());
+            doubleBufferTargets.ForEach(t => t.Complete());
 
-            //var unprocessedMessages = intBufferTargets.SelectMany(t =>
-            //{
-            //    IList<int> unprocessed;
-            //    ((IReceivableSourceBlock<int>)t).TryReceiveAll(out unprocessed);
-            //    return unprocessed ?? new List<int>();
-            //});
+            var unprocessedMessages = intBufferTargets.SelectMany(t =>
+            {
+                IList<int> unprocessed;
+                ((IReceivableSourceBlock<int>)t).TryReceiveAll(out unprocessed);
+                return unprocessed ?? new List<int>();
+            });
 
-            //foreach (var unprocessedMessage in unprocessedMessages)
-            //{
-            //    Trace.TraceInformation($"Unprocessed message : {unprocessedMessage}");
-            //}
+            foreach (var unprocessedMessage in unprocessedMessages)
+            {
+                Trace.TraceInformation($"Unprocessed message : {unprocessedMessage}");
+            }
 
-            //Task.WhenAll(intBroadcaster.Completion, doubleBroadcaster.Completion).Wait();
-            //Task.WhenAll(doubleCompletions).Wait();
-            //Task.WhenAll(intCompletions).Wait();
+            Task.WhenAll(intBroadcaster.Completion, doubleBroadcaster.Completion).Wait();
+            Task.WhenAll(doubleCompletions).Wait();
+            Task.WhenAll(intCompletions).Wait();
 
-            //Trace.TraceInformation("Finishing the whole pipline");
+            Trace.TraceInformation("Finishing the whole pipline");
 
 
             var eqDispatcher = new EventQueueDispatcher();
