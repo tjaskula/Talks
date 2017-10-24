@@ -17,3 +17,10 @@
 
 - dotnet build
 - dotnet run -p AkkaConsole/
+
+## Preparing simple demo
+
+1. Copy paste ColorConsole.cs
+1. Create Messages/ folder
+    1. With GreeterWho.cs message
+    1. With GreeterHi.cs message
