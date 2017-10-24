@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Akka.Actor;
 using AkkaConsole.Actors;
 using AkkaConsole.Messages;
@@ -6,28 +7,79 @@ using AkkaConsole.Messages;
 namespace AkkaConsole
 {
     class Program
-    {
+    {   
         static void Main(string[] args)
         {
-            var system = ActorSystem.Create("MySystem");
+            // First part demo
+//            var system = ActorSystem.Create("MySystem");
+//
+//            var musicPlayer = system.ActorOf<MusicPlayerActor>("musicPlayer");
+//
+//            Console.ReadKey();
+//            musicPlayer.Tell(new PlayMessage("track 1"));
+//
+//            Console.ReadKey();
+//            musicPlayer.Tell(new PlayMessage("track 2"));
+//
+//            Console.ReadKey();
+//            musicPlayer.Tell(new StopMessage());
+//
+//            Console.ReadKey();
+//            musicPlayer.Tell(new StopMessage());
+//
+//            system.Terminate().Wait();
+//
+//            Console.ReadKey();
+            
+            
+            // second part demo (Failure Recovery)
+            ColorConsole.WriteLineGray("Creating MatchStatActorSystem");
+            var matchStatActorSystem = ActorSystem.Create("MatchStatActorSystem");            
 
-            var musicPlayer = system.ActorOf<MusicPlayerActor>("musicPlayer");
+            ColorConsole.WriteLineGray("Creating actor supervisory hierarchy");
+            matchStatActorSystem.ActorOf(Props.Create<StatCoordinatorActor>(), "StatCoordinator");
 
-            Console.ReadKey();
-            musicPlayer.Tell(new PlayMessage("track 1"));
 
-            Console.ReadKey();
-            musicPlayer.Tell(new PlayMessage("track 2"));
+            do
+            {
+                ShortPause();
 
-            Console.ReadKey();
-            musicPlayer.Tell(new StopMessage());
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                ColorConsole.WriteLineGray("enter a command and hit enter");
+                
+                var command = Console.ReadLine();
 
-            Console.ReadKey();
-            musicPlayer.Tell(new StopMessage());
+                if (command.StartsWith("show"))
+                {
+                    string matchId = command.Split(',')[1];
 
-            system.Terminate().Wait();
+                    var message = new ShowMatchStatsMessage(matchId);
+                    matchStatActorSystem.ActorSelection("/user/StatCoordinator").Tell(message);
+                }
 
-            Console.ReadKey();
+                if (command.StartsWith("terminate"))
+                {
+                    string matchId = command.Split(',')[1];                    
+
+                    var message = new TerminateMatchMessage(matchId);
+                    matchStatActorSystem.ActorSelection("/user/StatCoordinator").Tell(message);
+                }
+
+                if (command == "exit")
+                {
+                    matchStatActorSystem.Terminate().Wait();
+                    ColorConsole.WriteLineGray("Actor system shutdown");
+                    Console.ReadKey();
+                    Environment.Exit(1);
+                }
+
+            } while (true);
+        }
+        
+        private static void ShortPause()
+        {
+            Thread.Sleep(450);
         }
     }
 }
