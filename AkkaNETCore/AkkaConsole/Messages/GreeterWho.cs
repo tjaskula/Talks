@@ -1,10 +1,10 @@
-﻿namespace AkkaConsole
+namespace Messages.AkkaConsole
 {
-    public class Greet
+    public class GreetWho
     {
         public string Who { get; }
 
-        public Greet(string who)
+        public GreetWho(string who)
         {
             Who = who;
         }
