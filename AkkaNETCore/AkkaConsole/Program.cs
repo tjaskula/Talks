@@ -1,5 +1,7 @@
 ﻿using System;
 using Akka.Actor;
+using AkkaConsole.Actors;
+using AkkaConsole.Messages;
 
 namespace AkkaConsole
 {
@@ -7,20 +9,25 @@ namespace AkkaConsole
     {
         static void Main(string[] args)
         {
-            // create a new actor system (a container for actors)
             var system = ActorSystem.Create("MySystem");
 
-            // create actor and get a reference to it.
-            // this will be an "ActorRef", which is not a 
-            // reference to the actual actor instance
-            // but rather a client or proxy to it
-            var greeter = system.ActorOf<GreetingActor>("greeter");
+            var musicPlayer = system.ActorOf<MusicPlayerActor>("musicPlayer");
 
-            // send a message to the actor
-            greeter.Tell(new Greet("World"));
+            Console.ReadKey();
+            musicPlayer.Tell(new PlayMessage("track 1"));
 
-            // prevent the application from exiting before message is handled
-            Console.ReadLine();
+            Console.ReadKey();
+            musicPlayer.Tell(new PlayMessage("track 2"));
+
+            Console.ReadKey();
+            musicPlayer.Tell(new StopMessage());
+
+            Console.ReadKey();
+            musicPlayer.Tell(new StopMessage());
+
+            system.Terminate().Wait();
+
+            Console.ReadKey();
         }
     }
 }

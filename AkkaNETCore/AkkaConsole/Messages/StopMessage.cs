@@ -1,6 +1,6 @@
 namespace AkkaConsole.Messages
 {
-    public class GreetHi
+    public class StopMessage
     {
     }
 }
