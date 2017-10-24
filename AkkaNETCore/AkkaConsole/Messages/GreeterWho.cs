@@ -1,4 +1,4 @@
-namespace Messages.AkkaConsole
+namespace AkkaConsole.Messages
 {
     public class GreetWho
     {
