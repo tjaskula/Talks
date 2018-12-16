@@ -185,3 +185,6 @@ FakesAssemblies/
 
 # NDepend output files
 NDependOut/
+
+# IDEA
+.idea/
