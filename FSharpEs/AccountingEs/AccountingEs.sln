@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AccountingEs", "AccountingEs\AccountingEs.fsproj", "{BB57E68F-F1B2-4365-8A70-4695E5DD6D4E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB57E68F-F1B2-4365-8A70-4695E5DD6D4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB57E68F-F1B2-4365-8A70-4695E5DD6D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB57E68F-F1B2-4365-8A70-4695E5DD6D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB57E68F-F1B2-4365-8A70-4695E5DD6D4E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
