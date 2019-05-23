@@ -6,7 +6,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Program.fs"/>
+        <Compile Include="Accounting.fs" />
+        <Compile Include="InMemoryEventStore.fs" />
+        <Compile Include="Program.fs" />
     </ItemGroup>
 
 </Project>

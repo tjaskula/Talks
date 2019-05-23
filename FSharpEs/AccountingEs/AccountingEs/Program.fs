@@ -1,5 +1,4 @@
-﻿// Learn more about F# at http://fsharp.org
-
+﻿open AccountingEs
 open System
 
 [<EntryPoint>]
