@@ -4,6 +4,7 @@ module Accounting
   
   type AccountId = AccountId of Guid
   
+  // Domain Events
   type Event =
       | Opened of Opened
       | Deposited of Deposited
@@ -14,8 +15,17 @@ module Accounting
 
   and Deposited = {
       AccountId: AccountId
-      Amount: int }
+      Amount: decimal }
 
   and Withdrawn = {
       AccountId: AccountId
-      Amount: int }
+      Amount: decimal }
+  
+  // Application types
+  type Account =
+      | Uninitialized
+      | Online of OnlineAccount
+  
+  and OnlineAccount = {
+      AccountId: AccountId
+      Balance: decimal }
