@@ -5,7 +5,7 @@ open Accounting
 
 exception WrongExpectedVersion
 
-// this implementation is taken from https://github.com/thinkbeforecoding/FsUno
+// this implementation is inspired by https://github.com/thinkbeforecoding/FsUno
 module InMemoryEventStore =
   
     type Stream = { mutable Events:  (Event * int) list }
@@ -17,7 +17,7 @@ module InMemoryEventStore =
 
 
     type InMemoryEventStore = 
-      { mutable streams : Map<string,Stream> 
+      { mutable streams : Map<string, Stream> 
         projection : Event -> unit }
 
       interface IDisposable
@@ -28,23 +28,16 @@ module InMemoryEventStore =
     let subscribe projection store =
         { store with projection = projection} 
 
-    let readStream store streamId version count =
+    let readStream store streamId =
         match store.streams.TryFind streamId with
         | Some(stream) -> 
             let events =
                 stream.Events
-                |> Seq.skipWhile (fun (_,v) -> v < version )
-                |> Seq.takeWhile (fun (_,v) -> v <= version + count)
-                |> Seq.toList 
-            let lastEventNumber = events |> Seq.last |> snd 
+                |> Seq.toList
             
-            events |> List.map fst,
-                lastEventNumber ,
-                if lastEventNumber < version + count 
-                then None 
-                else Some (lastEventNumber+1)
+            events |> List.map fst
             
-        | None -> [], -1, None
+        | None -> []
 
     let appendToStream store streamId expectedVersion newEvents =
         let eventsWithVersion =
