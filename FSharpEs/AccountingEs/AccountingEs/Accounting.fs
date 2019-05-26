@@ -53,13 +53,13 @@ let apply state event =
 
 // Replay function
 let replay initialState events =
-    let foldLeft events = Seq.fold (fun (state, version) event -> apply state event, version + 1) (initialState, 0) events
+    let foldLeft events = Seq.fold (fun (version, state) event -> version + 1, apply state event) (0, initialState) events
     events
     |> foldLeft
     
 // Map commands to aggregates operations
 let handle =
     function
-    | OpenAccount command -> (fun _ -> List.empty<Event>)
-    | Deposit command -> (fun _ -> List.empty<Event>)
-    | Withdraw command -> (fun _ -> List.empty<Event>)
+    | OpenAccount command -> (fun (a: Account) -> List.empty<Event>)
+    | Deposit command -> (fun (a: Account) -> List.empty<Event>)
+    | Withdraw command -> (fun (a: Account) -> List.empty<Event>)

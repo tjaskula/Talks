@@ -8,7 +8,7 @@ let accountId =
     | Deposit { AccountId = AccountId id }  -> id
     | Withdraw { AccountId = AccountId id }  -> id
 
-module Porfolio =
+module Portfolio =
     
     // this implementation is inspired by https://github.com/thinkbeforecoding/FsUno
     let create readStream appendToStream =
@@ -19,7 +19,7 @@ module Porfolio =
             let events = readStream (streamId accountId)
             replay Uninitialized events
 
-        let save accountId expectedVersion events = appendToStream (streamId accountId) expectedVersion events
+        let save accountId (expectedVersion: int) events = appendToStream (streamId accountId) expectedVersion events
 
         // the mapsnd function works on a pair.
         // It applies the function on the second element.
