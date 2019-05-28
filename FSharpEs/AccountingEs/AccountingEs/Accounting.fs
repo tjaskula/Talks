@@ -39,18 +39,18 @@ and Withdrawn = {
 // Domain types
 type Account =
     | Uninitialized
-    | Online of OnlineAccount
+    | Checking of CheckingAccount
 
-and OnlineAccount = {
+and CheckingAccount = {
     AccountId: AccountId
     Balance: decimal }
 
 // Applies state changes for events
 let apply state event =
     match state, event with
-    | Uninitialized, Opened e -> Online {AccountId = e.AccountId; Balance = 0M}
-    | Online account, Deposited {AccountId = _; Amount = amount} -> Online { account with Balance = account.Balance + amount }
-    | Online account, Withdrawn {AccountId = _; Amount = amount} -> Online { account with Balance = account.Balance - amount }
+    | Uninitialized, Opened e -> Checking {AccountId = e.AccountId; Balance = 0M}
+    | Checking account, Deposited {AccountId = _; Amount = amount} -> Checking { account with Balance = account.Balance + amount }
+    | Checking account, Withdrawn {AccountId = _; Amount = amount} -> Checking { account with Balance = account.Balance - amount }
     | _ -> state
 
 // Replay function
