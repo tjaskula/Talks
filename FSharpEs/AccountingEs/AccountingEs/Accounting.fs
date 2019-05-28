@@ -49,6 +49,8 @@ and OnlineAccount = {
 let apply state event =
     match state, event with
     | Uninitialized, Opened e -> Online {AccountId = e.AccountId; Balance = 0M}
+    | Online account, Deposited {AccountId = _; Amount = amount} -> Online { account with Balance = account.Balance + amount }
+    | Online account, Withdrawn {AccountId = _; Amount = amount} -> Online { account with Balance = account.Balance - amount }
     | _ -> state
 
 // Replay function
