@@ -13,11 +13,11 @@ and OpenAccount = {
 
 and Deposit = {
     AccountId: AccountId
-    Amount: int }
+    Amount: decimal }
 
 and Withdraw = {
     AccountId: AccountId
-    Amount: int }
+    Amount: decimal }
 
 // Domain Events
 type Event =
@@ -45,6 +45,25 @@ and CheckingAccount = {
     AccountId: AccountId
     Balance: decimal }
 
+// Operations on Account aggregate
+let openAccount (command: OpenAccount) state =
+    match state with
+    | Uninitialized -> [ Opened { AccountId = command.AccountId } ]
+    | Checking _ -> invalidOp "You cannot open already open account"
+    
+let deposit (command: Deposit) state =
+    match state with
+    | Uninitialized -> invalidOp "You cannot deposit money without opening an account"
+    | Checking _ when command.Amount < 0M -> invalidOp "Amount has to be positive"
+    | Checking a -> [ Deposited {AccountId = a.AccountId; Amount = a.Balance + command.Amount} ]
+    
+let withdraw (command: Withdraw) state =
+    match state with
+    | Uninitialized -> invalidOp "You cannot withraw money without opening an account"
+    | Checking _ when command.Amount < 0M -> invalidOp "Amount has to be positive"
+    | Checking a when a.Balance - command.Amount < 0M -> invalidOp "Overdraft not allowed"
+    | Checking a -> [ Deposited {AccountId = a.AccountId; Amount = a.Balance + command.Amount} ]
+
 // Applies state changes for events
 let apply state event =
     match state, event with
@@ -62,6 +81,6 @@ let replay initialState events =
 // Map commands to aggregates operations
 let handle =
     function
-    | OpenAccount command -> (fun (a: Account) -> List.empty<Event>)
-    | Deposit command -> (fun (a: Account) -> List.empty<Event>)
-    | Withdraw command -> (fun (a: Account) -> List.empty<Event>)
+    | OpenAccount command -> openAccount command
+    | Deposit command -> deposit command
+    | Withdraw command -> withdraw command
