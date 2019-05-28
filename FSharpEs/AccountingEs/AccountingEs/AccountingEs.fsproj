@@ -9,6 +9,7 @@
         <Compile Include="Accounting.fs" />
         <Compile Include="CommandHandler.fs" />
         <Compile Include="InMemoryEventStore.fs" />
+        <Compile Include="EventHandler.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 

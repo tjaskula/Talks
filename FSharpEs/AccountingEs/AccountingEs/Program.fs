@@ -7,7 +7,12 @@ open CommandHandler
 [<EntryPoint>]
 let main argv =
     
-    let store = create()
+    let eventHandler = new EventHandler()
+    
+    use store = 
+        create()
+        |> subscribe eventHandler.Handle
+
     let handle = Portfolio.create (readStream store) (appendToStream store)
     
     let accountId = AccountId 1
