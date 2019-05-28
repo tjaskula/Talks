@@ -62,7 +62,7 @@ let withdraw (command: Withdraw) state =
     | Uninitialized -> invalidOp "You cannot withraw money without opening an account"
     | Checking _ when command.Amount < 0M -> invalidOp "Amount has to be positive"
     | Checking a when a.Balance - command.Amount < 0M -> invalidOp "Overdraft not allowed"
-    | Checking a -> [ Deposited {AccountId = a.AccountId; Amount = a.Balance + command.Amount} ]
+    | Checking a -> [ Withdrawn {AccountId = a.AccountId; Amount = a.Balance - command.Amount} ]
 
 // Applies state changes for events
 let apply state event =
@@ -74,7 +74,7 @@ let apply state event =
 
 // Replay function
 let replay initialState events =
-    let foldLeft events = Seq.fold (fun (version, state) event -> version + 1, apply state event) (0, initialState) events
+    let foldLeft events = Seq.fold (fun (version, state) event -> version + 1, apply state event) (-1, initialState) events
     events
     |> foldLeft
     
