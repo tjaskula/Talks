@@ -9,6 +9,7 @@ type Command =
     | Withdraw of Withdraw
 
 and OpenAccount = {
+    Owner: string
     AccountId: AccountId }
 
 and Deposit = {
@@ -26,6 +27,7 @@ type Event =
     | Withdrawn of Withdrawn
 
 and Opened = {
+    Owner: string
     AccountId: AccountId }
 
 and Deposited = {
@@ -39,37 +41,38 @@ and Withdrawn = {
 // Domain types
 type Account =
     | Uninitialized
-    | Checking of CheckingAccount
+    | Active of CheckingAccount
 
 and CheckingAccount = {
+    Owner: string
     AccountId: AccountId
     Balance: decimal }
 
 // Operations on Account aggregate
 let openAccount (command: OpenAccount) state =
     match state with
-    | Uninitialized -> [ Opened { AccountId = command.AccountId } ]
-    | Checking _ -> invalidOp "You cannot open already open account"
+    | Uninitialized -> [ Opened { AccountId = command.AccountId; Owner = command.Owner } ]
+    | Active _ -> invalidOp "You cannot open already open account"
     
 let deposit (command: Deposit) state =
     match state with
     | Uninitialized -> invalidOp "You cannot deposit money without opening an account"
-    | Checking _ when command.Amount < 0M -> invalidOp "Amount has to be positive"
-    | Checking a -> [ Deposited {AccountId = a.AccountId; Amount = a.Balance + command.Amount} ]
+    | Active _ when command.Amount < 0M -> invalidOp "Amount has to be positive"
+    | Active a -> [ Deposited {AccountId = a.AccountId; Amount = a.Balance + command.Amount} ]
     
 let withdraw (command: Withdraw) state =
     match state with
     | Uninitialized -> invalidOp "You cannot withraw money without opening an account"
-    | Checking _ when command.Amount < 0M -> invalidOp "Amount has to be positive"
-    | Checking a when a.Balance - command.Amount < 0M -> invalidOp "Overdraft not allowed"
-    | Checking a -> [ Withdrawn {AccountId = a.AccountId; Amount = a.Balance - command.Amount} ]
+    | Active _ when command.Amount < 0M -> invalidOp "Amount has to be positive"
+    | Active a when a.Balance - command.Amount < 0M -> invalidOp "Overdraft not allowed"
+    | Active a -> [ Withdrawn {AccountId = a.AccountId; Amount = a.Balance - command.Amount} ]
 
 // Applies state changes for events
 let apply state event =
     match state, event with
-    | Uninitialized, Opened e -> Checking {AccountId = e.AccountId; Balance = 0M}
-    | Checking account, Deposited {AccountId = _; Amount = amount} -> Checking { account with Balance = account.Balance + amount }
-    | Checking account, Withdrawn {AccountId = _; Amount = amount} -> Checking { account with Balance = account.Balance - amount }
+    | Uninitialized, Opened e -> Active {AccountId = e.AccountId; Balance = 0M; Owner = e.Owner}
+    | Active account, Deposited {AccountId = _; Amount = amount} -> Active { account with Balance = account.Balance + amount }
+    | Active account, Withdrawn {AccountId = _; Amount = amount} -> Active { account with Balance = account.Balance - amount }
     | _ -> state
 
 // Replay function

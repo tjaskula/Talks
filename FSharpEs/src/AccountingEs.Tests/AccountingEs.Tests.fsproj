@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FsUnit.xUnit" Version="3.4.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+        <PackageReference Include="xunit" Version="2.4.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Include="Print.fs" />
+        <Compile Include="Specifications.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\AccountingEs\AccountingEs.fsproj" />
+    </ItemGroup>
+
+</Project>

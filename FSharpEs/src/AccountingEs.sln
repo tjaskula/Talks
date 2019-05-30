@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AccountingEs", "AccountingEs\AccountingEs.fsproj", "{BB57E68F-F1B2-4365-8A70-4695E5DD6D4E}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AccountingEs.Tests", "AccountingEs.Tests\AccountingEs.Tests.fsproj", "{F42C99FE-6165-4B70-A0D9-2DB9C39D9DCA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{BB57E68F-F1B2-4365-8A70-4695E5DD6D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB57E68F-F1B2-4365-8A70-4695E5DD6D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB57E68F-F1B2-4365-8A70-4695E5DD6D4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F42C99FE-6165-4B70-A0D9-2DB9C39D9DCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F42C99FE-6165-4B70-A0D9-2DB9C39D9DCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F42C99FE-6165-4B70-A0D9-2DB9C39D9DCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F42C99FE-6165-4B70-A0D9-2DB9C39D9DCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
