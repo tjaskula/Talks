@@ -16,8 +16,8 @@ module Portfolio =
         // this is the "repository"
         let streamId accountId = sprintf "Account-%d" accountId
         let load accountId =
-            let events = readStream (streamId accountId)
-            replay Uninitialized events
+            readStream (streamId accountId)
+            |> replay Uninitialized
 
         let save accountId expectedVersion events = appendToStream (streamId accountId) expectedVersion events
 

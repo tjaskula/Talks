@@ -12,8 +12,19 @@ let Expect (expected: Event list) (events, command) =
     printExpect expected
 
     events
-    |> List.fold apply Uninitialized
+    |> replay Uninitialized
+    |> snd
     |> handle command
+    |> should equal expected
+    
+let WhenQuery asAt events = events, asAt
+
+let ExpectAsAt (expected: Account) (events, asAt) =
+    printGiven events
+
+    events
+    |> replayAsAt Uninitialized asAt
+    |> snd
     |> should equal expected
 
 let ExpectThrows<'Ex> (events, command) =
@@ -24,7 +35,8 @@ let ExpectThrows<'Ex> (events, command) =
 
     (fun () ->
         events
-        |> List.fold apply Uninitialized
+        |> replay Uninitialized
+        |> snd
         |> handle command
         |> ignore)
     |> should throw typeof<'Ex>

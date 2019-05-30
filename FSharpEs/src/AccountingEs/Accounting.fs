@@ -33,6 +33,11 @@ type Event =
     | Opened of Opened
     | Deposited of Deposited
     | Withdrawn of Withdrawn
+    member this.Dates =
+        match this with
+        | Opened e -> e.Dates
+        | Deposited e -> e.Dates
+        | Withdrawn e -> e.Dates
 
 and Opened = {
     Dates: Dates
@@ -94,11 +99,22 @@ let apply state event =
     | Active account, Withdrawn {AccountId = _; Amount = amount} -> Active { account with Balance = account.Balance - amount }
     | _ -> state
 
-// Replay function
+// Replay functions
 let replay initialState events =
     let foldLeft events = Seq.fold (fun (version, state) event -> version + 1, apply state event) (-1, initialState) events
     events
     |> foldLeft
+
+let replayAsAt initialState asAtDate events =
+    events
+    |> Seq.filter (fun (event: Event) -> event.Dates.RecordDate <= asAtDate)
+    |> replay initialState
+    
+let replayAsOf initialState asAtDate asOfDate events =
+    events
+    |> Seq.filter (fun (event: Event) -> event.Dates.RecordDate <= asAtDate && event.Dates.ValidityDate <= asOfDate)
+    |> Seq.sortBy (fun (event) -> event.Dates.ValidityDate)
+    |> replay initialState
     
 // Map commands to aggregates operations
 let handle =
