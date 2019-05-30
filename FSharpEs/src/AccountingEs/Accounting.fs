@@ -32,10 +32,12 @@ and Opened = {
 
 and Deposited = {
     AccountId: AccountId
+    CurrentBalance: decimal
     Amount: decimal }
 
 and Withdrawn = {
     AccountId: AccountId
+    CurrentBalance: decimal
     Amount: decimal }
 
 // Domain types
@@ -58,14 +60,14 @@ let deposit (command: Deposit) state =
     match state with
     | Uninitialized -> invalidOp "You cannot deposit money without opening an account"
     | Active _ when command.Amount < 0M -> invalidOp "Amount has to be positive"
-    | Active a -> [ Deposited {AccountId = a.AccountId; Amount = a.Balance + command.Amount} ]
+    | Active a -> [ Deposited {AccountId = a.AccountId; CurrentBalance = a.Balance + command.Amount; Amount = command.Amount} ]
     
 let withdraw (command: Withdraw) state =
     match state with
     | Uninitialized -> invalidOp "You cannot withraw money without opening an account"
     | Active _ when command.Amount < 0M -> invalidOp "Amount has to be positive"
     | Active a when a.Balance - command.Amount < 0M -> invalidOp "Overdraft not allowed"
-    | Active a -> [ Withdrawn {AccountId = a.AccountId; Amount = a.Balance - command.Amount} ]
+    | Active a -> [ Withdrawn {AccountId = a.AccountId; CurrentBalance = a.Balance - command.Amount; Amount = command.Amount} ]
 
 // Applies state changes for events
 let apply state event =

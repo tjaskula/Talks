@@ -16,6 +16,7 @@
     <ItemGroup>
         <Compile Include="Print.fs" />
         <Compile Include="Specifications.fs" />
+        <Compile Include="When making a money deposit.fs" />
         <Compile Include="When opening an account.fs" />
     </ItemGroup>
 
