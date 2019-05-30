@@ -1,6 +1,11 @@
 module Accounting
+open System
 
 type AccountId = AccountId of int
+
+type Dates = {
+    RecordDate: DateTime
+    ValidityDate: DateTime}
 
 // Commands
 type Command =
@@ -9,14 +14,17 @@ type Command =
     | Withdraw of Withdraw
 
 and OpenAccount = {
+    Dates: Dates
     Owner: string
     AccountId: AccountId }
 
 and Deposit = {
+    Dates: Dates
     AccountId: AccountId
     Amount: decimal }
 
 and Withdraw = {
+    Dates: Dates
     AccountId: AccountId
     Amount: decimal }
 
@@ -27,15 +35,18 @@ type Event =
     | Withdrawn of Withdrawn
 
 and Opened = {
+    Dates: Dates
     Owner: string
     AccountId: AccountId }
 
 and Deposited = {
+    Dates: Dates
     AccountId: AccountId
     CurrentBalance: decimal
     Amount: decimal }
 
 and Withdrawn = {
+    Dates: Dates
     AccountId: AccountId
     CurrentBalance: decimal
     Amount: decimal }
@@ -53,21 +64,27 @@ and CheckingAccount = {
 // Operations on Account aggregate
 let openAccount (command: OpenAccount) state =
     match state with
-    | Uninitialized -> [ Opened { AccountId = command.AccountId; Owner = command.Owner } ]
+    | Uninitialized ->
+        let metadata = {RecordDate = command.Dates.RecordDate; ValidityDate = command.Dates.ValidityDate}
+        [ Opened { Dates = metadata; AccountId = command.AccountId; Owner = command.Owner } ]
     | Active _ -> invalidOp "You cannot open already open account"
     
 let deposit (command: Deposit) state =
     match state with
     | Uninitialized -> invalidOp "You cannot deposit money without opening an account"
     | Active _ when command.Amount < 0M -> invalidOp "Amount has to be positive"
-    | Active a -> [ Deposited {AccountId = a.AccountId; CurrentBalance = a.Balance + command.Amount; Amount = command.Amount} ]
+    | Active a ->
+        let metadata = {RecordDate = command.Dates.RecordDate; ValidityDate = command.Dates.ValidityDate}
+        [ Deposited {Dates = metadata; AccountId = a.AccountId; CurrentBalance = a.Balance + command.Amount; Amount = command.Amount} ]
     
 let withdraw (command: Withdraw) state =
     match state with
     | Uninitialized -> invalidOp "You cannot withraw money without opening an account"
     | Active _ when command.Amount < 0M -> invalidOp "Amount has to be positive"
     | Active a when a.Balance - command.Amount < 0M -> invalidOp "Overdraft not allowed"
-    | Active a -> [ Withdrawn {AccountId = a.AccountId; CurrentBalance = a.Balance - command.Amount; Amount = command.Amount} ]
+    | Active a ->
+        let metadata = {RecordDate = command.Dates.RecordDate; ValidityDate = command.Dates.ValidityDate}
+        [ Withdrawn {Dates = metadata; AccountId = a.AccountId; CurrentBalance = a.Balance - command.Amount; Amount = command.Amount} ]
 
 // Applies state changes for events
 let apply state event =

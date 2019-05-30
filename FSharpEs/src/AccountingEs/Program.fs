@@ -16,10 +16,11 @@ let main argv =
     let handle = Portfolio.create (readStream store) (appendToStream store)
     
     let accountId = AccountId 1
-    handle (OpenAccount {AccountId = accountId; Owner = "Tomasz"})
-    handle (Deposit {AccountId = accountId; Amount = 1000M})
-    handle (Withdraw {AccountId = accountId; Amount = 500M})
-    handle (Withdraw {AccountId = accountId; Amount = 501M})
+    let metadata = {RecordDate = DateTime.Now; ValidityDate = DateTime.Now}
+    handle (OpenAccount { Dates = metadata; AccountId = accountId; Owner = "Tomasz"})
+    handle (Deposit { Dates = metadata; AccountId = accountId; Amount = 1000M})
+    handle (Withdraw { Dates = metadata; AccountId = accountId; Amount = 500M})
+    handle (Withdraw { Dates = metadata; AccountId = accountId; Amount = 501M})
     
     Console.ReadLine() |> ignore
     
