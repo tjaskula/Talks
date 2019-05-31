@@ -17,13 +17,23 @@ let Expect (expected: Event list) (events, command) =
     |> handle command
     |> should equal expected
     
-let WhenQuery asAt events = events, asAt
+let WhenQueryAsAt asAt events = events, asAt
+
+let WhenQueryAsOf asAt asOf events = events, asAt, asOf
 
 let ExpectAsAt (expected: Account) (events, asAt) =
     printGiven events
 
     events
     |> replayAsAt Uninitialized asAt
+    |> snd
+    |> should equal expected
+    
+let ExpectAsOf (expected: Account) (events, asAt, asOf) =
+    printGiven events
+
+    events
+    |> replayAsOf Uninitialized asAt asOf
     |> snd
     |> should equal expected
 
