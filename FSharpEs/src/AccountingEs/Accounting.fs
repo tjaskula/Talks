@@ -12,6 +12,11 @@ type Command =
     | OpenAccount of OpenAccount
     | Deposit of Deposit
     | Withdraw of Withdraw
+    member this.Dates =
+        match this with
+        | OpenAccount c -> c.Dates
+        | Deposit c -> c.Dates
+        | Withdraw c -> c.Dates
 
 and OpenAccount = {
     Dates: Dates
@@ -122,3 +127,16 @@ let handle =
     | OpenAccount command -> openAccount command
     | Deposit command -> deposit command
     | Withdraw command -> withdraw command
+    
+    
+let (|Now|AsAt|AsOf|) (command: Command) =
+    let parse (date: DateTime) =
+        date.ToString "yyyy/MM/dd"
+    let today = parse DateTime.Now
+    let record, validity = parse command.Dates.RecordDate, parse command.Dates.ValidityDate
+    if today = record && today = validity then
+        Now
+    elif today > record && record = validity then
+        AsAt
+    else
+        AsOf
