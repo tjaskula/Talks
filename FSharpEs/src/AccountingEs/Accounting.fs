@@ -84,7 +84,7 @@ let deposit (command: Deposit) state =
     
 let withdraw (command: Withdraw) state =
     match state with
-    | Uninitialized -> invalidOp "You cannot withraw money without opening an account"
+    | Uninitialized -> invalidOp "You cannot withdraw money without opening an account"
     | Active _ when command.Amount < 0M -> invalidOp "Amount has to be positive"
     | Active a when a.Balance - command.Amount < 0M -> invalidOp "Overdraft not allowed"
     | Active a ->
